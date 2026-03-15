@@ -1,0 +1,695 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>노모어매뉴얼 | 클로드 마스터 클래스 2기</title>
+<link href="https://fonts.googleapis.com/css2?family=Black+Han+Sans&family=Noto+Sans+KR:wght@400;500;700;900&display=swap" rel="stylesheet">
+<style>
+:root {
+  --font-display: 'Black Han Sans', sans-serif;
+  --font-body: 'Noto Sans KR', sans-serif;
+  --c-bg: #FAFAF7;
+  --c-dark: #1A1A1A;
+  --c-accent: #D4542B;
+  --c-accent-soft: #FFF0EB;
+  --c-warm: #F5E6D3;
+  --c-warm2: #E8D5C0;
+  --c-text: #2D2D2D;
+  --c-text2: #6B6B6B;
+  --c-white: #FFFFFF;
+  --c-green: #2E7D32;
+  --c-green-soft: #E8F5E9;
+  --c-border: #E0DDD5;
+  --max-w: 720px;
+}
+* { margin: 0; padding: 0; box-sizing: border-box; }
+html { scroll-behavior: smooth; font-size: 16px; }
+body {
+  font-family: var(--font-body);
+  color: var(--c-text);
+  background: var(--c-bg);
+  line-height: 1.75;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ── UTILITY ── */
+.wrap { max-width: var(--max-w); margin: 0 auto; padding: 0 24px; }
+.section { padding: 80px 0; }
+.section + .section { border-top: 1px solid var(--c-border); }
+.tag {
+  display: inline-block;
+  font-size: 12px; font-weight: 700; letter-spacing: 1px;
+  color: var(--c-accent); background: var(--c-accent-soft);
+  padding: 6px 14px; border-radius: 100px;
+  text-transform: uppercase; margin-bottom: 20px;
+}
+.sh {
+  font-family: var(--font-display);
+  font-size: clamp(26px, 5vw, 36px);
+  line-height: 1.3; letter-spacing: -1px;
+  color: var(--c-dark); margin-bottom: 16px;
+}
+.sh em { font-style: normal; color: var(--c-accent); }
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(175deg, #1A1A1A 0%, #2D2520 100%);
+  color: var(--c-white);
+  padding: 100px 0 80px;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+.hero::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse at 50% 0%, rgba(212,84,43,0.15) 0%, transparent 60%);
+}
+.hero .wrap { position: relative; }
+.hero-badge {
+  display: inline-flex; align-items: center; gap: 6px;
+  font-size: 13px; font-weight: 700;
+  color: #F5C36A; background: rgba(245,195,106,0.12);
+  border: 1px solid rgba(245,195,106,0.25);
+  padding: 8px 18px; border-radius: 100px;
+  margin-bottom: 28px;
+}
+.hero-badge .dot { width: 8px; height: 8px; border-radius: 50%; background: #F5C36A; animation: pulse 2s infinite; }
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.4; } }
+.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(32px, 7vw, 52px);
+  line-height: 1.25; letter-spacing: -2px;
+  margin-bottom: 20px;
+}
+.hero h1 span { color: #F5C36A; }
+.hero-sub {
+  font-size: 17px; color: rgba(255,255,255,0.7);
+  max-width: 480px; margin: 0 auto 36px; line-height: 1.7;
+}
+.hero-stats {
+  display: flex; justify-content: center; gap: 40px;
+  margin-top: 40px; padding-top: 32px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+.hero-stat { text-align: center; }
+.hero-stat .num { font-family: var(--font-display); font-size: 28px; color: var(--c-white); }
+.hero-stat .label { font-size: 13px; color: rgba(255,255,255,0.5); margin-top: 4px; }
+
+/* ── CTA BUTTON ── */
+.cta-btn {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-body); font-size: 17px; font-weight: 700;
+  color: var(--c-white); background: var(--c-accent);
+  border: none; border-radius: 12px;
+  padding: 18px 40px; cursor: pointer;
+  text-decoration: none;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 20px rgba(212,84,43,0.3);
+}
+.cta-btn:hover { transform: translateY(-2px); box-shadow: 0 8px 30px rgba(212,84,43,0.4); }
+.cta-btn-outline {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-family: var(--font-body); font-size: 15px; font-weight: 700;
+  color: var(--c-accent); background: transparent;
+  border: 2px solid var(--c-accent); border-radius: 12px;
+  padding: 14px 32px; cursor: pointer;
+  text-decoration: none;
+  transition: all 0.2s;
+}
+.cta-btn-outline:hover { background: var(--c-accent); color: var(--c-white); }
+
+/* ── PAIN POINTS ── */
+.pain-card {
+  background: var(--c-white);
+  border: 1px solid var(--c-border);
+  border-radius: 16px; padding: 28px;
+  margin-bottom: 16px;
+  font-size: 16px; line-height: 1.7;
+  position: relative; padding-left: 60px;
+}
+.pain-card::before {
+  content: attr(data-icon);
+  position: absolute; left: 20px; top: 26px;
+  font-size: 24px;
+}
+.pain-card strong { color: var(--c-dark); }
+
+/* ── CURRICULUM ── */
+.cur-week {
+  background: var(--c-white);
+  border: 1px solid var(--c-border);
+  border-radius: 16px; margin-bottom: 16px;
+  overflow: hidden;
+}
+.cur-head {
+  display: flex; align-items: center; gap: 16px;
+  padding: 24px 28px;
+  cursor: pointer; user-select: none;
+  transition: background 0.15s;
+}
+.cur-head:hover { background: #FAFAF7; }
+.cur-num {
+  width: 40px; height: 40px;
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-display); font-size: 16px;
+  color: var(--c-white); background: var(--c-accent);
+  border-radius: 10px; flex-shrink: 0;
+}
+.cur-title { font-size: 17px; font-weight: 700; flex: 1; }
+.cur-toggle { font-size: 20px; color: var(--c-text2); transition: transform 0.3s; }
+.cur-body {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.4s ease;
+  padding: 0 28px;
+}
+.cur-body.open { max-height: 600px; padding-bottom: 24px; }
+.cur-body ul { list-style: none; }
+.cur-body li {
+  font-size: 15px; color: var(--c-text2);
+  padding: 6px 0; padding-left: 20px;
+  position: relative;
+}
+.cur-body li::before {
+  content: '→'; position: absolute; left: 0; color: var(--c-accent); font-weight: 700;
+}
+
+/* ── PRICING ── */
+.price-card {
+  background: var(--c-white);
+  border: 2px solid var(--c-accent);
+  border-radius: 20px; padding: 40px 32px;
+  text-align: center; position: relative;
+}
+.price-label {
+  position: absolute; top: -14px; left: 50%; transform: translateX(-50%);
+  font-size: 13px; font-weight: 700;
+  color: var(--c-white); background: var(--c-accent);
+  padding: 6px 20px; border-radius: 100px;
+  white-space: nowrap;
+}
+.price-original {
+  font-size: 18px; color: var(--c-text2);
+  text-decoration: line-through; margin-bottom: 4px;
+}
+.price-amount {
+  font-family: var(--font-display);
+  font-size: clamp(36px, 8vw, 48px);
+  color: var(--c-dark); margin-bottom: 8px;
+}
+.price-per { font-size: 14px; color: var(--c-text2); margin-bottom: 28px; }
+.price-features { list-style: none; text-align: left; margin-bottom: 32px; }
+.price-features li {
+  font-size: 15px; padding: 10px 0;
+  border-bottom: 1px solid #F0EDE5;
+  padding-left: 28px; position: relative;
+}
+.price-features li::before {
+  content: '✓'; position: absolute; left: 0;
+  color: var(--c-green); font-weight: 900;
+}
+
+/* ── REVIEW ── */
+.review-card {
+  background: var(--c-white);
+  border: 1px solid var(--c-border);
+  border-radius: 16px; padding: 28px;
+  margin-bottom: 16px;
+}
+.review-stars { color: #F5C36A; font-size: 16px; margin-bottom: 12px; letter-spacing: 2px; }
+.review-text { font-size: 15px; line-height: 1.8; color: var(--c-text); margin-bottom: 16px; }
+.review-author { font-size: 13px; color: var(--c-text2); }
+
+/* ── FAQ ── */
+.faq-item {
+  border-bottom: 1px solid var(--c-border);
+  padding: 24px 0;
+}
+.faq-q {
+  font-size: 16px; font-weight: 700;
+  cursor: pointer; display: flex; justify-content: space-between; align-items: center;
+  user-select: none;
+}
+.faq-a {
+  max-height: 0; overflow: hidden;
+  transition: max-height 0.3s ease;
+  font-size: 15px; color: var(--c-text2); line-height: 1.8;
+}
+.faq-a.open { max-height: 300px; padding-top: 16px; }
+
+/* ── GUARANTEE ── */
+.guarantee-box {
+  background: var(--c-green-soft);
+  border: 2px solid #A5D6A7;
+  border-radius: 16px; padding: 36px;
+  text-align: center;
+}
+.guarantee-box .icon { font-size: 40px; margin-bottom: 16px; }
+
+/* ── FOOTER ── */
+.footer-cta {
+  background: var(--c-dark);
+  color: var(--c-white);
+  padding: 80px 0;
+  text-align: center;
+}
+.footer-cta h2 {
+  font-family: var(--font-display);
+  font-size: clamp(24px, 5vw, 36px);
+  margin-bottom: 16px; letter-spacing: -1px;
+}
+.footer-cta p { color: rgba(255,255,255,0.6); margin-bottom: 32px; }
+.footer-info {
+  background: #F0EDE5;
+  padding: 40px 0;
+  font-size: 13px; color: var(--c-text2);
+  line-height: 2;
+  text-align: center;
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .hero-stats { gap: 20px; }
+  .hero-stat .num { font-size: 22px; }
+  .section { padding: 60px 0; }
+  .price-card { padding: 32px 20px; }
+}
+
+/* ── STICKY CTA (MOBILE) ── */
+.sticky-cta {
+  display: none;
+  position: fixed; bottom: 0; left: 0; right: 0;
+  background: var(--c-white);
+  border-top: 1px solid var(--c-border);
+  padding: 12px 20px;
+  z-index: 100;
+  box-shadow: 0 -4px 20px rgba(0,0,0,0.08);
+}
+.sticky-cta .cta-btn { width: 100%; justify-content: center; padding: 16px; font-size: 16px; }
+@media (max-width: 768px) {
+  .sticky-cta { display: block; }
+  body { padding-bottom: 80px; }
+}
+
+/* ── COUNTDOWN ── */
+.countdown {
+  display: inline-flex; gap: 12px;
+  margin-top: 12px;
+}
+.countdown-unit {
+  text-align: center;
+  background: rgba(255,255,255,0.08);
+  border-radius: 10px; padding: 8px 14px;
+  min-width: 56px;
+}
+.countdown-unit .cd-num {
+  font-family: var(--font-display); font-size: 22px; color: #F5C36A;
+}
+.countdown-unit .cd-label { font-size: 11px; color: rgba(255,255,255,0.5); }
+
+/* ── INSTRUCTOR ── */
+.inst-box {
+  display: flex; gap: 28px; align-items: flex-start;
+  background: var(--c-warm); border-radius: 16px; padding: 32px;
+}
+.inst-avatar {
+  width: 80px; height: 80px; border-radius: 50%;
+  background: var(--c-warm2); display: flex; align-items: center; justify-content: center;
+  font-size: 32px; flex-shrink: 0;
+}
+.inst-info h3 { font-size: 18px; font-weight: 700; margin-bottom: 8px; }
+.inst-info p { font-size: 14px; color: var(--c-text2); line-height: 1.7; }
+@media (max-width: 600px) {
+  .inst-box { flex-direction: column; align-items: center; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<!-- ══════════ HERO ══════════ -->
+<section class="hero">
+  <div class="wrap">
+    <div class="hero-badge"><span class="dot"></span>2기 모집 중 — 선착순 30명</div>
+    <h1>코딩 1도 모르는 50대가<br><span>클로드로 앱을 만들었습니다</span></h1>
+    <p class="hero-sub">코워크, 클로드 코드, 웹 활용까지<br>8시간 만에 AI 직원 한 명 고용하는 법</p>
+    <a href="#pricing" class="cta-btn">2기 신청하기 →</a>
+    <div class="countdown" id="countdown">
+      <div class="countdown-unit"><div class="cd-num" id="cd-days">00</div><div class="cd-label">일</div></div>
+      <div class="countdown-unit"><div class="cd-num" id="cd-hours">00</div><div class="cd-label">시간</div></div>
+      <div class="countdown-unit"><div class="cd-num" id="cd-mins">00</div><div class="cd-label">분</div></div>
+    </div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="num">1기 완판</div><div class="label">수강생 전원 완주</div></div>
+      <div class="hero-stat"><div class="num">만족도 4.9</div><div class="label">5점 만점</div></div>
+      <div class="hero-stat"><div class="num">20년</div><div class="label">교육 경력</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PAIN POINTS ══════════ -->
+<section class="section">
+  <div class="wrap">
+    <span class="tag">이런 분들을 위한 강의입니다</span>
+    <h2 class="sh">혹시 이런 상황이신가요?</h2>
+    <div class="pain-card" data-icon="😓"><strong>클로드 Pro 결제했는데</strong> 대화만 하다 끝나요. 뭘 더 할 수 있는지 모르겠어요.</div>
+    <div class="pain-card" data-icon="🤯"><strong>코워크, 클로드 코드, MCP</strong> 다 좋다는데 뭐가 뭔지 도통 모르겠어요.</div>
+    <div class="pain-card" data-icon="💸"><strong>AI로 수익화</strong>하고 싶은데 도대체 어디서부터 시작해야 하나요?</div>
+    <div class="pain-card" data-icon="👴"><strong>50대인데</strong> 유튜브나 블로그 보면서 따라해도 안 되고, 영어 에러 메시지 나오면 멘붕...</div>
+    <div class="pain-card" data-icon="🏗️"><strong>내 사업에 필요한 홈페이지나 도구를</strong> 직접 만들고 싶은데, 개발자 고용할 돈이 없어요.</div>
+  </div>
+</section>
+
+<!-- ══════════ SOLUTION ══════════ -->
+<section class="section">
+  <div class="wrap">
+    <span class="tag">해결책</span>
+    <h2 class="sh">8시간 수업 후,<br>여러분은 <em>이걸 할 수 있습니다</em></h2>
+    <div style="display:grid;gap:16px;margin-top:32px;">
+      <div class="pain-card" data-icon="⚡" style="border-left:3px solid var(--c-accent)">
+        <strong>코워크로 엑셀·PPT 자동화</strong> — "이 엑셀 파일 분석해서 보고서 만들어줘" 한마디면 끝
+      </div>
+      <div class="pain-card" data-icon="🛠️" style="border-left:3px solid var(--c-accent)">
+        <strong>클로드 코드로 나만의 앱 제작</strong> — 코딩 0% 지식으로 실제 작동하는 웹 도구 완성
+      </div>
+      <div class="pain-card" data-icon="🌐" style="border-left:3px solid var(--c-accent)">
+        <strong>웹인클로드로 자율주행 리서치</strong> — 쿠팡 소싱 조사, 경쟁사 분석을 AI가 알아서
+      </div>
+      <div class="pain-card" data-icon="📄" style="border-left:3px solid var(--c-accent)">
+        <strong>나만의 AI 직원 매뉴얼(CLAUDE.md) 완성</strong> — 내 사업에 맞춤형 AI 어시스턴트 세팅
+      </div>
+      <div class="pain-card" data-icon="🚀" style="border-left:3px solid var(--c-accent)">
+        <strong>만든 걸 인터넷에 배포</strong> — 내 URL로 전 세계에 공개, 명함에 넣을 수 있는 내 홈페이지
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ INSTRUCTOR ══════════ -->
+<section class="section">
+  <div class="wrap">
+    <span class="tag">강사 소개</span>
+    <h2 class="sh">노모어매뉴얼 대표</h2>
+    <div class="inst-box" style="margin-top:24px;">
+      <div class="inst-avatar">👩‍🏫</div>
+      <div class="inst-info">
+        <h3>20년 교육 경력의 AI 오케스트라 지휘자</h3>
+        <p>
+          영어 입시 교육 20년 → AI 교육 전환<br>
+          유튜브 구독자 1만명 (노모어매뉴얼 채널)<br>
+          클로드 코워크·코드·웹 실전 활용 전문<br>
+          클로드코드 1기 강의 전원 완주, 만족도 4.9/5.0<br><br>
+          <em style="color:var(--c-accent);font-style:normal;font-weight:700;">"저도 코딩 몰라요. 그래서 여러분 눈높이를 정확히 압니다."</em>
+        </p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ CURRICULUM ══════════ -->
+<section class="section">
+  <div class="wrap">
+    <span class="tag">커리큘럼</span>
+    <h2 class="sh">2시간 × 4회 = <em>8시간 완성</em></h2>
+    <p style="color:var(--c-text2);margin-bottom:32px;">매 회차마다 "우와!" 하는 순간이 최소 3번은 나옵니다</p>
+
+    <div class="cur-week">
+      <div class="cur-head" onclick="toggleCur(this)">
+        <div class="cur-num">1</div>
+        <div class="cur-title">클로드의 숨겨진 세계 — "이런 것도 돼?"</div>
+        <span class="cur-toggle">+</span>
+      </div>
+      <div class="cur-body">
+        <ul>
+          <li>프로젝트·아티팩트·데스크톱 MCP — 아는 사람만 아는 기능들</li>
+          <li>사용량 관리 꿀팁 (돈 아끼는 비법)</li>
+          <li>메모리·응답 스타일 커스텀 — "내 말투로 답해줘"를 설정으로 박기</li>
+          <li>실습: 코워크로 엑셀 파일 분석 → 보고서 자동 생성</li>
+          <li>실습: PPT 10장을 1분 만에 만들기</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cur-week">
+      <div class="cur-head" onclick="toggleCur(this)">
+        <div class="cur-num">2</div>
+        <div class="cur-title">AI 직원 고용하기 — CLAUDE.md의 마법</div>
+        <span class="cur-toggle">+</span>
+      </div>
+      <div class="cur-body">
+        <ul>
+          <li>CLAUDE.md + me.md = 나만의 AI 직원 매뉴얼 작성</li>
+          <li>skill 파일 만들기 — AI 직원에게 전문 능력 부여</li>
+          <li>프롬프트의 기술: 나쁜 지시 vs 좋은 지시 비교 시연</li>
+          <li>실습: 내 분야 맞춤형 AI 시스템 구축 (유형별 3트랙)</li>
+          <li>트랙A: 유튜브 / 트랙B: 1인 창업 / 트랙C: 업무 자동화</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cur-week">
+      <div class="cur-head" onclick="toggleCur(this)">
+        <div class="cur-num">3</div>
+        <div class="cur-title">바이브코딩 — 코딩 0%로 앱 만들기</div>
+        <span class="cur-toggle">+</span>
+      </div>
+      <div class="cur-body">
+        <ul>
+          <li>클로드 코드 설치부터 첫 프로그램까지 (라이브 실습)</li>
+          <li>실습: 자기소개 웹페이지 5분 만에 완성</li>
+          <li>실습: 내 사업에 필요한 도구 직접 제작 (계산기, 생성기 등)</li>
+          <li>에러 나면? 에러 메시지 그대로 클로드에게 보여주기</li>
+          <li>웹인클로드로 경쟁사 분석 자율주행 리서치 체험</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="cur-week">
+      <div class="cur-head" onclick="toggleCur(this)">
+        <div class="cur-num">4</div>
+        <div class="cur-title">배포 + 확장 — 전 세계에 내 작품 공개</div>
+        <span class="cur-toggle">+</span>
+      </div>
+      <div class="cur-body">
+        <ul>
+          <li>만든 걸 Vercel/Netlify로 무료 배포 (내 URL 생성)</li>
+          <li>MCP 연결 맛보기 — AI 직원에게 인터넷 팔 달아주기</li>
+          <li>혼자 갈 수 있는 로드맵 — skill 확장하는 법</li>
+          <li>수익화 연결: 전자책·랜딩페이지·자동화 파이프라인</li>
+          <li>수료 + 커뮤니티 안내 + 다음 단계 미리보기</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ REVIEWS ══════════ -->
+<section class="section" style="background:var(--c-warm);">
+  <div class="wrap">
+    <span class="tag">1기 수강생 후기</span>
+    <h2 class="sh">직접 들으신 분들의 <em>솔직한 이야기</em></h2>
+    <div style="margin-top:32px;">
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"부동산 사무실 운영 중인데, 고객 문의 자동 분류 프로그램을 직접 만들었어요. 개발자 외주 맡기면 200만원인데... 수업 듣고 제가 만들었습니다."</div>
+        <div class="review-author">— 50대 · 부동산 사무소 운영</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"어린이집 교사 퇴직 후 AI 콘텐츠 창업 준비 중이었는데, 수업 끝나고 바로 포트폴리오 웹사이트를 만들어서 배포까지 했어요. 제 인생에 이런 일이!"</div>
+        <div class="review-author">— 50대 후반 · 전직 어린이집 교사</div>
+      </div>
+      <div class="review-card">
+        <div class="review-stars">★★★★★</div>
+        <div class="review-text">"유튜브 채널 운영하면서 썸네일 텍스트 생성기, 제목 추천기를 직접 만들었어요. 매주 2시간 절약 중입니다. 코딩 진짜 1도 몰라요."</div>
+        <div class="review-author">— 40대 · 유튜브 크리에이터</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ PRICING ══════════ -->
+<section class="section" id="pricing">
+  <div class="wrap">
+    <span class="tag">수강료</span>
+    <h2 class="sh">2기 <em>얼리버드</em> 특별가</h2>
+    <p style="color:var(--c-text2);margin-bottom:40px;">선착순 30명 마감 후 정가 복원</p>
+
+    <div class="price-card">
+      <div class="price-label">2기 얼리버드 — 선착순 30명</div>
+      <div style="margin-top:12px;"></div>
+      <div class="price-original">정가 550,000원</div>
+      <div class="price-amount">385,000원</div>
+      <div class="price-per">카드 3개월 무이자 가능 · 월 128,333원</div>
+
+      <ul class="price-features">
+        <li>2시간 × 4회 = 총 8시간 라이브 강의</li>
+        <li>1기 검증 완료된 커리큘럼 (만족도 4.9)</li>
+        <li>CLAUDE.md + skill 파일 템플릿 패키지</li>
+        <li>유형별 맞춤 실습 (유튜브/창업/업무자동화)</li>
+        <li>수강생 전용 커뮤니티 평생 접근</li>
+        <li>강의 녹화본 제공 (복습용)</li>
+        <li>전자책 3종 무료 증정 (출간 시)</li>
+        <li>수강 후 1:1 질문 무제한 (1개월)</li>
+      </ul>
+
+      <a href="#" class="cta-btn" id="pay-btn" style="width:100%;justify-content:center;">지금 신청하기 — 385,000원 →</a>
+      <p style="font-size:13px;color:var(--c-text2);margin-top:16px;">토스페이먼츠 안전결제 · 카드/계좌이체/간편결제</p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ GUARANTEE ══════════ -->
+<section class="section">
+  <div class="wrap">
+    <div class="guarantee-box">
+      <div class="icon">🛡️</div>
+      <h2 class="sh" style="font-size:24px;">100% 만족 보장</h2>
+      <p style="color:var(--c-text2);margin-top:12px;max-width:480px;margin-left:auto;margin-right:auto;">
+        1회차 수업을 듣고 "이건 내 스타일이 아니다" 싶으시면<br>
+        <strong style="color:var(--c-green);">이유 불문, 질문 없이 전액 환불</strong>해 드립니다.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FAQ ══════════ -->
+<section class="section">
+  <div class="wrap">
+    <span class="tag">자주 묻는 질문</span>
+    <h2 class="sh">궁금한 점이 있으신가요?</h2>
+    <div style="margin-top:24px;">
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">코딩을 전혀 몰라도 따라갈 수 있나요? <span>+</span></div>
+        <div class="faq-a">네, 강사 본인도 코딩을 모릅니다. 1기 수강생 대부분이 50~70대였고 전원 완주했어요. 한국어로 지시만 하면 되기 때문에 코딩 지식은 0%여도 됩니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">클로드 Pro 구독이 필요한가요? <span>+</span></div>
+        <div class="faq-a">Pro 구독($20/월)을 권장합니다. 무료 버전으로도 일부 실습은 가능하지만, 코워크와 클로드 코드를 충분히 활용하려면 Pro가 필요합니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">수업 방식은 어떤가요? (온라인? 오프라인?) <span>+</span></div>
+        <div class="faq-a">Zoom 온라인 라이브 수업입니다. 화면 공유하면서 같이 실습하고, 막히면 즉시 도와드립니다. 녹화본도 제공되니 복습도 가능해요.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">Windows와 Mac 모두 가능한가요? <span>+</span></div>
+        <div class="faq-a">네, 둘 다 가능합니다. 수업 중 Windows/Mac 각각의 명령어와 설치법을 모두 안내해 드립니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">환불 정책은 어떻게 되나요? <span>+</span></div>
+        <div class="faq-a">1회차 수업 후 만족스럽지 않으시면 전액 환불해 드립니다. 이유를 묻지 않습니다. 2회차 이후에는 잔여 회차 비율로 환불 가능합니다.</div>
+      </div>
+
+      <div class="faq-item">
+        <div class="faq-q" onclick="toggleFaq(this)">1기랑 뭐가 달라요? <span>+</span></div>
+        <div class="faq-a">1기 피드백을 100% 반영했습니다. 코워크 실무 자동화 실습 강화, 웹인클로드 리서치 체험 추가, 유형별 맞춤 트랙 세분화, 사전 세팅 가이드 배포로 수업 시간을 더 알차게 구성했습니다.</div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER CTA ══════════ -->
+<section class="footer-cta">
+  <div class="wrap">
+    <h2>아직 고민 중이신가요?</h2>
+    <p>1기는 공지 3일 만에 마감됐습니다.<br>2기도 선착순 30명 마감됩니다.</p>
+    <a href="#pricing" class="cta-btn">2기 신청하기 →</a>
+  </div>
+</section>
+
+<!-- ══════════ FOOTER INFO ══════════ -->
+<footer class="footer-info">
+  <div class="wrap">
+    노모어매뉴얼 AI주식회사<br>
+    대표: 이PD · 사업자등록번호: 000-00-00000<br>
+    통신판매업 신고번호: 제0000-서울-00000호<br>
+    문의: 카카오톡 채널 @nomoremanual<br>
+    <br>
+    © 2026 NOMOREMANUAL AI Corporation. All rights reserved.
+  </div>
+</footer>
+
+<!-- ══════════ STICKY CTA ══════════ -->
+<div class="sticky-cta">
+  <a href="#pricing" class="cta-btn">2기 신청하기 — 385,000원 →</a>
+</div>
+
+<script>
+/* ── Curriculum toggle ── */
+function toggleCur(el) {
+  const body = el.nextElementSibling;
+  const icon = el.querySelector('.cur-toggle');
+  body.classList.toggle('open');
+  icon.textContent = body.classList.contains('open') ? '−' : '+';
+}
+
+/* ── FAQ toggle ── */
+function toggleFaq(el) {
+  const a = el.nextElementSibling;
+  const icon = el.querySelector('span');
+  a.classList.toggle('open');
+  icon.textContent = a.classList.contains('open') ? '−' : '+';
+}
+
+/* ── Countdown (마감일을 원하는 날짜로 수정하세요) ── */
+(function() {
+  const deadline = new Date();
+  deadline.setDate(deadline.getDate() + 7); // 7일 후 마감
+  deadline.setHours(23, 59, 59, 0);
+
+  function update() {
+    const now = new Date();
+    const diff = deadline - now;
+    if (diff <= 0) {
+      document.getElementById('cd-days').textContent = '00';
+      document.getElementById('cd-hours').textContent = '00';
+      document.getElementById('cd-mins').textContent = '00';
+      return;
+    }
+    const d = Math.floor(diff / 86400000);
+    const h = Math.floor((diff % 86400000) / 3600000);
+    const m = Math.floor((diff % 3600000) / 60000);
+    document.getElementById('cd-days').textContent = String(d).padStart(2, '0');
+    document.getElementById('cd-hours').textContent = String(h).padStart(2, '0');
+    document.getElementById('cd-mins').textContent = String(m).padStart(2, '0');
+  }
+  update();
+  setInterval(update, 60000);
+})();
+
+/* ── 토스페이먼츠 결제 연동 (실제 사용 시 clientKey를 넣으세요) ── */
+document.getElementById('pay-btn').addEventListener('click', function(e) {
+  e.preventDefault();
+
+  /*
+  ===== 토스페이먼츠 연동 가이드 =====
+
+  1. https://developers.tosspayments.com 에서 가맹점 등록
+  2. 테스트 클라이언트 키 발급
+  3. 아래 주석을 해제하고 YOUR_CLIENT_KEY를 교체
+
+  <script src="https://js.tosspayments.com/v1/payment"></ script> 를 head에 추가
+
+  const tossPayments = TossPayments('YOUR_CLIENT_KEY');
+  tossPayments.requestPayment('카드', {
+    amount: 385000,
+    orderId: 'NMM-2-' + Date.now(),
+    orderName: '노모어매뉴얼 클로드 마스터 클래스 2기',
+    customerName: '',
+    successUrl: window.location.origin + '/success',
+    failUrl: window.location.origin + '/fail',
+  });
+  */
+
+  alert('토스페이먼츠 연동 준비 중입니다.\\n\\n카카오톡 @nomoremanual 로 문의해주세요!');
+});
+</script>
+
+</body>
+</html>
