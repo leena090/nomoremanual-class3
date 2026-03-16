@@ -64,6 +64,14 @@ export default function Hero({ onOpenModal }: HeroProps) {
           8시간 만에 AI 직원 한 명 고용하는 법
         </p>
 
+        {/* 소셜 프루프 — CTA 바로 위 신뢰 요소 */}
+        <p
+          className="mb-3 text-[0.85rem]"
+          style={{ color: "rgba(255,255,255,0.6)" }}
+        >
+          ⭐ 1기 수강생 만족도 4.9/5.0 · 수강생 전원 완주 · 100% 환불 보장
+        </p>
+
         {/* CTA 버튼 — 클릭 시 모달 오픈 */}
         <button
           onClick={onOpenModal}
@@ -73,8 +81,36 @@ export default function Hero({ onOpenModal }: HeroProps) {
             boxShadow: "0 4px 20px rgba(212,84,43,0.3)",
           }}
         >
-          2기 신청하기 →
+          8시간 뒤, 나도 앱 만드는 사람 →
         </button>
+
+        {/* CTA 서브카피 */}
+        <p
+          className="mt-2 text-[0.85rem]"
+          style={{ color: "rgba(255,255,255,0.5)" }}
+        >
+          1기 수강생 만족도 4.9/5.0 · 전원 완주
+        </p>
+
+        {/* 수강생 결과물 시각화 — placeholder (이미지 추가 필요) */}
+        {/* TODO: 수강생 결과물 이미지 3~4장 추가 필요 */}
+        <div className="mt-8 grid grid-cols-3 gap-3 max-[600px]:flex max-[600px]:gap-3 max-[600px]:overflow-x-auto max-[600px]:snap-x max-[600px]:snap-mandatory max-[600px]:-mx-6 max-[600px]:px-6">
+          {[1, 2, 3].map((i) => (
+            <div
+              key={i}
+              className="aspect-[4/3] rounded-xl max-[600px]:min-w-[70vw] max-[600px]:snap-center"
+              style={{
+                background: "rgba(255,255,255,0.05)",
+                border: "1px dashed rgba(255,255,255,0.15)",
+              }}
+            >
+              {/* 이미지 플레이스홀더 — next/image + WebP + lazy loading 적용 예정 */}
+              <div className="flex h-full items-center justify-center text-[0.8rem]" style={{ color: "rgba(255,255,255,0.3)" }}>
+                수강생 결과물 {i}
+              </div>
+            </div>
+          ))}
+        </div>
 
         {/* 카운트다운 타이머 */}
         <div className="mt-3">

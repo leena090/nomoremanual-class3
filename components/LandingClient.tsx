@@ -15,6 +15,7 @@ import FAQ from "./FAQ";
 import FooterCTA from "./FooterCTA";
 import Footer from "./Footer";
 import StickyCTA from "./StickyCTA";
+import ExitIntentPopup from "./ExitIntentPopup";
 import EnrollmentModal from "./EnrollmentModal";
 
 /**
@@ -33,7 +34,7 @@ export default function LandingClient() {
   const closeModal = () => setIsModalOpen(false);
 
   return (
-    <>
+    <div className="pb-[100px]">
       {/* 히어로 섹션 — CTA 클릭 시 모달 오픈 */}
       <Hero onOpenModal={openModal} />
 
@@ -69,11 +70,14 @@ export default function LandingClient() {
       {/* 푸터 — 사업자 정보 */}
       <Footer />
 
-      {/* 모바일 하단 고정 CTA */}
+      {/* 하단 고정 CTA (모바일 + 데스크톱) */}
       <StickyCTA onOpenModal={openModal} />
+
+      {/* 이탈 감지 팝업 */}
+      <ExitIntentPopup onOpenModal={openModal} />
 
       {/* 수강 신청 모달 */}
       <EnrollmentModal isOpen={isModalOpen} onClose={closeModal} />
-    </>
+    </div>
   );
 }

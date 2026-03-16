@@ -73,13 +73,23 @@ export default function Pricing({ onOpenModal }: PricingProps) {
             ))}
           </ul>
 
+          {/* 소셜 프루프 — CTA 바로 위 신뢰 요소 */}
+          <p className="text-[0.85rem] text-[#6B6B6B] mb-3">
+            ⭐ 1기 수강생 만족도 4.9/5.0 · 수강생 전원 완주 · 100% 환불 보장
+          </p>
+
           {/* CTA 버튼 — 전체 너비, 최소 높이 48px (50대+ 대상) */}
           <button
             onClick={onOpenModal}
             className="w-full inline-flex items-center justify-center gap-2 text-[17px] font-bold text-white bg-[#D4542B] border-none rounded-xl py-[18px] px-10 cursor-pointer transition-all duration-200 shadow-[0_4px_20px_rgba(212,84,43,0.3)] hover:translate-y-[-2px] hover:shadow-[0_8px_30px_rgba(212,84,43,0.4)] min-h-[48px]"
           >
-            지금 신청하기 — 385,000원 →
+            AI 직원 고용하기 — 385,000원 →
           </button>
+
+          {/* CTA 서브카피 */}
+          <p className="text-[0.85rem] text-[#6B6B6B] mt-2">
+            1기 수강생 만족도 4.9/5.0 · 전원 완주
+          </p>
 
           {/* 결제 수단 안내 */}
           <p className="text-[13px] text-[#6B6B6B] mt-4">
