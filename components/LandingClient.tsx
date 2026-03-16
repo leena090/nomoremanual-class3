@@ -17,6 +17,7 @@ import Footer from "./Footer";
 import StickyCTA from "./StickyCTA";
 import ExitIntentPopup from "./ExitIntentPopup";
 import EnrollmentModal from "./EnrollmentModal";
+import CloverPopup from "./CloverPopup";
 
 /**
  * LandingClient — 랜딩 페이지 전체를 감싸는 클라이언트 래퍼
@@ -75,6 +76,9 @@ export default function LandingClient() {
 
       {/* 이탈 감지 팝업 */}
       <ExitIntentPopup onOpenModal={openModal} />
+
+      {/* 네잎클로버 행운 팝업 */}
+      <CloverPopup onOpenModal={openModal} />
 
       {/* 수강 신청 모달 */}
       <EnrollmentModal isOpen={isModalOpen} onClose={closeModal} />

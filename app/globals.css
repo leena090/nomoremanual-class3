@@ -69,6 +69,40 @@ body {
   max-height: 600px;
 }
 
+/* ── 네잎클로버 팝업 애니메이션 ── */
+@keyframes clover-sparkle {
+  0%, 100% { opacity: 0; transform: scale(0) translateY(0); }
+  50% { opacity: 1; transform: scale(1) translateY(-20px); }
+}
+@keyframes clover-float {
+  0%, 100% { transform: translateY(0px); }
+  50% { transform: translateY(-8px); }
+}
+@keyframes clover-fadeInUp {
+  from { opacity: 0; transform: translateY(20px) scale(0.95); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes clover-pulseGlow {
+  0%, 100% { box-shadow: 0 0 20px rgba(76, 175, 80, 0.3); }
+  50% { box-shadow: 0 0 40px rgba(76, 175, 80, 0.6), 0 0 60px rgba(245, 195, 106, 0.3); }
+}
+.clover-btn {
+  animation: clover-float 3s ease-in-out infinite, clover-pulseGlow 2s ease-in-out infinite;
+}
+.clover-btn:hover {
+  animation: clover-float 3s ease-in-out infinite;
+  box-shadow: 0 0 50px rgba(76, 175, 80, 0.8), 0 0 80px rgba(245, 195, 106, 0.5);
+}
+.clover-sparkle {
+  animation: clover-sparkle var(--dur) ease-in-out var(--delay) infinite;
+}
+.clover-message-card {
+  animation: clover-fadeInUp 0.6s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+.clover-enter {
+  animation: clover-fadeInUp 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
 /* ── 모바일 하단 CTA 여백 ── */
 @media (max-width: 768px) {
   body {
