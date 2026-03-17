@@ -5,6 +5,7 @@ import { useState, useEffect } from "react";
 /**
  * StickyCTA — 모바일+데스크톱 하단 고정 CTA 버튼 (클라이언트 컴포넌트)
  * - Intersection Observer로 히어로 영역 보일 때 숨김
+ * - 반투명 다크 배경 + backdrop-blur로 글래스 효과
  * - 버튼 높이 56px 이상, 서브카피 포함
  */
 interface StickyCTAProps {
@@ -37,14 +38,15 @@ export default function StickyCTA({ onOpenModal }: StickyCTAProps) {
 
   return (
     <div
-      className={`fixed bottom-0 left-0 right-0 z-50 transition-transform duration-300 ${
+      className={`fixed bottom-0 left-0 right-0 z-50 backdrop-blur-md transition-transform duration-300 ${
         isVisible ? "translate-y-0" : "translate-y-full"
       }`}
       style={{
-        /* 다크 배경 + 상단 보더 + 그림자로 콘텐츠와 분리 */
-        backgroundColor: "#1A1A1A",
+        /* 반투명 다크 배경 — backdrop-blur와 조합하여 글래스 효과 */
+        backgroundColor: "rgba(26,26,26,0.85)",
         borderTop: "1px solid rgba(255,255,255,0.1)",
-        boxShadow: "0 -4px 20px rgba(0,0,0,0.2)",
+        /* 강화된 상단 그림자 — 콘텐츠와의 분리감 */
+        boxShadow: "0 -4px 30px rgba(0,0,0,0.3)",
       }}
     >
       {/* 내부 패딩 — safe area 대응 포함 */}
@@ -55,7 +57,7 @@ export default function StickyCTA({ onOpenModal }: StickyCTAProps) {
           className="w-full cursor-pointer rounded-xl border-none bg-[#D4542B] py-[16px] text-[16px] font-bold text-white transition-opacity duration-200 active:opacity-90"
           style={{ minHeight: "56px" }}
         >
-          8시간 뒤, 나도 앱 만드는 사람 →
+          10시간 뒤, 나도 1인창업 대표님 →
         </button>
 
         {/* 서브카피 — 희소성 + 신뢰 */}

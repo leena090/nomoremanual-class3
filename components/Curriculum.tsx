@@ -1,15 +1,27 @@
 "use client";
 
-import { useState } from "react";
+/**
+ * 커리큘럼 섹션 — 4주차 아코디언 형태
+ * - CaretDown 아이콘으로 토글 표시 (회전 애니메이션)
+ * - ArrowRight 아이콘으로 리스트 항목 마커
+ * - 주차 번호 뱃지: 아웃라인 스타일 (테두리만)
+ * - framer-motion AnimatePresence로 부드러운 높이 전환
+ * - ScrollReveal 스크롤 애니메이션 적용
+ */
 
-// 커리큘럼 주차별 데이터 타입 정의
+import { useState } from "react";
+import { CaretDown, ArrowRight } from "@phosphor-icons/react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ScrollReveal } from "./ScrollReveal";
+
+/* 커리큘럼 주차별 데이터 타입 정의 */
 interface WeekData {
   number: number; // 주차 번호
   title: string; // 주차 제목
   items: string[]; // 학습 항목 리스트
 }
 
-// 4주 커리큘럼 데이터
+/* 4주 커리큘럼 데이터 */
 const weeks: WeekData[] = [
   {
     number: 1,
@@ -57,12 +69,12 @@ const weeks: WeekData[] = [
   },
 ];
 
-// 커리큘럼 섹션 컴포넌트 — 아코디언 형태로 4주차 내용 표시
+/* 커리큘럼 섹션 컴포넌트 — 아코디언 형태로 4주차 내용 표시 */
 export default function Curriculum() {
-  // 각 주차의 열림/닫힘 상태를 배열로 관리
+  /* 각 주차의 열림/닫힘 상태를 배열로 관리 */
   const [openState, setOpenState] = useState<boolean[]>([false, false, false, false]);
 
-  // 특정 주차 토글 핸들러
+  /* 특정 주차 토글 핸들러 */
   const toggle = (index: number) => {
     setOpenState((prev) => prev.map((v, i) => (i === index ? !v : v)));
   };
@@ -77,7 +89,7 @@ export default function Curriculum() {
 
         {/* 섹션 제목 — em 부분만 accent 색상 */}
         <h2 className="font-[family-name:var(--font-display)] text-[clamp(26px,5vw,36px)] leading-[1.3] tracking-tight text-[#1A1A1A] mb-4">
-          2시간 × 4회 = <em className="not-italic text-[#D4542B]">8시간 완성</em>
+          2.5시간 × 4회 = <em className="not-italic text-[#D4542B]">10시간 완성</em>
         </h2>
 
         {/* 섹션 부제목 */}
@@ -85,51 +97,64 @@ export default function Curriculum() {
           매 회차마다 &ldquo;우와!&rdquo; 하는 순간이 최소 3번은 나옵니다
         </p>
 
-        {/* 4주차 아코디언 리스트 */}
+        {/* 4주차 아코디언 리스트 — 각 카드에 ScrollReveal 스태거 적용 */}
         {weeks.map((week, idx) => (
-          <div
-            key={week.number}
-            className="bg-white border border-[#E0DDD5] rounded-2xl mb-4 overflow-hidden"
-          >
-            {/* 아코디언 헤더 — 클릭 시 열림/닫힘 토글 */}
-            <button
-              onClick={() => toggle(idx)}
-              className="w-full flex items-center gap-4 px-7 py-6 cursor-pointer select-none hover:bg-[#FAFAF7] transition-colors"
-            >
-              {/* 주차 번호 뱃지 (accent 배경, 흰 텍스트) */}
-              <div className="w-10 h-10 flex items-center justify-center font-[family-name:var(--font-display)] text-base text-white bg-[#D4542B] rounded-[10px] shrink-0">
-                {week.number}
-              </div>
+          <ScrollReveal key={week.number} delay={idx * 0.1}>
+            <div className="bg-white border border-[#E0DDD5] rounded-2xl mb-4 overflow-hidden">
+              {/* 아코디언 헤더 — 클릭 시 열림/닫힘 토글 */}
+              <button
+                onClick={() => toggle(idx)}
+                className="w-full flex items-center gap-4 px-7 py-6 cursor-pointer select-none hover:bg-[#FAFAF7] transition-colors"
+              >
+                {/* 주차 번호 뱃지 — 아웃라인 스타일 (테두리만, 배경 투명) */}
+                <div className="w-10 h-10 flex items-center justify-center font-[family-name:var(--font-display)] text-lg border-2 border-[#D4542B] text-[#D4542B] bg-transparent rounded-[10px] shrink-0">
+                  {week.number}
+                </div>
 
-              {/* 주차 제목 */}
-              <span className="text-[17px] font-bold flex-1 text-left">
-                {week.title}
-              </span>
+                {/* 주차 제목 */}
+                <span className="text-[17px] font-bold flex-1 text-left">
+                  {week.title}
+                </span>
 
-              {/* 토글 아이콘 (+/−) */}
-              <span className="text-xl text-[#6B6B6B] transition-transform">
-                {openState[idx] ? "−" : "+"}
-              </span>
-            </button>
+                {/* 토글 아이콘 — CaretDown 회전 애니메이션 */}
+                <CaretDown
+                  size={24}
+                  weight="bold"
+                  className={`text-[#6B6B6B] transition-transform duration-300 ${
+                    openState[idx] ? "rotate-180" : "rotate-0"
+                  }`}
+                />
+              </button>
 
-            {/* 아코디언 바디 — 열린 상태에서만 표시 */}
-            <div
-              className={`overflow-hidden transition-all duration-400 ease-in-out px-7 ${
-                openState[idx] ? "max-h-[600px] pb-6" : "max-h-0"
-              }`}
-            >
-              <ul className="list-none">
-                {week.items.map((item, i) => (
-                  <li
-                    key={i}
-                    className="text-[15px] text-[#6B6B6B] py-1.5 pl-5 relative before:content-['→'] before:absolute before:left-0 before:text-[#D4542B] before:font-bold"
+              {/* 아코디언 바디 — AnimatePresence로 부드러운 높이 전환 */}
+              <AnimatePresence initial={false}>
+                {openState[idx] && (
+                  <motion.div
+                    initial={{ height: 0, opacity: 0 }}
+                    animate={{ height: "auto", opacity: 1 }}
+                    exit={{ height: 0, opacity: 0 }}
+                    transition={{ duration: 0.3, ease: "easeInOut" }}
+                    className="overflow-hidden"
                   >
-                    {item}
-                  </li>
-                ))}
-              </ul>
+                    <div className="px-7 pb-6">
+                      <ul className="list-none">
+                        {week.items.map((item, i) => (
+                          <li
+                            key={i}
+                            className="flex items-start gap-2 text-[15px] text-[#6B6B6B] py-1.5"
+                          >
+                            {/* ArrowRight 아이콘 — 각 항목 앞에 인라인 표시 */}
+                            <ArrowRight size={14} className="text-[#D4542B] shrink-0 mt-[5px]" />
+                            <span>{item}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </motion.div>
+                )}
+              </AnimatePresence>
             </div>
-          </div>
+          </ScrollReveal>
         ))}
       </div>
     </section>

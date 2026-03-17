@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Black_Han_Sans, Noto_Sans_KR } from "next/font/google";
+import { Black_Han_Sans, Noto_Sans_KR, Outfit } from "next/font/google";
 import "./globals.css";
 
 /* 디스플레이 폰트: 제목/헤드라인용 */
@@ -7,6 +7,14 @@ const blackHanSans = Black_Han_Sans({
   weight: "400",
   subsets: ["latin"],
   variable: "--font-display",
+  display: "swap",
+});
+
+/* 액센트 폰트: 숫자/영문 전용 (Outfit) */
+const outfit = Outfit({
+  weight: ["400", "500", "600", "700"],
+  subsets: ["latin"],
+  variable: "--font-accent",
   display: "swap",
 });
 
@@ -21,9 +29,9 @@ const notoSansKR = Noto_Sans_KR({
 /* SEO 메타데이터 — 전환율 + 검색 최적화 */
 export const metadata: Metadata = {
   metadataBase: new URL("https://nomoremanual-class2.vercel.app"),
-  title: "클로드 마스터클래스 2기 | 코딩 모르는 50대도 8시간 만에 앱 만드는 법",
+  title: "클로드 마스터클래스 2기 | 코딩 모르는 50대도 10시간 만에 1인창업 성공",
   description:
-    "1기 만족도 4.9/5.0, 수강생 전원 완주. 코워크·클로드 코드·웹 활용까지 8시간 만에 AI 직원 한 명 고용하세요. 선착순 30명, 100% 환불 보장.",
+    "1기 만족도 4.9/5.0, 수강생 전원 완주. 코워크·클로드 코드·웹 활용까지 10시간 만에 AI 직원 한 명 고용하세요. 선착순 30명, 100% 환불 보장.",
   keywords: [
     "클로드 마스터클래스",
     "Claude 강의",
@@ -43,7 +51,7 @@ export const metadata: Metadata = {
     canonical: "https://nomoremanual-class2.vercel.app",
   },
   openGraph: {
-    title: "클로드 마스터클래스 2기 | 8시간 만에 AI 직원 고용하는 법",
+    title: "클로드 마스터클래스 2기 | 10시간 만에 1인창업 성공하는 법",
     description:
       "코딩 1도 모르는 50대가 클로드로 앱을 만들었습니다. 1기 만족도 4.9, 전원 완주. 선착순 30명 모집 중.",
     type: "website",
@@ -55,15 +63,15 @@ export const metadata: Metadata = {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "클로드 마스터클래스 2기 — 8시간 만에 AI 직원 고용하는 법",
+        alt: "클로드 마스터클래스 2기 — 10시간 만에 1인창업 성공하는 법",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "클로드 마스터클래스 2기 | 코딩 모르는 50대도 앱 만드는 법",
+    title: "클로드 마스터클래스 2기 | 코딩 모르는 50대도 1인창업 성공",
     description:
-      "1기 만족도 4.9/5.0, 전원 완주. 8시간 만에 AI 직원 한 명 고용하세요.",
+      "1기 만족도 4.9/5.0, 전원 완주. 10시간 만에 AI 직원 한 명 고용하세요.",
     images: ["/og-image.png"],
   },
 };
@@ -85,7 +93,7 @@ export default function RootLayout({
               "@type": "Course",
               name: "클로드 마스터클래스 2기",
               description:
-                "코딩 모르는 50대도 8시간 만에 앱 만드는 클로드 AI 실무 강의. 코워크, 클로드 코드, 웹 활용까지.",
+                "코딩 모르는 50대도 10시간 만에 1인창업 성공하는 클로드 AI 실무 강의. 코워크, 클로드 코드, 웹 활용까지.",
               provider: {
                 "@type": "Organization",
                 name: "노모어매뉴얼",
@@ -189,7 +197,7 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${blackHanSans.variable} ${notoSansKR.variable} antialiased`}
+        className={`${blackHanSans.variable} ${notoSansKR.variable} ${outfit.variable} antialiased`}
       >
         {children}
 

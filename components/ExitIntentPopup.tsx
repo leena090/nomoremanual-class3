@@ -133,7 +133,7 @@ export default function ExitIntentPopup({ onOpenModal }: ExitIntentPopupProps) {
           className="w-full cursor-pointer rounded-xl border-none bg-[#D4542B] py-[16px] text-[16px] font-bold text-white transition-transform duration-200 hover:-translate-y-0.5"
           style={{ boxShadow: "0 4px 20px rgba(212,84,43,0.3)" }}
         >
-          8시간 뒤, 나도 앱 만드는 사람 →
+          10시간 뒤, 나도 1인창업 대표님 →
         </button>
 
         {/* 서브카피 */}

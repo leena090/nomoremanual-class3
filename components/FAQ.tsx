@@ -1,14 +1,24 @@
 "use client";
 
-import { useState } from "react";
+/**
+ * FAQ 섹션 — 자주 묻는 질문 아코디언
+ * - CaretDown 아이콘으로 열림/닫힘 토글 (회전 애니메이션)
+ * - framer-motion AnimatePresence로 부드러운 높이 전환
+ * - StaggerReveal로 FAQ 항목 순차 등장
+ */
 
-// FAQ 항목 데이터 타입
+import { useState } from "react";
+import { CaretDown } from "@phosphor-icons/react";
+import { motion, AnimatePresence } from "framer-motion";
+import { StaggerReveal, StaggerItem } from "./ScrollReveal";
+
+/* FAQ 항목 데이터 타입 */
 interface FAQItem {
   question: string; // 질문
   answer: string; // 답변
 }
 
-// FAQ 데이터 — landing.html 원본 텍스트 그대로
+/* FAQ 데이터 — landing.html 원본 텍스트 그대로 */
 const faqData: FAQItem[] = [
   {
     question: "코딩을 전혀 몰라도 따라갈 수 있나요?",
@@ -42,14 +52,14 @@ const faqData: FAQItem[] = [
   },
 ];
 
-// FAQ 섹션 컴포넌트 — 질문 클릭 시 답변 토글
+/* FAQ 섹션 컴포넌트 — 질문 클릭 시 답변 토글 */
 export default function FAQ() {
-  // 각 FAQ 항목의 열림/닫힘 상태 관리 (6개 항목)
+  /* 각 FAQ 항목의 열림/닫힘 상태 관리 (6개 항목) */
   const [openState, setOpenState] = useState<boolean[]>(
     new Array(faqData.length).fill(false)
   );
 
-  // 특정 항목 토글 핸들러
+  /* 특정 항목 토글 핸들러 — 인덱스에 해당하는 항목만 반전 */
   const toggle = (index: number) => {
     setOpenState((prev) => prev.map((v, i) => (i === index ? !v : v)));
   };
@@ -67,33 +77,47 @@ export default function FAQ() {
           궁금한 점이 있으신가요?
         </h2>
 
-        {/* FAQ 리스트 */}
-        <div className="mt-6">
+        {/* FAQ 리스트 — StaggerReveal로 순차 등장 애니메이션 */}
+        <StaggerReveal className="mt-6">
           {faqData.map((item, idx) => (
-            <div key={idx} className="border-b border-[#E0DDD5] py-6">
-              {/* 질문 행 — 클릭으로 토글, 좌우 flex 배치 */}
-              <button
-                onClick={() => toggle(idx)}
-                className="w-full text-base font-bold cursor-pointer flex justify-between items-center select-none text-left bg-transparent border-none p-0 text-[#2D2D2D] min-h-[48px]"
-              >
-                <span>{item.question}</span>
-                {/* 토글 아이콘 (+/−) */}
-                <span className="text-xl text-[#6B6B6B] ml-4 shrink-0">
-                  {openState[idx] ? "−" : "+"}
-                </span>
-              </button>
+            <StaggerItem key={idx}>
+              <div className="border-b border-[#E0DDD5] py-6">
+                {/* 질문 행 — 클릭으로 토글, 좌우 flex 배치 */}
+                <button
+                  onClick={() => toggle(idx)}
+                  className="w-full text-base font-bold cursor-pointer flex justify-between items-center select-none text-left bg-transparent border-none p-0 text-[#2D2D2D] min-h-[48px]"
+                >
+                  <span>{item.question}</span>
+                  {/* 토글 아이콘 — CaretDown, 열릴 때 180도 회전 */}
+                  <CaretDown
+                    size={20}
+                    weight="bold"
+                    className={`text-[#6B6B6B] transition-transform duration-300 ml-4 shrink-0 ${
+                      openState[idx] ? "rotate-180" : "rotate-0"
+                    }`}
+                  />
+                </button>
 
-              {/* 답변 영역 — 열린 상태에서만 표시 */}
-              <div
-                className={`overflow-hidden transition-all duration-300 ease-in-out text-[15px] text-[#6B6B6B] leading-[1.8] ${
-                  openState[idx] ? "max-h-[300px] pt-4" : "max-h-0"
-                }`}
-              >
-                {item.answer}
+                {/* 답변 영역 — AnimatePresence로 부드러운 높이 전환 */}
+                <AnimatePresence>
+                  {openState[idx] && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: "auto", opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3, ease: "easeInOut" }}
+                      className="overflow-hidden"
+                    >
+                      <div className="pt-4 text-[15px] text-[#6B6B6B] leading-[1.8]">
+                        {item.answer}
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
-            </div>
+            </StaggerItem>
           ))}
-        </div>
+        </StaggerReveal>
       </div>
     </section>
   );
