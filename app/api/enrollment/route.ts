@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { insertEnrollment, isMockMode } from "@/lib/db";
 import { sendConfirmationEmail } from "@/lib/resend";
+import { sendEnrollmentNotification } from "@/lib/notify";
 
 /* ── POST: 솔바드 3기 수강 신청 접수 API ── */
 export async function POST(request: Request) {
@@ -57,7 +58,7 @@ export async function POST(request: Request) {
       );
     }
 
-    /* 신청 확인 이메일 발송 (설정된 경우에만) */
+    /* 신청 확인 이메일 발송 (도메인 인증 후 작동) */
     try {
       await sendConfirmationEmail({
         name,
@@ -67,8 +68,14 @@ export async function POST(request: Request) {
         track,
       });
     } catch (emailError) {
-      /* 이메일 실패해도 신청 자체는 성공 처리 */
       console.error("이메일 발송 실패 (신청은 정상 처리됨):", emailError);
+    }
+
+    /* 텔레그램으로 대표님에게 신청 알림 전송 */
+    try {
+      await sendEnrollmentNotification({ name, email, phone, track, orderId });
+    } catch (notifyError) {
+      console.error("텔레그램 알림 실패:", notifyError);
     }
 
     /* 성공 응답 반환 */
