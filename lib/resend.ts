@@ -32,7 +32,7 @@ export async function sendConfirmationEmail(params: {
   const { data, error } = await resend.emails.send({
     from: RESEND_FROM,
     to: email,
-    subject: "[노모어매뉴얼] 클로드 마스터클래스 2기 신청이 완료되었습니다",
+    subject: "[솔바드] 클로드 마스터클래스 3기 수강 신청이 완료되었습니다",
     html: getEmailTemplate({ name, orderId, amount, track, openchatUrl }),
   });
 

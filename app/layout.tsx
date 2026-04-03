@@ -28,11 +28,12 @@ const notoSansKR = Noto_Sans_KR({
 
 /* SEO 메타데이터 — 전환율 + 검색 최적화 */
 export const metadata: Metadata = {
-  metadataBase: new URL("https://nomoremanual-class2.vercel.app"),
-  title: "클로드 마스터클래스 2기 | 코딩 모르는 50대도 10시간 만에 1인창업 성공",
+  metadataBase: new URL("https://nomoremanual-class3.vercel.app"),
+  title: "솔바드 3기 | 코딩 모르는 50대도 8시간 만에 1인창업 성공",
   description:
-    "1기 만족도 4.9/5.0, 수강생 전원 완주. 코워크·클로드 코드·웹 활용까지 10시간 만에 AI 직원 한 명 고용하세요. 선착순 30명, 100% 환불 보장.",
+    "1·2기 만족도 4.9/5.0, 수강생 전원 완주. 코워크·클로드 코드·웹 활용까지 8시간 만에 AI 직원 한 명 고용하세요. 100% 환불 보장.",
   keywords: [
+    "솔바드",
     "클로드 마스터클래스",
     "Claude 강의",
     "AI 업무 자동화",
@@ -48,30 +49,30 @@ export const metadata: Metadata = {
     follow: true,
   },
   alternates: {
-    canonical: "https://nomoremanual-class2.vercel.app",
+    canonical: "https://nomoremanual-class3.vercel.app",
   },
   openGraph: {
-    title: "클로드 마스터클래스 2기 | 10시간 만에 1인창업 성공하는 법",
+    title: "솔바드 3기 | 8시간 만에 1인창업 성공하는 법",
     description:
-      "코딩 1도 모르는 50대가 클로드로 앱을 만들었습니다. 1기 만족도 4.9, 전원 완주. 선착순 30명 모집 중.",
+      "코딩 1도 모르는 50대가 클로드로 앱을 만들었습니다. 1·2기 만족도 4.9, 전원 완주. 3기 모집 중.",
     type: "website",
-    url: "https://nomoremanual-class2.vercel.app",
-    siteName: "노모어매뉴얼",
+    url: "https://nomoremanual-class3.vercel.app",
+    siteName: "솔바드",
     locale: "ko_KR",
     images: [
       {
         url: "/og-image.png",
         width: 1200,
         height: 630,
-        alt: "클로드 마스터클래스 2기 — 10시간 만에 1인창업 성공하는 법",
+        alt: "솔바드 3기 — 8시간 만에 1인창업 성공하는 법",
       },
     ],
   },
   twitter: {
     card: "summary_large_image",
-    title: "클로드 마스터클래스 2기 | 코딩 모르는 50대도 1인창업 성공",
+    title: "솔바드 3기 | 코딩 모르는 50대도 1인창업 성공",
     description:
-      "1기 만족도 4.9/5.0, 전원 완주. 10시간 만에 AI 직원 한 명 고용하세요.",
+      "1·2기 만족도 4.9/5.0, 전원 완주. 8시간 만에 AI 직원 한 명 고용하세요.",
     images: ["/og-image.png"],
   },
 };
@@ -91,20 +92,20 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Course",
-              name: "클로드 마스터클래스 2기",
+              name: "솔바드 클로드 마스터클래스 3기",
               description:
-                "코딩 모르는 50대도 10시간 만에 1인창업 성공하는 클로드 AI 실무 강의. 코워크, 클로드 코드, 웹 활용까지.",
+                "코딩 모르는 50대도 8시간 만에 1인창업 성공하는 클로드 AI 실무 강의. 코워크, 클로드 코드, 웹 활용까지.",
               provider: {
                 "@type": "Organization",
-                name: "노모어매뉴얼",
-                url: "https://nomoremanual-class2.vercel.app",
+                name: "솔바드",
+                url: "https://nomoremanual-class3.vercel.app",
               },
               offers: {
                 "@type": "Offer",
-                price: "385000",
+                price: "285000",
                 priceCurrency: "KRW",
                 availability: "https://schema.org/LimitedAvailability",
-                validFrom: "2026-03-16",
+                validFrom: "2026-04-04",
               },
               courseMode: "Online",
               totalHistoricalEnrollment: 30,
@@ -112,7 +113,7 @@ export default function RootLayout({
                 "@type": "AggregateRating",
                 ratingValue: "4.9",
                 bestRating: "5",
-                ratingCount: "15",
+                ratingCount: "30",
               },
             }),
           }}
@@ -168,10 +169,10 @@ export default function RootLayout({
                 },
                 {
                   "@type": "Question",
-                  name: "1기랑 뭐가 달라요?",
+                  name: "이전 기수랑 뭐가 달라요?",
                   acceptedAnswer: {
                     "@type": "Answer",
-                    text: "1기 피드백을 100% 반영했습니다. 코워크 실무 자동화 실습 강화, 웹인클로드 리서치 체험 추가, 유형별 맞춤 트랙 세분화, 사전 세팅 가이드 배포로 수업 시간을 더 알차게 구성했습니다.",
+                    text: "1·2기 피드백을 100% 반영했습니다. 코워크 실무 자동화 실습 강화, 웹인클로드 리서치 체험 추가, 유형별 맞춤 트랙 세분화, 사전 세팅 가이드 배포로 수업 시간을 더 알차게 구성했습니다.",
                   },
                 },
               ],
@@ -186,9 +187,9 @@ export default function RootLayout({
             __html: JSON.stringify({
               "@context": "https://schema.org",
               "@type": "Organization",
-              name: "노모어매뉴얼",
-              url: "https://nomoremanual-class2.vercel.app",
-              logo: "https://nomoremanual-class2.vercel.app/og-image.png",
+              name: "솔바드",
+              url: "https://nomoremanual-class3.vercel.app",
+              logo: "https://nomoremanual-class3.vercel.app/og-image.png",
               sameAs: [
                 "https://www.youtube.com/@nomoremanual",
               ],

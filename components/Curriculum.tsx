@@ -89,7 +89,7 @@ export default function Curriculum() {
 
         {/* 섹션 제목 — em 부분만 accent 색상 */}
         <h2 className="font-[family-name:var(--font-display)] text-[clamp(26px,5vw,36px)] leading-[1.3] tracking-tight text-[#1A1A1A] mb-4">
-          2.5시간 × 4회 = <em className="not-italic text-[#D4542B]">10시간 완성</em>
+          2시간 × 4회 = <em className="not-italic text-[#D4542B]">8시간 완성</em>
         </h2>
 
         {/* 섹션 부제목 */}

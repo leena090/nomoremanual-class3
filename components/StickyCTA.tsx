@@ -57,12 +57,12 @@ export default function StickyCTA({ onOpenModal }: StickyCTAProps) {
           className="w-full cursor-pointer rounded-xl border-none bg-[#D4542B] py-[16px] text-[16px] font-bold text-white transition-opacity duration-200 active:opacity-90"
           style={{ minHeight: "56px" }}
         >
-          10시간 뒤, 나도 1인창업 대표님 →
+          8시간 뒤, 나도 1인창업 대표님 →
         </button>
 
         {/* 서브카피 — 희소성 + 신뢰 */}
         <p className="mt-1.5 text-center text-[0.8rem]" style={{ color: "rgba(255,255,255,0.5)" }}>
-          선착순 30명 · 100% 환불 보장
+          선착순 마감 · 100% 환불 보장
         </p>
       </div>
     </div>

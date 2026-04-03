@@ -7,7 +7,7 @@ export default function Footer() {
     <footer className="bg-[#F0EDE5] py-10 text-center">
       <div className="mx-auto max-w-[720px] px-6 text-[13px] leading-[2] text-[#6B6B6B]">
         {/* 회사명 */}
-        <p>노모어매뉴얼 AI주식회사</p>
+        <p>솔바드 · 노모어매뉴얼</p>
 
         {/* 대표자 및 사업자등록번호 */}
         <p>대표: 이PD · 사업자등록번호: 000-00-00000</p>
@@ -52,7 +52,7 @@ export default function Footer() {
         </div>
 
         {/* 저작권 표시 */}
-        <p className="mt-4">© 2026 노모어매뉴얼. All rights reserved.</p>
+        <p className="mt-4">© 2026 솔바드. All rights reserved.</p>
       </div>
     </footer>
   );

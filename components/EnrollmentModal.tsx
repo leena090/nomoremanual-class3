@@ -4,9 +4,10 @@ import { useState, type FormEvent } from "react";
 import type { EnrollmentFormData } from "@/types/enrollment";
 
 /**
- * EnrollmentModal — 수강 신청 모달 (클라이언트 컴포넌트)
- * - 오버레이 + 모달 카드 구조
- * - 폼 검증 → API 호출 → 토스페이먼츠 결제 또는 목업 리다이렉트
+ * EnrollmentModal — 솔바드 3기 수강 신청 모달
+ * - 신청 폼 → API 호출 → 신청 완료 페이지로 이동
+ * - 토스페이먼츠 결제 제거, 신청 접수 방식
+ * - 미출석 영상 대체 동의 체크박스 추가
  */
 interface EnrollmentModalProps {
   isOpen: boolean;
@@ -30,6 +31,9 @@ export default function EnrollmentModal({
     goal: "",
   });
 
+  /* 미출석 영상 대체 동의 상태 */
+  const [agreeAbsence, setAgreeAbsence] = useState(false);
+
   /* 필드별 에러 메시지 */
   const [errors, setErrors] = useState<Record<string, string>>({});
 
@@ -41,33 +45,33 @@ export default function EnrollmentModal({
 
   /**
    * 폼 검증 — 모든 필수 필드 확인
-   * @returns 에러가 없으면 true
    */
   const validate = (): boolean => {
     const newErrors: Record<string, string> = {};
 
-    /* 이름 필수 */
     if (!formData.name.trim()) {
       newErrors.name = "이름을 입력해주세요.";
     }
 
-    /* 이메일 필수 + 형식 */
     if (!formData.email.trim()) {
       newErrors.email = "이메일을 입력해주세요.";
     } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email)) {
       newErrors.email = "올바른 이메일 형식을 입력해주세요.";
     }
 
-    /* 전화번호 필수 + 010 패턴 */
     if (!formData.phone.trim()) {
       newErrors.phone = "전화번호를 입력해주세요.";
     } else if (!PHONE_REGEX.test(formData.phone)) {
       newErrors.phone = "010-0000-0000 형식으로 입력해주세요.";
     }
 
-    /* 관심 트랙 필수 */
     if (!formData.track) {
       newErrors.track = "관심 트랙을 선택해주세요.";
+    }
+
+    /* 미출석 동의 필수 */
+    if (!agreeAbsence) {
+      newErrors.absence = "미출석 시 영상 대체에 동의해주세요.";
     }
 
     setErrors(newErrors);
@@ -76,12 +80,10 @@ export default function EnrollmentModal({
 
   /**
    * 폼 제출 핸들러
-   * 1. 검증 → 2. API 호출 → 3. 결제 SDK or mock 리다이렉트
+   * 1. 검증 → 2. API 호출 → 3. 성공 페이지 이동
    */
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
-
-    /* 검증 실패 시 리턴 */
     if (!validate()) return;
 
     setIsLoading(true);
@@ -100,30 +102,8 @@ export default function EnrollmentModal({
         return;
       }
 
-      const orderId = data.orderId;
-      const clientKey = process.env.NEXT_PUBLIC_TOSS_CLIENT_KEY;
-
-      /* 토스 클라이언트 키가 설정되어 있고 더미가 아닌 경우 → 실제 결제 */
-      if (clientKey && clientKey !== "your-client-key") {
-        /* TossPayments SDK 동적 로드 */
-        const { loadTossPayments } = await import("@tosspayments/tosspayments-sdk");
-        const tossPayments = await loadTossPayments(clientKey);
-        const payment = tossPayments.payment({ customerKey: orderId });
-
-        /* 카드 결제 요청 */
-        await payment.requestPayment({
-          method: "CARD",
-          amount: { currency: "KRW", value: 385000 },
-          orderId,
-          orderName: "클로드 마스터클래스 2기",
-          successUrl: `${window.location.origin}/success`,
-          failUrl: `${window.location.origin}/fail`,
-        });
-      } else {
-        /* 목업 모드 — 성공 페이지로 바로 이동 */
-        alert("신청이 완료되었습니다! (테스트 모드)");
-        window.location.href = `/success?orderId=MOCK&paymentKey=MOCK&amount=385000`;
-      }
+      /* 신청 완료 페이지로 이동 */
+      window.location.href = `/success?orderId=${data.orderId}`;
     } catch (err) {
       console.error("신청 처리 중 오류:", err);
       setErrors({ submit: "신청 처리 중 오류가 발생했습니다." });
@@ -133,12 +113,12 @@ export default function EnrollmentModal({
   };
 
   return (
-    /* 오버레이 — 클릭 시 모달 닫기 */
+    /* 오버레이 */
     <div
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/50"
       onClick={onClose}
     >
-      {/* 모달 카드 — 이벤트 전파 차단으로 내부 클릭 시 닫힘 방지 */}
+      {/* 모달 카드 */}
       <div
         className="mx-4 w-full max-w-md overflow-y-auto rounded-2xl bg-white"
         style={{ maxHeight: "90vh" }}
@@ -150,9 +130,8 @@ export default function EnrollmentModal({
             className="text-[20px] font-bold text-[#1A1A1A]"
             style={{ fontFamily: "var(--font-display)" }}
           >
-            클로드 마스터클래스 2기 신청
+            솔바드 3기 수강 신청
           </h2>
-          {/* 닫기 버튼 */}
           <button
             onClick={onClose}
             className="flex h-8 w-8 cursor-pointer items-center justify-center rounded-full border-none bg-transparent text-[20px] text-[#6B6B6B] transition-colors hover:bg-[#F5E6D3]"
@@ -160,6 +139,13 @@ export default function EnrollmentModal({
           >
             ✕
           </button>
+        </div>
+
+        {/* ── 수업 일정 안내 ── */}
+        <div className="mx-6 mt-5 rounded-xl bg-[#FFF8F5] p-4 text-[13px] text-[#6B6B6B]">
+          <p className="font-bold text-[#D4542B] mb-1">수업 일정</p>
+          <p>1회 4/17(금) · 2회 4/21(화) · 3회 4/24(금) · 4회 4/28(월)</p>
+          <p>매회 21:30~23:30 (2시간)</p>
         </div>
 
         {/* ── 폼 영역 ── */}
@@ -273,7 +259,7 @@ export default function EnrollmentModal({
             </select>
           </div>
 
-          {/* 수강 목표 (선택, 최대 200자) */}
+          {/* 수강 목표 (선택) */}
           <div>
             <label className="mb-1.5 block text-[14px] font-medium text-[#2D2D2D]">
               수강 목표
@@ -281,7 +267,6 @@ export default function EnrollmentModal({
             <textarea
               value={formData.goal || ""}
               onChange={(e) => {
-                /* 200자 제한 */
                 if (e.target.value.length <= 200) {
                   setFormData({ ...formData, goal: e.target.value });
                 }
@@ -290,10 +275,28 @@ export default function EnrollmentModal({
               rows={3}
               placeholder="이 강의를 통해 이루고 싶은 목표를 적어주세요"
             />
-            {/* 글자 수 카운터 */}
             <p className="mt-1 text-right text-[12px] text-[#6B6B6B]">
               {(formData.goal || "").length}/200
             </p>
+          </div>
+
+          {/* ── 미출석 영상 대체 동의 ── */}
+          <div className="rounded-lg border border-[#E0DDD5] bg-[#FAFAF7] p-4">
+            <label className="flex items-start gap-3 cursor-pointer">
+              <input
+                type="checkbox"
+                checked={agreeAbsence}
+                onChange={(e) => setAgreeAbsence(e.target.checked)}
+                className="mt-1 h-4 w-4 accent-[#D4542B] shrink-0"
+              />
+              <span className="text-[13px] text-[#4A4A4A] leading-[1.6]">
+                미출석 시 해당 회차 녹화 영상으로 수업이 대체되는 것에 동의합니다.
+                <span className="text-[#D4542B]"> *</span>
+              </span>
+            </label>
+            {errors.absence && (
+              <p className="mt-2 text-[13px] text-red-500">{errors.absence}</p>
+            )}
           </div>
 
           {/* 서버 에러 메시지 */}
@@ -303,15 +306,20 @@ export default function EnrollmentModal({
             </p>
           )}
 
-          {/* 결제 버튼 */}
+          {/* 신청 버튼 */}
           <button
             type="submit"
             disabled={isLoading}
             className="w-full cursor-pointer rounded-xl border-none bg-[#D4542B] py-[14px] text-[17px] font-bold text-white transition-opacity duration-200 hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-60"
             style={{ minHeight: "48px" }}
           >
-            {isLoading ? "처리 중..." : "385,000원 결제하기"}
+            {isLoading ? "처리 중..." : "수강 신청하기"}
           </button>
+
+          {/* 안내 문구 */}
+          <p className="text-center text-[12px] text-[#6B6B6B]">
+            신청 후 결제 안내 이메일이 발송됩니다
+          </p>
         </form>
       </div>
     </div>

@@ -133,12 +133,12 @@ export default function ExitIntentPopup({ onOpenModal }: ExitIntentPopupProps) {
           className="w-full cursor-pointer rounded-xl border-none bg-[#D4542B] py-[16px] text-[16px] font-bold text-white transition-transform duration-200 hover:-translate-y-0.5"
           style={{ boxShadow: "0 4px 20px rgba(212,84,43,0.3)" }}
         >
-          10시간 뒤, 나도 1인창업 대표님 →
+          8시간 뒤, 나도 1인창업 대표님 →
         </button>
 
         {/* 서브카피 */}
         <p className="mt-2 text-[0.8rem] text-[#6B6B6B]">
-          선착순 30명 · 100% 환불 보장
+          선착순 마감 · 100% 환불 보장
         </p>
       </div>
     </div>

@@ -71,7 +71,7 @@ export default function Hero({ onOpenModal }: HeroProps) {
             }}
           >
             <span className="inline-block h-2 w-2 animate-pulse rounded-full bg-[#F5C36A]" />
-            2기 모집 중 — 선착순 30명
+            3기 모집 중
           </div>
         </ScrollReveal>
 
@@ -98,14 +98,14 @@ export default function Hero({ onOpenModal }: HeroProps) {
           >
             코워크, 클로드 코드, 웹 활용까지
             <br />
-            10시간 만에 AI 직원 한 명 고용하는 법
+            8시간 만에 AI 직원 한 명 고용하는 법
           </p>
         </ScrollReveal>
 
         {/* 소셜 프루프 */}
         <ScrollReveal delay={0.2}>
           <p className="mb-3 text-[0.82rem]" style={{ color: "rgba(255,255,255,0.55)" }}>
-            ⭐ 1기 만족도 4.9/5.0 · 전원 완주 · 100% 환불 보장
+            ⭐ 1·2기 만족도 4.9/5.0 · 전원 완주 · 100% 환불 보장
           </p>
         </ScrollReveal>
 
@@ -130,7 +130,7 @@ export default function Hero({ onOpenModal }: HeroProps) {
                 animation: "ctaFloat 7s ease-in-out 2.5s forwards",
               }}
             >
-              10시간 뒤, 나도 1인창업 대표님 →
+              8시간 뒤, 나도 1인창업 대표님 →
             </button>
           </div>
         </ScrollReveal>
@@ -156,7 +156,7 @@ export default function Hero({ onOpenModal }: HeroProps) {
             {/* 1기 완판 */}
             <div className="text-center">
               <div className="text-[22px] text-white max-[600px]:text-[18px]" style={{ fontFamily: "var(--font-display)" }}>
-                1기 완판
+                1·2기 완판
               </div>
               <div className="text-[11px]" style={{ color: "rgba(255,255,255,0.45)" }}>전원 완주</div>
             </div>
