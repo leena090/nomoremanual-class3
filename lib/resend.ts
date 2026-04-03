@@ -3,7 +3,8 @@ import { getEmailTemplate } from "./email-template";
 
 /* ── Resend 클라이언트 초기화 ── */
 const RESEND_API_KEY = process.env.RESEND_API_KEY || "";
-const RESEND_FROM = process.env.RESEND_FROM_EMAIL || "noreply@nomoremanual.com";
+/* 도메인 미인증 시 Resend 기본 발신 주소 사용 */
+const RESEND_FROM = process.env.RESEND_FROM_EMAIL || "onboarding@resend.dev";
 
 /* Mock 모드 여부 */
 const isMockMode =
