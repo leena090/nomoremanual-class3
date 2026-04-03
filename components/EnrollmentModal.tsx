@@ -144,7 +144,7 @@ export default function EnrollmentModal({
         {/* ── 수업 일정 안내 ── */}
         <div className="mx-6 mt-5 rounded-xl bg-[#FFF8F5] p-4 text-[13px] text-[#6B6B6B]">
           <p className="font-bold text-[#D4542B] mb-1">수업 일정</p>
-          <p>1회 4/17(금) · 2회 4/21(화) · 3회 4/24(금) · 4회 4/28(월)</p>
+          <p>1회 4/17(금) · 2회 4/21(화) · 3회 4/24(금) · 4회 4/28(화)</p>
           <p>매회 21:30~23:30 (2시간)</p>
         </div>
 

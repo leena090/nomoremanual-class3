@@ -60,7 +60,7 @@ export function getEmailTemplate(params: EmailTemplateParams): string {
         <p style="margin:0;">1회차: 4/17(금) 21:30~23:30</p>
         <p style="margin:0;">2회차: 4/21(화) 21:30~23:30</p>
         <p style="margin:0;">3회차: 4/24(금) 21:30~23:30</p>
-        <p style="margin:0;">4회차: 4/28(월) 21:30~23:30</p>
+        <p style="margin:0;">4회차: 4/28(화) 21:30~23:30</p>
       </div>
 
       <!-- 다음 단계 -->

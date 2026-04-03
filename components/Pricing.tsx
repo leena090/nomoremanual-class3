@@ -118,7 +118,7 @@ export default function Pricing({ onOpenModal }: PricingProps) {
               <p>1회차: 4/17(금) 21:30~23:30</p>
               <p>2회차: 4/21(화) 21:30~23:30</p>
               <p>3회차: 4/24(금) 21:30~23:30</p>
-              <p>4회차: 4/28(월) 21:30~23:30</p>
+              <p>4회차: 4/28(화) 21:30~23:30</p>
             </div>
 
             <p className="text-[13px] text-[#6B6B6B] mt-3">
