@@ -66,7 +66,7 @@ function SuccessContent() {
             결제 안내
           </h3>
           <p className="text-[14px] text-[#6B6B6B] leading-[1.8]">
-            카카오톡 <strong className="text-[#2D2D2D]">@nomoremanual</strong>로
+            디스코드 <strong className="text-[#2D2D2D]">솔바드 문의방</strong>에서
             <br />
             결제 방법 안내를 받으실 수 있습니다.
             <br />
@@ -89,7 +89,7 @@ function SuccessContent() {
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-[#2E7D32]">2.</span>
-              <span>입금 확인 후 카카오톡으로 수강 안내를 보내드립니다.</span>
+              <span>입금 확인 후 디스코드로 수강 안내를 보내드립니다.</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-[#2E7D32]">3.</span>
@@ -112,7 +112,7 @@ function SuccessContent() {
 
         {/* 문의 안내 */}
         <p className="mt-4 text-[13px] text-[#6B6B6B]">
-          궁금한 점은 카카오톡 @nomoremanual로 문의해주세요.
+          궁금한 점은 디스코드 솔바드 문의방으로 문의해주세요.
         </p>
 
         {/* 홈으로 */}
