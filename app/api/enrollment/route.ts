@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin, isMockMode } from "@/lib/supabase";
+import { insertEnrollment, isMockMode } from "@/lib/db";
 import { sendConfirmationEmail } from "@/lib/resend";
 
 /* ── POST: 솔바드 3기 수강 신청 접수 API ── */
@@ -34,7 +34,31 @@ export async function POST(request: Request) {
         orderId,
       });
 
-      /* Mock 모드에서도 이메일 발송 시도 */
+      return NextResponse.json({ success: true, orderId });
+    }
+
+    /* ── 실제 모드: Neon Postgres DB에 신청 데이터 삽입 ── */
+    const result = await insertEnrollment({
+      name,
+      email,
+      phone,
+      track,
+      experience: experience || null,
+      goal: goal || null,
+      order_id: orderId,
+      amount: 285000,
+      cohort: 3,
+    });
+
+    if (!result.success) {
+      return NextResponse.json(
+        { success: false, message: "신청 접수에 실패했습니다." },
+        { status: 500 }
+      );
+    }
+
+    /* 신청 확인 이메일 발송 (설정된 경우에만) */
+    try {
       await sendConfirmationEmail({
         name,
         email,
@@ -42,42 +66,10 @@ export async function POST(request: Request) {
         amount: 285000,
         track,
       });
-
-      return NextResponse.json({ success: true, orderId });
+    } catch (emailError) {
+      /* 이메일 실패해도 신청 자체는 성공 처리 */
+      console.error("이메일 발송 실패 (신청은 정상 처리됨):", emailError);
     }
-
-    /* ── 실제 모드: DB에 신청 데이터 삽입 ── */
-    const { error: insertError } = await supabaseAdmin
-      .from("enrollments")
-      .insert({
-        name,
-        email,
-        phone,
-        track,
-        experience: experience || null,
-        goal: goal || null,
-        order_id: orderId,
-        amount: 285000,
-        payment_status: "pending",
-        cohort: 3,
-      });
-
-    if (insertError) {
-      console.error("신청 데이터 삽입 오류:", insertError);
-      return NextResponse.json(
-        { success: false, message: "신청 접수에 실패했습니다." },
-        { status: 500 }
-      );
-    }
-
-    /* 신청 확인 이메일 발송 */
-    await sendConfirmationEmail({
-      name,
-      email,
-      orderId,
-      amount: 285000,
-      track,
-    });
 
     /* 성공 응답 반환 */
     return NextResponse.json({ success: true, orderId });

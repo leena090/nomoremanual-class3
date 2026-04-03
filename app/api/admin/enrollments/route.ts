@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { supabaseAdmin, isMockMode } from "@/lib/supabase";
+import { getEnrollments, isMockMode } from "@/lib/db";
 import type { Enrollment, PaymentStatus } from "@/types/enrollment";
 
 /* ── Mock 데이터: DB 없을 때 테스트용 더미 신청자 3명 ── */
@@ -81,42 +81,19 @@ export async function GET(request: Request) {
     /* ── Mock 모드: 더미 데이터 반환 ── */
     if (isMockMode) {
       let filtered = MOCK_ENROLLMENTS;
-
-      /* 상태 필터가 있으면 해당 상태만 반환 */
       if (statusFilter) {
         filtered = MOCK_ENROLLMENTS.filter(
           (e) => e.payment_status === statusFilter
         );
       }
-
       return NextResponse.json({ enrollments: filtered });
     }
 
-    /* ── 실제 모드: Supabase에서 신청자 목록 조회 ── */
-    let query = supabaseAdmin
-      .from("enrollments")
-      .select("*")
-      .order("created_at", { ascending: false });
+    /* ── 실제 모드: Neon Postgres에서 신청자 목록 조회 ── */
+    const data = await getEnrollments(statusFilter || undefined);
 
-    /* 상태 필터가 있으면 조건 추가 */
-    if (statusFilter) {
-      query = query.eq("payment_status", statusFilter);
-    }
-
-    const { data, error } = await query;
-
-    if (error) {
-      console.error("신청자 목록 조회 오류:", error);
-      return NextResponse.json(
-        { success: false, message: "신청자 목록 조회에 실패했습니다." },
-        { status: 500 }
-      );
-    }
-
-    /* 신청자 목록 반환 */
     return NextResponse.json({ enrollments: data || [] });
   } catch (error) {
-    /* 예상치 못한 에러 처리 */
     console.error("관리자 신청자 목록 API 오류:", error);
     return NextResponse.json(
       { success: false, message: "서버 오류가 발생했습니다." },

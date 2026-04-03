@@ -66,11 +66,11 @@ function SuccessContent() {
             결제 안내
           </h3>
           <p className="text-[14px] text-[#6B6B6B] leading-[1.8]">
-            이메일로 결제 방법 안내가 발송되었습니다.
+            카카오톡 <strong className="text-[#2D2D2D]">@nomoremanual</strong>로
             <br />
-            <strong className="text-[#2D2D2D]">현금이체</strong> 또는 <strong className="text-[#2D2D2D]">카드결제</strong> 중
+            결제 방법 안내를 받으실 수 있습니다.
             <br />
-            편한 방법으로 결제해주세요.
+            <strong className="text-[#2D2D2D]">현금이체</strong> 또는 <strong className="text-[#2D2D2D]">카드결제</strong> 가능합니다.
           </p>
           <p className="mt-2 text-[13px] text-[#6B6B6B]">
             현금영수증 발행 가능합니다.
@@ -85,15 +85,15 @@ function SuccessContent() {
           <ul className="space-y-2 text-[14px] text-[#6B6B6B]">
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-[#2E7D32]">1.</span>
-              <span>이메일로 결제 안내서가 발송됩니다.</span>
+              <span>위 계좌로 수강료를 입금해주세요.</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-[#2E7D32]">2.</span>
-              <span>결제 완료 후 수강 안내 메일을 보내드립니다.</span>
+              <span>입금 확인 후 카카오톡으로 수강 안내를 보내드립니다.</span>
             </li>
             <li className="flex items-start gap-2">
               <span className="mt-0.5 text-[#2E7D32]">3.</span>
-              <span>1회차(4/17 금 21:30) 전까지 클로드 Pro 구독을 준비해주세요.</span>
+              <span>1회차(4/17 목 21:30) 전까지 클로드 Pro 구독을 준비해주세요.</span>
             </li>
           </ul>
         </div>
