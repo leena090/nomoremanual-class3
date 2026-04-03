@@ -98,17 +98,15 @@ function SuccessContent() {
           </ul>
         </div>
 
-        {/* 카카오 오픈챗 링크 */}
-        {openchatUrl && (
-          <a
-            href={openchatUrl}
-            target="_blank"
-            rel="noopener noreferrer"
-            className="mb-4 inline-block w-full rounded-xl bg-[#FEE500] px-8 py-3 text-[15px] font-bold text-[#1A1A1A] transition-opacity hover:opacity-90"
-          >
-            카카오 오픈챗 입장하기
-          </a>
-        )}
+        {/* 디스코드 입장 버튼 */}
+        <a
+          href="https://discord.gg/MEX7vNTj"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="mb-4 inline-block w-full rounded-xl bg-[#5865F2] px-8 py-3 text-[15px] font-bold text-white transition-opacity hover:opacity-90"
+        >
+          디스코드 솔바드 입장하기
+        </a>
 
         {/* 문의 안내 */}
         <p className="mt-4 text-[13px] text-[#6B6B6B]">
