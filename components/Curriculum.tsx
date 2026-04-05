@@ -13,6 +13,7 @@ import { useState } from "react";
 import { CaretDown, ArrowRight } from "@phosphor-icons/react";
 import { motion, AnimatePresence } from "framer-motion";
 import { ScrollReveal } from "./ScrollReveal";
+import Link from "next/link";
 
 /* 커리큘럼 주차별 데이터 타입 정의 */
 interface WeekData {
@@ -92,10 +93,18 @@ export default function Curriculum() {
           2시간 × 4회 = <em className="not-italic text-[#D4542B]">8시간 완성</em>
         </h2>
 
-        {/* 섹션 부제목 */}
-        <p className="text-[#6B6B6B] mb-8">
-          매 회차마다 &ldquo;우와!&rdquo; 하는 순간이 최소 3번은 나옵니다
-        </p>
+        {/* 섹션 부제목 + 상세 보기 링크 */}
+        <div className="flex items-end justify-between mb-8">
+          <p className="text-[#6B6B6B]">
+            매 회차마다 &ldquo;우와!&rdquo; 하는 순간이 최소 3번은 나옵니다
+          </p>
+          <Link
+            href="/curriculum"
+            className="shrink-0 ml-4 text-[13px] font-bold text-[#D4542B] hover:underline"
+          >
+            자세히 보기 →
+          </Link>
+        </div>
 
         {/* 4주차 아코디언 리스트 — 각 카드에 ScrollReveal 스태거 적용 */}
         {weeks.map((week, idx) => (
