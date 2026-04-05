@@ -579,7 +579,7 @@ export default function CurriculumPage() {
             솔바드 3기
           </span>
           <a
-            href="#apply"
+            href="https://www.latpeed.com/products/FQsTQ"
             className="inline-flex items-center gap-1.5 rounded-full bg-[#D4542B] px-5 py-2 text-[13px] font-bold text-white hover:bg-[#C04425] transition-colors"
           >
             수강 신청
@@ -988,7 +988,7 @@ export default function CurriculumPage() {
               궁금한 건 다 풀리셨나요?
             </p>
             <a
-              href="#apply"
+              href="https://www.latpeed.com/products/FQsTQ"
               className="inline-flex items-center gap-2 rounded-xl bg-[#D4542B] px-10 py-4 text-[17px] font-bold text-white hover:bg-[#C04425] transition-all hover:-translate-y-0.5 hover:shadow-[0_8px_30px_rgba(212,84,43,0.4)]"
               style={{ fontFamily: "var(--font-body)" }}
             >
