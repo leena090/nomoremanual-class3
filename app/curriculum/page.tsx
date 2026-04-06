@@ -695,7 +695,7 @@ export default function CurriculumPage() {
                 ))}
               </div>
               <p className="text-[13px] text-[#999] text-center mt-4">
-                매 회 120분 (2시간) · 저녁 8시 시작
+                매 회 120분 (2시간) · 저녁 9시 30분 시작
               </p>
             </div>
           </ScrollReveal>
