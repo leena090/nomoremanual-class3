@@ -25,6 +25,7 @@ import {
   EyeSlash,
   Bank,
   Receipt,
+  CalendarBlank,
 } from "@phosphor-icons/react";
 import { ScrollReveal } from "@/components/ScrollReveal";
 
@@ -637,6 +638,50 @@ export default function CurriculumPage() {
                   </span>
                 </div>
               ))}
+            </div>
+          </ScrollReveal>
+
+          {/* 수업 일정 — 4회차 날짜 표시 */}
+          <ScrollReveal delay={0.2}>
+            <div className="mt-8 rounded-2xl border-2 border-[#D4542B]/30 bg-gradient-to-r from-[#FFF0EB] to-white p-6 sm:p-8">
+              <div className="flex items-center justify-center gap-2 mb-5">
+                <CalendarBlank size={22} weight="fill" className="text-[#D4542B]" />
+                <h2 className="font-[family-name:var(--font-display)] text-[20px] sm:text-[22px] text-[#1A1A1A]">
+                  수업 일정
+                </h2>
+              </div>
+              <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                {[
+                  { week: "1회차", date: "4/17", day: "금", color: "#D4542B" },
+                  { week: "2회차", date: "4/21", day: "화", color: "#2E7D32" },
+                  { week: "3회차", date: "4/24", day: "금", color: "#5B21B6" },
+                  { week: "4회차", date: "4/28", day: "화", color: "#B45309" },
+                ].map((s) => (
+                  <div
+                    key={s.week}
+                    className="relative flex flex-col items-center rounded-xl bg-white border border-[#E0DDD5] py-4 px-3 shadow-sm"
+                  >
+                    {/* 회차 뱃지 */}
+                    <span
+                      className="text-[11px] font-bold text-white px-2.5 py-0.5 rounded-full mb-2"
+                      style={{ backgroundColor: s.color }}
+                    >
+                      {s.week}
+                    </span>
+                    {/* 날짜 */}
+                    <span className="font-[family-name:var(--font-display)] text-[24px] sm:text-[28px] text-[#1A1A1A] leading-none">
+                      {s.date}
+                    </span>
+                    {/* 요일 */}
+                    <span className="text-[13px] font-medium text-[#6B6B6B] mt-1">
+                      {s.day}요일
+                    </span>
+                  </div>
+                ))}
+              </div>
+              <p className="text-[13px] text-[#999] text-center mt-4">
+                매 회 120분 (2시간) · 저녁 8시 시작
+              </p>
             </div>
           </ScrollReveal>
         </div>

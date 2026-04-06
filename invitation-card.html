@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'Noto Sans KR', 'Inter', sans-serif;
+  background: #0a0a0a;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100vh;
+  padding: 20px;
+}
+
+.card {
+  width: 1080px;
+  height: 1080px;
+  background: #111111;
+  border-radius: 24px;
+  overflow: hidden;
+  position: relative;
+  border: 1px solid rgba(255,255,255,0.06);
+  display: flex;
+  flex-direction: column;
+}
+
+/* 상단 그라데이션 라인 */
+.card::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: linear-gradient(90deg, #6366f1, #8b5cf6, #a78bfa);
+}
+
+.card-inner {
+  padding: 72px 68px 60px;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* 배지 */
+.badge {
+  display: inline-block;
+  padding: 8px 20px;
+  background: rgba(99, 102, 241, 0.12);
+  border: 1px solid rgba(99, 102, 241, 0.25);
+  border-radius: 100px;
+  font-size: 14px;
+  font-weight: 500;
+  color: #a5b4fc;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  margin-bottom: 32px;
+  width: fit-content;
+}
+
+/* 메인 타이틀 */
+.title {
+  font-size: 48px;
+  font-weight: 900;
+  color: #ffffff;
+  line-height: 1.3;
+  margin-bottom: 8px;
+  letter-spacing: -0.5px;
+}
+
+.title .highlight {
+  background: linear-gradient(135deg, #818cf8, #c084fc);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.subtitle {
+  font-size: 18px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 300;
+  margin-bottom: 36px;
+  line-height: 1.6;
+}
+
+/* 커리큘럼 그리드 */
+.curriculum {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+
+.lesson {
+  padding: 24px 26px;
+  background: rgba(255,255,255,0.03);
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 14px;
+}
+
+.lesson-num {
+  font-size: 12px;
+  font-weight: 600;
+  color: #818cf8;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 10px;
+}
+
+.lesson-title {
+  font-size: 18px;
+  font-weight: 700;
+  color: #f0f0f0;
+  margin-bottom: 8px;
+  line-height: 1.4;
+}
+
+.lesson-desc {
+  font-size: 13px;
+  color: rgba(255,255,255,0.35);
+  line-height: 1.6;
+  font-weight: 300;
+}
+
+/* 하단 영역 */
+.bottom-area {
+  margin-top: auto;
+}
+
+/* 정보 바 */
+.info-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 28px 0;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-bottom: 28px;
+}
+
+.info-item {
+  text-align: center;
+  flex: 1;
+}
+
+.info-item:not(:last-child) {
+  border-right: 1px solid rgba(255,255,255,0.06);
+}
+
+.info-value {
+  font-size: 22px;
+  font-weight: 700;
+  color: #ffffff;
+  margin-bottom: 6px;
+}
+
+.info-value .small {
+  font-size: 15px;
+  font-weight: 400;
+  color: rgba(255,255,255,0.4);
+}
+
+.info-label {
+  font-size: 12px;
+  color: rgba(255,255,255,0.3);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+}
+
+/* 수강후기 별점 */
+.rating {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
+}
+
+.stars {
+  color: #fbbf24;
+  font-size: 16px;
+  letter-spacing: 2px;
+}
+
+.rating-text {
+  font-size: 14px;
+  color: rgba(255,255,255,0.4);
+  font-weight: 400;
+}
+
+.rating-score {
+  font-weight: 700;
+  color: #fbbf24;
+}
+
+/* 포함사항 */
+.includes {
+  display: flex;
+  gap: 28px;
+  justify-content: center;
+  margin-bottom: 32px;
+}
+
+.include-tag {
+  font-size: 13px;
+  color: rgba(255,255,255,0.45);
+  font-weight: 400;
+}
+
+.include-tag::before {
+  content: '+ ';
+  color: #818cf8;
+  font-weight: 600;
+}
+
+/* 수업 정보 */
+.session-info {
+  text-align: center;
+  font-size: 14px;
+  color: rgba(255,255,255,0.45);
+  font-weight: 400;
+  letter-spacing: 0.5px;
+  margin-bottom: 0;
+}
+
+/* CTA */
+.cta-area {
+  text-align: center;
+}
+
+.cta-text {
+  font-size: 20px;
+  color: rgba(255,255,255,0.5);
+  font-weight: 500;
+}
+
+.cta-text strong {
+  color: #a5b4fc;
+  font-weight: 700;
+  font-size: 22px;
+}
+</style>
+</head>
+<body>
+<div class="card">
+  <div class="card-inner">
+
+    <div class="badge">3rd Cohort · 수강생 모집</div>
+
+    <div class="title">
+      클로드? 그게 뭔데?<br>
+      <span class="highlight">그걸로 뭘 할 수 있는데?</span>
+    </div>
+    <div class="subtitle">1인창업이 가능한 이유를 탐구하고, 직접 만들어보는 8시간</div>
+
+    <div class="curriculum">
+      <div class="lesson">
+        <div class="lesson-num">Lesson 01</div>
+        <div class="lesson-title">클로드 마스터</div>
+        <div class="lesson-desc">AI 특징 이해 · 개인 맞춤 세팅<br>코워크 완전정복 · 실전 5가지 실습</div>
+      </div>
+      <div class="lesson">
+        <div class="lesson-num">Lesson 02</div>
+        <div class="lesson-title">아티팩트 & 코워크 심화</div>
+        <div class="lesson-desc">나만의 업무 대시보드 만들기<br>스킬 장착 · 노션/캘린더 연동</div>
+      </div>
+      <div class="lesson">
+        <div class="lesson-num">Lesson 03</div>
+        <div class="lesson-title">클로드 코드</div>
+        <div class="lesson-desc">CLAUDE.md · MCP · 스킬 체이닝<br>1인 오피스 시연 (부동산 중개업)</div>
+      </div>
+      <div class="lesson">
+        <div class="lesson-num">Lesson 04</div>
+        <div class="lesson-title">리모션 & 확장 활용</div>
+        <div class="lesson-desc">코드로 영상 만들기 · 랜딩페이지<br>전자책 제작 · 1인 창업 로드맵</div>
+      </div>
+    </div>
+
+    <div class="session-info">120분 × 총 4회 · 실시간 수업</div>
+
+    <div class="rating">
+      <span class="stars">★★★★★</span>
+      <span class="rating-text">1·2기 졸업한 수강생들이 인정한 강의</span>
+    </div>
+
+    <div class="cta-area">
+      <div class="cta-text">자세한 사항은 아래 링크 · <strong>nomoremanual-class3.vercel.app/curriculum</strong></div>
+    </div>
+
+  </div>
+</div>
+</body>
+</html>
