@@ -40,6 +40,7 @@ interface SessionData {
   number: number; // 강의 번호
   title: string; // 강의 제목
   subtitle: string; // 한 줄 설명
+  date: string; // 수업 날짜 (예: "4/17 (금)")
   icon: React.ReactNode; // 아이콘
   gradient: string; // 카드 상단 그라데이션
   accentColor: string; // 강 고유 색상
@@ -53,6 +54,7 @@ const sessions: SessionData[] = [
     number: 1,
     title: "클로드 마스터",
     subtitle: "이해부터 실전 활용까지",
+    date: "4/17 (금)",
     icon: <Lightning size={28} weight="fill" />,
     gradient: "from-[#D4542B]/10 to-transparent",
     accentColor: "#D4542B",
@@ -99,6 +101,7 @@ const sessions: SessionData[] = [
     number: 2,
     title: "아티팩트 & 코워크 심화",
     subtitle: "직접 만들고 자동화하기",
+    date: "4/21 (화)",
     icon: <Desktop size={28} weight="fill" />,
     gradient: "from-[#2E7D32]/10 to-transparent",
     accentColor: "#2E7D32",
@@ -145,6 +148,7 @@ const sessions: SessionData[] = [
     number: 3,
     title: "클로드 코드",
     subtitle: "코딩 없이 코딩하는 법",
+    date: "4/24 (금)",
     icon: <Code size={28} weight="fill" />,
     gradient: "from-[#5B21B6]/10 to-transparent",
     accentColor: "#5B21B6",
@@ -205,6 +209,7 @@ const sessions: SessionData[] = [
     number: 4,
     title: "리모션 & 확장 활용",
     subtitle: "영상도 AI로 만든다",
+    date: "4/28 (화)",
     icon: <Video size={28} weight="fill" />,
     gradient: "from-[#B45309]/10 to-transparent",
     accentColor: "#B45309",
@@ -334,11 +339,21 @@ function SessionCard({ session, index }: { session: SessionData; index: number }
               {session.icon}
             </div>
             <div>
-              <div
-                className="text-[13px] font-bold tracking-widest uppercase mb-1"
-                style={{ color: session.accentColor }}
-              >
-                {session.number}강
+              <div className="flex items-center gap-2 mb-1">
+                <span
+                  className="text-[13px] font-bold tracking-widest uppercase"
+                  style={{ color: session.accentColor }}
+                >
+                  {session.number}강
+                </span>
+                {/* 수업 날짜 뱃지 */}
+                <span
+                  className="inline-flex items-center gap-1 rounded-full px-2.5 py-0.5 text-[12px] font-bold text-white"
+                  style={{ backgroundColor: session.accentColor }}
+                >
+                  <CalendarBlank size={12} weight="bold" />
+                  {session.date}
+                </span>
               </div>
               <h3 className="font-[family-name:var(--font-display)] text-[clamp(22px,4vw,28px)] leading-tight text-[#1A1A1A]">
                 {session.title}
