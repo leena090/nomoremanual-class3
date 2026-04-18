@@ -33,8 +33,10 @@
   --color-error: #b33a2e;
   --color-info: #3b6b8f;
 
-  /* Typography — 폰트는 next/font에서 주입 */
-  --font-heading-ko: var(--manage-font-heading), "Gowun Dodum", sans-serif;
+  /* Typography — 폰트는 next/font에서 주입
+     제목은 Nanum Gothic 800(Heavy)로 강하게, 부제/eyebrow는 기본 본문 400. */
+  --font-heading-ko: var(--manage-font-body), "Nanum Gothic", sans-serif;
+  --font-heading-soft: var(--manage-font-heading), "Gowun Dodum", sans-serif;
   --font-body-ko: var(--manage-font-body), "Nanum Gothic", sans-serif;
   --font-serif-ko: var(--manage-font-serif), "Noto Serif KR", serif;
   --font-mono: var(--manage-font-mono), "JetBrains Mono", ui-monospace, monospace;
@@ -131,7 +133,20 @@
 /* ── Shell (랜딩 전역 스타일 격리) ── */
 .manage-shell {
   min-height: 100vh;
-  background: var(--color-bg);
+  /* 따뜻한 페이퍼 그라데이션 — 모바일에서도 입체감 유지 */
+  background:
+    radial-gradient(
+      circle at 0% 0%,
+      var(--accent-soft) 0%,
+      transparent 40%
+    ),
+    radial-gradient(
+      circle at 100% 100%,
+      var(--color-surface-2) 0%,
+      transparent 45%
+    ),
+    linear-gradient(180deg, var(--color-bg) 0%, var(--color-surface) 100%);
+  background-attachment: fixed;
   color: var(--color-text);
   font-family: var(--font-body-ko);
   font-size: var(--fs-16);
@@ -150,10 +165,11 @@
 .manage-shell h4,
 .manage-shell h5,
 .manage-shell h6 {
-  font-family: var(--font-heading-ko);
-  font-weight: var(--fw-regular);
+  /* Nanum Gothic 800(Heavy) — native bold */
+  font-family: var(--font-body-ko);
+  font-weight: 800;
   color: var(--color-dark);
-  letter-spacing: -0.01em;
+  letter-spacing: -0.02em;
   margin: 0;
 }
 .manage-shell p {
@@ -219,8 +235,10 @@
 }
 .manage-shell .brand__title {
   font-family: var(--font-heading-ko);
+  font-weight: 800;
   font-size: 18px;
   line-height: 1.2;
+  letter-spacing: -0.02em;
 }
 .manage-shell .brand__sub {
   font-family: var(--font-mono);
@@ -410,8 +428,10 @@
 }
 .manage-shell .session-head__title {
   font-family: var(--font-heading-ko);
+  font-weight: 800;
   font-size: 40px;
   line-height: 1.15;
+  letter-spacing: -0.03em;
   color: var(--color-dark);
 }
 .manage-shell .session-head__sub {
@@ -455,8 +475,10 @@
 }
 .manage-shell .panel__head h3 {
   font-family: var(--font-heading-ko);
+  font-weight: 800;
   font-size: 20px;
   color: var(--color-dark);
+  letter-spacing: -0.02em;
 }
 .manage-shell .panel--dark .panel__head h3 {
   color: #fff;
@@ -982,9 +1004,11 @@
 }
 .manage-shell .splash__title {
   font-family: var(--font-heading-ko);
-  font-size: 32px;
+  font-weight: 800;
+  font-size: 34px;
   color: var(--color-dark);
   line-height: 1.2;
+  letter-spacing: -0.03em;
 }
 .manage-shell .splash__sub {
   font-size: 15px;
@@ -1062,8 +1086,10 @@
 }
 .manage-shell .splash__choice-label {
   font-family: var(--font-heading-ko);
+  font-weight: 800;
   font-size: 24px;
   color: var(--color-dark);
+  letter-spacing: -0.02em;
 }
 .manage-shell .splash__choice-desc {
   font-size: 13px;
@@ -1328,8 +1354,10 @@
 }
 .manage-shell .post__title {
   font-family: var(--font-heading-ko);
+  font-weight: 800;
   font-size: 22px;
   line-height: 1.3;
+  letter-spacing: -0.02em;
   color: var(--color-dark);
   margin-bottom: 10px;
 }

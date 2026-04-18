@@ -421,16 +421,19 @@ export default function ClientShell({
         <div>{page}</div>
       </main>
       <Toast msg={toast.msg} show={toast.show} />
-      <TweaksPanel
-        open={tweaksOpen}
-        setOpen={setTweaksOpen}
-        layout={layout}
-        setLayout={setLayout}
-        accent={accent}
-        setAccent={setAccent}
-        density={density}
-        setDensity={setDensity}
-      />
+      {/* Tweaks는 관리자 권한 있는 경우에만 노출 (학생에게는 숨김) */}
+      {!!adminKey && (
+        <TweaksPanel
+          open={tweaksOpen}
+          setOpen={setTweaksOpen}
+          layout={layout}
+          setLayout={setLayout}
+          accent={accent}
+          setAccent={setAccent}
+          density={density}
+          setDensity={setDensity}
+        />
+      )}
       {pickerOpen && (
         <StudentPicker
           currentName={studentName}
