@@ -421,8 +421,9 @@ export default function ClientShell({
         <div>{page}</div>
       </main>
       <Toast msg={toast.msg} show={toast.show} />
-      {/* Tweaks는 관리자 권한 있는 경우에만 노출 (학생에게는 숨김) */}
-      {!!adminKey && (
+      {/* Tweaks는 현재 관리자 모드일 때만 노출.
+         관리자가 학생 뷰로 전환해도 숨겨짐 → 학생 체험 그대로. */}
+      {mode === "admin" && (
         <TweaksPanel
           open={tweaksOpen}
           setOpen={setTweaksOpen}
