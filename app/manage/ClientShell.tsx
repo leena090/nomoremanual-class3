@@ -82,34 +82,19 @@ export default function ClientShell({
   /* ── 스플래시 노출 여부 (null = SSR 단계, 마운트 후 결정) ── */
   const [splashOpen, setSplashOpen] = useState<boolean | null>(null);
 
-  /* ── 초기 마운트: localStorage 복원 + 스플래시 결정 ── */
+  /* ── 초기 마운트: localStorage 복원. 대문은 매번 노출. ── */
   useEffect(() => {
-    const savedMode = lsGet(LS.mode, "");
-    const savedName = lsGet(LS.student, "");
-    const savedKey = lsGet(LS.adminKey, "");
-
     setActive((lsGet(LS.active, "s2") as ActiveView) || "s2");
-    setStudentName(savedName);
-    setAdminKey(savedKey);
+    setStudentName(lsGet(LS.student, ""));
+    setAdminKey(lsGet(LS.adminKey, ""));
     setLayout((lsGet(LS.layout, "top") as Layout) || "top");
     setAccent((lsGet(LS.accent, "orange") as Accent) || "orange");
     setDensity(
       (lsGet(LS.density, "comfortable") as Density) || "comfortable"
     );
-
-    /* 이전에 역할을 골랐다면 바로 복원 + 스플래시 건너뜀 */
-    if (savedName || savedKey) {
-      setMode(
-        savedMode === "admin" || savedMode === "student"
-          ? (savedMode as Mode)
-          : savedKey
-            ? "admin"
-            : "student"
-      );
-      setSplashOpen(false);
-    } else {
-      setSplashOpen(true);
-    }
+    /* 대문(스플래시)은 항상 처음에 노출. 저장된 이름/비번이 있으면
+       버튼 한 번 클릭만으로 바로 진입 (비번 재입력 없음). */
+    setSplashOpen(true);
   }, []);
 
   /* ── 변경 시 localStorage 저장 ── */
@@ -345,10 +330,13 @@ export default function ClientShell({
         data-density={density}
       >
         <SplashScreen
+          savedStudentName={studentName}
+          hasAdminKey={!!adminKey}
           onPickStudent={() => {
             setMode("student");
             setSplashOpen(false);
-            setPickerOpen(true);
+            /* 이미 저장된 이름이 있으면 picker 건너뛰고 바로 진입 */
+            if (!studentName) setPickerOpen(true);
           }}
           onPickAdmin={() => {
             if (adminKey) {

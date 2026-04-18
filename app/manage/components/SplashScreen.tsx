@@ -5,9 +5,13 @@
    한 번 선택하면 localStorage에 저장되어 재방문 시 건너뜀.
 */
 export function SplashScreen({
+  savedStudentName,
+  hasAdminKey,
   onPickStudent,
   onPickAdmin,
 }: {
+  savedStudentName: string;
+  hasAdminKey: boolean;
   onPickStudent: () => void;
   onPickAdmin: () => void;
 }) {
@@ -34,7 +38,11 @@ export function SplashScreen({
               </svg>
             </div>
             <div className="splash__choice-label">수강생</div>
-            <div className="splash__choice-desc">수업 확인하러 왔어요</div>
+            <div className="splash__choice-desc">
+              {savedStudentName
+                ? `${savedStudentName}님, 바로 들어가기`
+                : "수업 확인하러 왔어요"}
+            </div>
           </button>
 
           <button
@@ -47,7 +55,9 @@ export function SplashScreen({
               </svg>
             </div>
             <div className="splash__choice-label">관리자</div>
-            <div className="splash__choice-desc">강사 전용 · 비밀번호 필요</div>
+            <div className="splash__choice-desc">
+              {hasAdminKey ? "바로 들어가기" : "강사 전용 · 비밀번호 필요"}
+            </div>
           </button>
         </div>
 
