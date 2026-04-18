@@ -20,6 +20,7 @@ import { SessionPage } from "./components/SessionPage";
 import { Dashboard, StudentsPage } from "./components/Dashboard";
 import { TweaksPanel, Toast } from "./components/TweaksPanel";
 import { StudentPicker, AdminPasswordModal } from "./components/StudentPicker";
+import { SplashScreen } from "./components/SplashScreen";
 
 interface Props {
   initialPosts: PostsBySession;
@@ -55,7 +56,7 @@ export default function ClientShell({
     useState<StatusesBySession>(initialStatuses);
 
   /* ── UI 상태 ── */
-  const [mode, setMode] = useState<Mode>("student");
+  const [mode, setMode] = useState<Mode>("admin");
   const [active, setActive] = useState<ActiveView>("s2");
   const [studentName, setStudentName] = useState("");
   const [adminKey, setAdminKey] = useState("");
@@ -73,17 +74,37 @@ export default function ClientShell({
     msg: "",
   });
 
-  /* ── 초기 마운트: localStorage 복원 (SSR 안전) ── */
+  /* ── 스플래시 노출 여부 (null = SSR 단계, 마운트 후 결정) ── */
+  const [splashOpen, setSplashOpen] = useState<boolean | null>(null);
+
+  /* ── 초기 마운트: localStorage 복원 + 스플래시 결정 ── */
   useEffect(() => {
-    setMode((lsGet(LS.mode, "student") as Mode) || "student");
+    const savedMode = lsGet(LS.mode, "");
+    const savedName = lsGet(LS.student, "");
+    const savedKey = lsGet(LS.adminKey, "");
+
     setActive((lsGet(LS.active, "s2") as ActiveView) || "s2");
-    setStudentName(lsGet(LS.student, ""));
-    setAdminKey(lsGet(LS.adminKey, ""));
+    setStudentName(savedName);
+    setAdminKey(savedKey);
     setLayout((lsGet(LS.layout, "top") as Layout) || "top");
     setAccent((lsGet(LS.accent, "orange") as Accent) || "orange");
     setDensity(
       (lsGet(LS.density, "comfortable") as Density) || "comfortable"
     );
+
+    /* 이전에 역할을 골랐다면 바로 복원 + 스플래시 건너뜀 */
+    if (savedName || savedKey) {
+      setMode(
+        savedMode === "admin" || savedMode === "student"
+          ? (savedMode as Mode)
+          : savedKey
+            ? "admin"
+            : "student"
+      );
+      setSplashOpen(false);
+    } else {
+      setSplashOpen(true);
+    }
   }, []);
 
   /* ── 변경 시 localStorage 저장 ── */
@@ -109,13 +130,17 @@ export default function ClientShell({
     localStorage.setItem(LS.density, density);
   }, [density]);
 
-  /* ── 학생 모드 + 이름 없음 → 자동 picker ── */
+  /* 학생 모드 전환 시 이름 없으면 picker 열기 (스플래시 외 경로 보정) */
   useEffect(() => {
-    if (mode === "student" && !studentName && !pickerOpen) {
-      const t = setTimeout(() => setPickerOpen(true), 500);
-      return () => clearTimeout(t);
+    if (
+      splashOpen === false &&
+      mode === "student" &&
+      !studentName &&
+      !pickerOpen
+    ) {
+      setPickerOpen(true);
     }
-  }, [mode, studentName, pickerOpen]);
+  }, [mode, studentName, pickerOpen, splashOpen]);
 
   /* ── 토스트 ── */
   const showToast = useCallback((msg: string) => {
@@ -262,6 +287,59 @@ export default function ClientShell({
   }, [refetchAcks, refetchPosts]);
 
   const state: ManageState = { posts, acks, statuses };
+
+  /* ── SSR 초기 프레임: 아무것도 렌더하지 않아 깜빡임 방지 ── */
+  if (splashOpen === null) {
+    return (
+      <div
+        className="manage-shell"
+        data-layout={layout}
+        data-accent={accent}
+        data-density={density}
+        style={{ minHeight: "100vh" }}
+      />
+    );
+  }
+
+  /* ── 스플래시: 최초 진입 역할 선택 ── */
+  if (splashOpen) {
+    return (
+      <div
+        className="manage-shell"
+        data-layout={layout}
+        data-accent={accent}
+        data-density={density}
+      >
+        <SplashScreen
+          onPickStudent={() => {
+            setMode("student");
+            setSplashOpen(false);
+            setPickerOpen(true);
+          }}
+          onPickAdmin={() => {
+            if (adminKey) {
+              setMode("admin");
+              setSplashOpen(false);
+            } else {
+              setAdminModalOpen(true);
+            }
+          }}
+        />
+        {adminModalOpen && (
+          <AdminPasswordModal
+            onClose={() => setAdminModalOpen(false)}
+            onSuccess={(key) => {
+              setAdminKey(key);
+              setMode("admin");
+              setAdminModalOpen(false);
+              setSplashOpen(false);
+              showToast("관리자 모드로 전환되었습니다");
+            }}
+          />
+        )}
+      </div>
+    );
+  }
 
   let page: React.ReactNode = null;
   if (active === "dashboard") {

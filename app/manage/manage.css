@@ -924,6 +924,183 @@
   border-color: var(--color-dark);
 }
 
+/* ── Splash (최초 진입 역할 선택) ── */
+.manage-shell .splash {
+  min-height: 100vh;
+  display: grid;
+  place-items: center;
+  padding: 40px 20px;
+  background:
+    radial-gradient(
+      circle at 20% 0%,
+      var(--accent-soft) 0%,
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 85% 100%,
+      var(--color-surface-2) 0%,
+      transparent 50%
+    ),
+    var(--color-bg);
+}
+.manage-shell .splash__inner {
+  width: 100%;
+  max-width: 720px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 40px;
+}
+.manage-shell .splash__brand {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  text-align: center;
+}
+.manage-shell .splash__mark {
+  width: 56px;
+  height: 56px;
+  background: var(--color-dark);
+  color: #fafaf7;
+  display: grid;
+  place-items: center;
+  border-radius: 14px;
+  font-family: var(--font-heading-ko);
+  font-size: 24px;
+  position: relative;
+}
+.manage-shell .splash__mark::after {
+  content: "";
+  position: absolute;
+  inset: -4px -4px auto auto;
+  width: 12px;
+  height: 12px;
+  background: var(--accent);
+  border-radius: 50%;
+  border: 3px solid var(--color-bg);
+}
+.manage-shell .splash__title {
+  font-family: var(--font-heading-ko);
+  font-size: 32px;
+  color: var(--color-dark);
+  line-height: 1.2;
+}
+.manage-shell .splash__sub {
+  font-size: 15px;
+  color: var(--color-text-muted);
+  max-width: 32ch;
+  line-height: 1.6;
+}
+.manage-shell .splash__choices {
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+.manage-shell .splash__choice {
+  background: var(--color-bg);
+  border: 1.5px solid var(--color-border);
+  border-radius: 20px;
+  padding: 40px 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 14px;
+  cursor: pointer;
+  transition: all 220ms var(--ease-out);
+  font-family: inherit;
+  color: var(--color-dark);
+  position: relative;
+  overflow: hidden;
+  min-height: 240px;
+}
+.manage-shell .splash__choice::before {
+  content: "";
+  position: absolute;
+  inset: auto 0 0 0;
+  height: 4px;
+  background: var(--color-border-strong);
+  transition: height 220ms var(--ease-out);
+}
+.manage-shell .splash__choice:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-md);
+}
+.manage-shell .splash__choice--student:hover {
+  border-color: var(--color-dark);
+}
+.manage-shell .splash__choice--student:hover::before {
+  background: var(--color-dark);
+  height: 6px;
+}
+.manage-shell .splash__choice--admin:hover {
+  border-color: var(--accent);
+}
+.manage-shell .splash__choice--admin:hover::before {
+  background: var(--accent);
+  height: 6px;
+}
+.manage-shell .splash__choice-icon {
+  width: 72px;
+  height: 72px;
+  border-radius: 20px;
+  display: grid;
+  place-items: center;
+  background: var(--color-surface);
+  color: var(--color-text-muted);
+  transition: all 220ms var(--ease-out);
+}
+.manage-shell .splash__choice--student:hover .splash__choice-icon {
+  background: var(--color-dark);
+  color: #fff;
+}
+.manage-shell .splash__choice--admin:hover .splash__choice-icon {
+  background: var(--accent);
+  color: #fff;
+}
+.manage-shell .splash__choice-label {
+  font-family: var(--font-heading-ko);
+  font-size: 24px;
+  color: var(--color-dark);
+}
+.manage-shell .splash__choice-desc {
+  font-size: 13px;
+  color: var(--color-text-muted);
+  text-align: center;
+}
+.manage-shell .splash__footer {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  letter-spacing: 0.14em;
+  color: var(--color-text-subtle);
+  text-transform: uppercase;
+}
+
+@media (max-width: 560px) {
+  .manage-shell .splash__choices {
+    grid-template-columns: 1fr;
+    gap: 14px;
+  }
+  .manage-shell .splash__choice {
+    padding: 28px 20px;
+    min-height: 180px;
+    flex-direction: row;
+    text-align: left;
+  }
+  .manage-shell .splash__choice-icon {
+    width: 56px;
+    height: 56px;
+  }
+  .manage-shell .splash__choice-label {
+    font-size: 20px;
+  }
+  .manage-shell .splash__title {
+    font-size: 26px;
+  }
+}
+
 /* ── Status Toggle (강사 전용: past/live/upcoming) ── */
 .manage-shell .status-toggle {
   display: inline-flex;
