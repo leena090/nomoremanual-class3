@@ -120,17 +120,19 @@ export default function ClientShell({
     localStorage.setItem(LS.density, density);
   }, [density]);
 
-  /* 학생 모드 전환 시 이름 없으면 picker 열기 (스플래시 외 경로 보정) */
+  /* 순수 학생(관리자 권한 없음)만 학생 모드 전환 시 picker 자동 열림.
+     관리자는 학생 뷰 미리보기 상태라 이름 강요하지 않음. */
   useEffect(() => {
     if (
       splashOpen === false &&
       mode === "student" &&
       !studentName &&
-      !pickerOpen
+      !pickerOpen &&
+      !adminKey
     ) {
       setPickerOpen(true);
     }
-  }, [mode, studentName, pickerOpen, splashOpen]);
+  }, [mode, studentName, pickerOpen, splashOpen, adminKey]);
 
   /* ── 토스트 ── */
   const showToast = useCallback((msg: string) => {
@@ -335,8 +337,9 @@ export default function ClientShell({
           onPickStudent={() => {
             setMode("student");
             setSplashOpen(false);
-            /* 이미 저장된 이름이 있으면 picker 건너뛰고 바로 진입 */
-            if (!studentName) setPickerOpen(true);
+            /* 저장된 이름 있거나 관리자 권한 있으면 picker 건너뜀.
+               관리자는 이름 없이도 학생 뷰 미리보기 가능. */
+            if (!studentName && !adminKey) setPickerOpen(true);
           }}
           onPickAdmin={() => {
             if (adminKey) {
