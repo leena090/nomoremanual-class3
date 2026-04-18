@@ -1,59 +1,84 @@
 /* ============================================================
-   솔바드 3기 수업관리앱 — 통합 스타일
-   프로토타입의 tokens.css + components.css + app.css를
-   .manage-shell 스코프로 이식. 랜딩 페이지와 충돌 없음.
-   폰트는 app/manage/layout.tsx의 next/font로 주입.
+   솔바드 3기 수업관리앱 — v2 Design System
+   NOMORE MANUAL Design System v2 정렬: 따뜻한 페이퍼 + 편집 디자인.
+   60/30/10 = Warm Paper / Deep Walnut / Burnt Amber.
+   기존 컴포넌트 className 그대로 유지, 토큰과 모티프만 교체.
    ============================================================ */
 
-/* ── Design Tokens (manage 전용 스코프) ── */
+/* ── v2 토큰: manage-shell 스코프 ── */
 .manage-shell {
-  /* Color */
-  --color-primary: #d4542b;
-  --color-primary-hover: #b84522;
-  --color-primary-soft: #fbe7dd;
+  /* === v2 Core neutrals (Warm Paper system) === */
+  --color-bg: #faf7f2;              /* Warm Paper — 기본 페이지 */
+  --color-surface: #f3ecdd;         /* Cream Fold — 보조 bg, 카드 */
+  --color-surface-2: #efeadd;       /* Hairline cream */
+  --color-paper: #ffffff;           /* 순백 페이퍼 — 엘리베이티드 카드 전용 */
+
+  --color-dark: #1e1b16;            /* Deep Walnut — 본문 텍스트 */
+  --color-text: #1e1b16;
+  --color-text-muted: #3b362d;      /* Walnut Soft — 보조 텍스트 */
+  --color-text-subtle: #6f6858;     /* Muted Clay — 3차 텍스트 */
+  --color-text-whisper: #9c8f72;    /* Sand Label — 다크 위 마이크로 */
+
+  --color-border: #e7e0d2;          /* Warm Line — 카드 경계 */
+  --color-border-strong: #d9ceb8;   /* 강한 페이퍼 라인 */
+  --color-border-soft: #efeadd;
+
+  /* === v2 Amber ramp === */
+  --color-primary: #d97706;         /* Burnt Amber — 시그니처 */
+  --color-primary-hover: #b45309;   /* 한 단계 다크 */
+  --color-primary-deep: #92400e;    /* Deep Amber */
+  --color-primary-soft: #fef3c7;    /* Amber Cream — 마커/소프트 */
+  --color-primary-mid: #fdba74;     /* Amber Glow — 마커 하이라이트 */
 
   --color-accent-amber: #d97706;
-  --color-accent-amber-hover: #b86205;
-  --color-accent-amber-soft: #fcecd4;
+  --color-accent-amber-hover: #b45309;
+  --color-accent-amber-soft: #fef3c7;
 
-  --color-bg: #fafaf7;
-  --color-surface: #f5f0e8;
-  --color-surface-2: #efe8db;
+  --color-gold: #e7b76c;            /* Warm Gold */
+  --color-gold-deep: #b8893a;
 
-  --color-dark: #1a1a1a;
-  --color-text: #1a1a1a;
-  --color-text-muted: #6b6458;
-  --color-text-subtle: #9a9184;
-
-  --color-border: #e8e0d0;
-  --color-border-strong: #d4c9b3;
-
-  --color-success: #4a7c3a;
+  /* === Semantic roles (v2) === */
+  --color-success: #15803d;         /* Forest */
+  --color-success-soft: #dcfce7;
   --color-warning: #c78a1f;
-  --color-error: #b33a2e;
-  --color-info: #3b6b8f;
+  --color-warning-soft: #fef3c7;
+  --color-error: #b91c1c;           /* Signal Red */
+  --color-error-soft: #fee2e2;
+  --color-info: #1d4ed8;            /* Deep Blue */
+  --color-info-soft: #dbeafe;
+  --color-mission: #6d28d9;         /* Study Purple */
+  --color-mission-soft: #ede9fe;
 
-  /* Typography — 폰트는 next/font에서 주입
-     제목은 Nanum Gothic 800(Heavy)로 강하게, 부제/eyebrow는 기본 본문 400. */
-  --font-heading-ko: var(--manage-font-body), "Nanum Gothic", sans-serif;
-  --font-heading-soft: var(--manage-font-heading), "Gowun Dodum", sans-serif;
-  --font-body-ko: var(--manage-font-body), "Nanum Gothic", sans-serif;
-  --font-serif-ko: var(--manage-font-serif), "Noto Serif KR", serif;
+  /* === Typography — next/font 주입 ===
+     display: Gowun Dodum / bold heading: Nanum 800 */
+  --font-heading-ko: var(--manage-font-body), "Nanum Gothic", system-ui, sans-serif;
+  --font-display-soft: var(--manage-font-heading), "Gowun Dodum", system-ui, sans-serif;
+  --font-body-ko: var(--manage-font-body), "Nanum Gothic", system-ui, sans-serif;
+  --font-serif-ko: var(--manage-font-serif), "Noto Serif KR", Georgia, serif;
   --font-mono: var(--manage-font-mono), "JetBrains Mono", ui-monospace, monospace;
 
+  --fs-11: 11px;
   --fs-12: 12px;
+  --fs-13: 13px;
   --fs-14: 14px;
+  --fs-15: 15px;
   --fs-16: 16px;
+  --fs-17: 17px;    /* v2 base body */
   --fs-18: 18px;
   --fs-20: 20px;
+  --fs-22: 22px;
   --fs-24: 24px;
+  --fs-28: 28px;
   --fs-32: 32px;
   --fs-40: 40px;
+  --fs-44: 44px;    /* v2 h2 */
+  --fs-56: 56px;
+  --fs-64: 64px;    /* v2 h1 */
 
-  --lh-tight: 1.2;
-  --lh-snug: 1.4;
-  --lh-normal: 1.6;
-  --lh-loose: 1.8;
+  --lh-tight: 1.05;
+  --lh-snug: 1.2;
+  --lh-normal: 1.55;
+  --lh-body: 1.75;
 
   --fw-regular: 400;
   --fw-medium: 500;
@@ -61,42 +86,51 @@
   --fw-bold: 700;
   --fw-black: 800;
 
-  /* Spacing (4px base) */
+  --track-tight: -0.02em;
+  --track-eyebrow: 0.18em;
+
+  /* === Spacing (4pt base) === */
   --sp-1: 4px;
   --sp-2: 8px;
   --sp-3: 12px;
   --sp-4: 16px;
   --sp-5: 20px;
   --sp-6: 24px;
-  --sp-8: 32px;
-  --sp-10: 40px;
-  --sp-12: 48px;
-  --sp-16: 64px;
+  --sp-7: 32px;
+  --sp-8: 40px;
+  --sp-9: 56px;
+  --sp-10: 80px;
+  --sp-12: 120px;
 
-  /* Radius */
-  --radius-sm: 4px;
-  --radius-md: 8px;
-  --radius-lg: 12px;
-  --radius-xl: 20px;
+  /* === Radius (페이퍼 스톡 느낌) === */
+  --radius-xs: 6px;
+  --radius-sm: 10px;
+  --radius-md: 14px;   /* 기본 카드 */
+  --radius-lg: 18px;
+  --radius-xl: 24px;
   --radius-pill: 999px;
 
-  /* Shadow */
-  --shadow-xs: 0 1px 2px rgba(26, 26, 26, 0.04);
-  --shadow-sm: 0 2px 6px rgba(26, 26, 26, 0.06);
-  --shadow-md: 0 6px 16px rgba(26, 26, 26, 0.08);
-  --shadow-lg: 0 16px 40px rgba(26, 26, 26, 0.1);
-  --shadow-focus: 0 0 0 3px rgba(212, 84, 43, 0.25);
+  /* === Shadow (따뜻한 저고도) ===
+     never pure black — warm rgba. */
+  --shadow-xs: 0 1px 0 rgba(60, 40, 10, 0.04);
+  --shadow-sm: 0 2px 8px rgba(60, 40, 10, 0.05);
+  --shadow-md: 0 4px 24px rgba(60, 40, 10, 0.08);
+  --shadow-lg: 0 18px 48px rgba(60, 40, 10, 0.1);
+  --shadow-focus: 0 0 0 3px rgba(217, 119, 6, 0.22);
+  --shadow-ink: 0 2px 0 #1e1b16;   /* 스탬프 */
 
-  /* Motion */
-  --ease-out: cubic-bezier(0.16, 1, 0.3, 1);
-  --dur-fast: 120ms;
-  --dur-base: 200ms;
-  --dur-slow: 360ms;
+  /* === Motion === */
+  --ease-out: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --ease-snap: cubic-bezier(0.3, 1.4, 0.4, 1);
+  --dur-fast: 150ms;
+  --dur-base: 220ms;
+  --dur-slow: 420ms;
 
   /* Tweak defaults */
   --accent: var(--color-primary);
   --accent-hover: var(--color-primary-hover);
   --accent-soft: var(--color-primary-soft);
+  --accent-mid: var(--color-primary-mid);
   --density-pad: 24px;
   --density-gap: 20px;
   --density-row: 14px;
@@ -107,11 +141,13 @@
   --accent: var(--color-accent-amber);
   --accent-hover: var(--color-accent-amber-hover);
   --accent-soft: var(--color-accent-amber-soft);
+  --accent-mid: var(--color-primary-mid);
 }
 .manage-shell[data-accent="walnut"] {
   --accent: var(--color-dark);
   --accent-hover: #000;
   --accent-soft: #eae4d6;
+  --accent-mid: var(--color-gold);
 }
 
 .manage-shell[data-density="cozy"] {
@@ -130,27 +166,28 @@
   --density-row: 10px;
 }
 
-/* ── Shell (랜딩 전역 스타일 격리) ── */
+/* ── Shell ──
+   v2 는 gradient 대신 flat warm paper 권장. hero/splash 블록에만
+   부드러운 두 방향 radial amber wash. 일반 shell 은 fixed 아주 엷은 wash. */
 .manage-shell {
   min-height: 100vh;
-  /* 따뜻한 페이퍼 그라데이션 — 모바일에서도 입체감 유지 */
   background:
     radial-gradient(
-      circle at 0% 0%,
-      var(--accent-soft) 0%,
-      transparent 40%
-    ),
-    radial-gradient(
-      circle at 100% 100%,
-      var(--color-surface-2) 0%,
+      1200px circle at 8% -10%,
+      rgba(253, 186, 116, 0.18) 0%,
       transparent 45%
     ),
-    linear-gradient(180deg, var(--color-bg) 0%, var(--color-surface) 100%);
+    radial-gradient(
+      900px circle at 100% 100%,
+      rgba(231, 183, 108, 0.12) 0%,
+      transparent 50%
+    ),
+    var(--color-bg);
   background-attachment: fixed;
   color: var(--color-text);
   font-family: var(--font-body-ko);
-  font-size: var(--fs-16);
-  line-height: var(--lh-normal);
+  font-size: var(--fs-17);
+  line-height: var(--lh-body);
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -165,70 +202,96 @@
 .manage-shell h4,
 .manage-shell h5,
 .manage-shell h6 {
-  /* Nanum Gothic 800(Heavy) — native bold */
-  font-family: var(--font-body-ko);
+  /* 헤딩 = Nanum 800 편집 볼드 (display 강도 극대화) */
+  font-family: var(--font-heading-ko);
   font-weight: 800;
   color: var(--color-dark);
-  letter-spacing: -0.02em;
+  letter-spacing: var(--track-tight);
   margin: 0;
+  text-wrap: balance;
 }
-.manage-shell p {
-  margin: 0;
-}
+.manage-shell p { margin: 0; }
 .manage-shell code,
 .manage-shell pre,
 .manage-shell .mono {
   font-family: var(--font-mono);
   font-feature-settings: "calt" 0;
 }
-.manage-shell button {
-  font-family: inherit;
+.manage-shell button { font-family: inherit; }
+
+/* ── v2 시그니처 마커 하이라이트 — 아무 키워드에 감싸면 앰버 스와이프 ── */
+.manage-shell .marker,
+.manage-shell mark {
+  background: linear-gradient(180deg, transparent 60%, var(--accent-mid) 60%);
+  color: inherit;
+  padding: 0 2px;
+  font-weight: 800;
+}
+.manage-shell .marker--gold {
+  background: linear-gradient(180deg, transparent 60%, var(--color-gold) 60%);
 }
 
-/* ── Topbar ── */
+/* ── Eyebrow utility (mono, uppercase, tracked) ── */
+.manage-shell .eyebrow {
+  font-family: var(--font-mono);
+  font-size: var(--fs-11);
+  font-weight: 600;
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
+  color: var(--accent);
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* ============================================================
+   Topbar — editorial sticky, mono eyebrow 브랜드
+   ============================================================ */
 .manage-shell .topbar {
   position: sticky;
   top: 0;
   z-index: 40;
-  background: var(--color-bg);
+  background: rgba(250, 247, 242, 0.88);
+  backdrop-filter: saturate(1.3) blur(10px);
   border-bottom: 1px solid var(--color-border);
-  backdrop-filter: saturate(1.2) blur(6px);
 }
 .manage-shell .topbar__inner {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 14px 28px;
+  padding: 18px 32px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  gap: 16px;
+  gap: 20px;
 }
 .manage-shell .brand {
   display: flex;
   align-items: center;
-  gap: 12px;
+  gap: 14px;
   text-decoration: none;
   color: var(--color-dark);
 }
 .manage-shell .brand .mark {
-  width: 34px;
-  height: 34px;
+  width: 38px;
+  height: 38px;
   background: var(--color-dark);
-  color: #fafaf7;
+  color: #faf7f2;
   display: grid;
   place-items: center;
-  border-radius: 8px;
+  border-radius: 10px;
   font-family: var(--font-mono);
   font-weight: 700;
-  font-size: 14px;
+  font-size: 13px;
+  letter-spacing: 0.06em;
   position: relative;
+  box-shadow: var(--shadow-ink);
 }
 .manage-shell .brand .mark::after {
   content: "";
   position: absolute;
   inset: -3px -3px auto auto;
-  width: 8px;
-  height: 8px;
+  width: 10px;
+  height: 10px;
   background: var(--accent);
   border-radius: 50%;
   border: 2px solid var(--color-bg);
@@ -236,90 +299,98 @@
 .manage-shell .brand__title {
   font-family: var(--font-heading-ko);
   font-weight: 800;
-  font-size: 18px;
-  line-height: 1.2;
-  letter-spacing: -0.02em;
+  font-size: var(--fs-18);
+  line-height: 1.15;
+  letter-spacing: var(--track-tight);
 }
 .manage-shell .brand__sub {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: var(--color-text-muted);
+  font-size: var(--fs-11);
+  letter-spacing: var(--track-eyebrow);
+  color: var(--color-text-subtle);
   text-transform: uppercase;
+  margin-top: 2px;
 }
 
-/* ── Mode switch ── */
+/* ── Mode switch (student ↔ admin) ── */
 .manage-shell .mode-switch {
   display: inline-flex;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   padding: 3px;
 }
 .manage-shell .mode-switch button {
   border: none;
   background: transparent;
-  padding: 7px 16px;
+  padding: 8px 18px;
   font-weight: 700;
-  font-size: 13px;
-  color: var(--color-text-muted);
-  border-radius: 999px;
+  font-size: var(--fs-13);
+  color: var(--color-text-subtle);
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  transition: all 200ms var(--ease-out);
+  transition: all var(--dur-base) var(--ease-out);
   display: inline-flex;
   align-items: center;
   gap: 6px;
 }
+.manage-shell .mode-switch button:hover {
+  color: var(--color-dark);
+}
 .manage-shell .mode-switch button.is-active {
   background: var(--color-dark);
   color: #fff;
+  box-shadow: var(--shadow-sm);
 }
 .manage-shell .mode-switch button.is-active.mode-admin {
   background: var(--accent);
   color: #fff;
 }
 
-/* ── Tabs ── */
+/* ============================================================
+   Tabs — 편집형 세션 네비
+   ============================================================ */
 .manage-shell .tabs {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 0 28px;
+  padding: 0 32px;
   display: flex;
   align-items: center;
   gap: 4px;
   border-bottom: 1px solid var(--color-border);
   overflow-x: auto;
+  background: transparent;
 }
 .manage-shell .tab {
   border: none;
   background: transparent;
-  padding: 14px 18px 12px;
+  padding: 16px 18px 14px;
   font-weight: 700;
-  font-size: 14px;
-  color: var(--color-text-muted);
+  font-size: var(--fs-14);
+  color: var(--color-text-subtle);
   cursor: pointer;
   border-bottom: 2px solid transparent;
   white-space: nowrap;
-  transition: color 200ms, border-color 200ms;
+  transition: color var(--dur-base), border-color var(--dur-base);
   display: inline-flex;
   align-items: center;
-  gap: 8px;
+  gap: 10px;
   position: relative;
 }
-.manage-shell .tab:hover {
-  color: var(--color-dark);
-}
+.manage-shell .tab:hover { color: var(--color-dark); }
 .manage-shell .tab.is-active {
   color: var(--color-dark);
   border-bottom-color: var(--accent);
 }
 .manage-shell .tab .num {
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-text-subtle);
-  padding: 2px 6px;
+  font-size: var(--fs-11);
+  font-weight: 600;
+  color: var(--color-text-whisper);
+  padding: 2px 7px;
   border: 1px solid var(--color-border);
-  border-radius: 4px;
+  border-radius: var(--radius-xs);
+  letter-spacing: 0.06em;
 }
 .manage-shell .tab.is-active .num {
   color: var(--accent);
@@ -330,10 +401,11 @@
   font-size: 10px;
   background: var(--accent);
   color: #fff;
-  padding: 2px 6px;
-  border-radius: 999px;
-  min-width: 18px;
+  padding: 2px 7px;
+  border-radius: var(--radius-pill);
+  min-width: 20px;
   text-align: center;
+  box-shadow: var(--shadow-xs);
 }
 
 .manage-shell[data-layout="side"] .tabs,
@@ -341,50 +413,52 @@
   display: none;
 }
 
+/* ============================================================
+   Layout (main content wrapper)
+   ============================================================ */
 .manage-shell .layout {
   max-width: 1280px;
   margin: 0 auto;
-  padding: 32px 28px 80px;
+  padding: 48px 32px 96px;
 }
 .manage-shell[data-layout="side"] .layout {
   display: grid;
   grid-template-columns: 240px 1fr;
-  gap: 32px;
+  gap: 40px;
   align-items: start;
 }
-.manage-shell .side-nav {
-  display: none;
-}
+.manage-shell .side-nav { display: none; }
 .manage-shell[data-layout="side"] .side-nav {
   display: flex;
   flex-direction: column;
   position: sticky;
-  top: 84px;
+  top: 96px;
   background: var(--color-surface);
-  border-radius: 16px;
-  padding: 14px;
+  border-radius: var(--radius-lg);
+  padding: 16px;
   border: 1px solid var(--color-border);
+  gap: 2px;
 }
 .manage-shell .side-nav__item {
   border: none;
   background: transparent;
   text-align: left;
   padding: 12px 14px;
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   cursor: pointer;
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 14px;
+  font-size: var(--fs-14);
+  font-weight: 600;
   color: var(--color-text);
-  transition: all 180ms;
+  transition: all var(--dur-base) var(--ease-out);
 }
-.manage-shell .side-nav__item:hover {
-  background: var(--color-bg);
-}
+.manage-shell .side-nav__item:hover { background: var(--color-bg); }
 .manage-shell .side-nav__item.is-active {
   background: var(--color-dark);
   color: #fff;
+  box-shadow: var(--shadow-ink);
 }
 .manage-shell .side-nav__item.is-active .num {
   color: var(--accent);
@@ -392,11 +466,12 @@
 }
 .manage-shell .side-nav__item .num {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   padding: 3px 7px;
   border: 1px solid var(--color-border-strong);
-  border-radius: 5px;
-  color: var(--color-text-muted);
+  border-radius: var(--radius-xs);
+  color: var(--color-text-subtle);
+  letter-spacing: 0.06em;
 }
 .manage-shell .side-nav__item .dot-count {
   margin-left: auto;
@@ -405,39 +480,58 @@
   background: var(--accent);
   color: #fff;
   padding: 2px 7px;
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
 }
 
-/* ── Session header ── */
+/* ============================================================
+   Session header — editorial hero
+   ============================================================ */
 .manage-shell .session-head {
   display: grid;
   grid-template-columns: 1fr auto;
-  gap: 20px;
+  gap: 24px;
   align-items: end;
-  padding-bottom: var(--density-gap);
+  padding-bottom: var(--sp-7);
+  margin-bottom: var(--sp-7);
   border-bottom: 1px solid var(--color-border);
-  margin-bottom: var(--density-gap);
+  position: relative;
+}
+.manage-shell .session-head::after {
+  /* 좌측 앰버 시그니처 룰 — chapter feeling */
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -1px;
+  width: 56px;
+  height: 2px;
+  background: var(--accent);
 }
 .manage-shell .session-head__eyebrow {
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: var(--fs-12);
+  font-weight: 600;
   color: var(--accent);
-  letter-spacing: 0.14em;
+  letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
-  margin-bottom: 10px;
+  margin-bottom: 14px;
+  display: inline-flex;
+  align-items: center;
+  gap: 10px;
 }
 .manage-shell .session-head__title {
   font-family: var(--font-heading-ko);
   font-weight: 800;
-  font-size: 40px;
-  line-height: 1.15;
+  font-size: 56px;
+  line-height: 1.08;
   letter-spacing: -0.03em;
   color: var(--color-dark);
 }
 .manage-shell .session-head__sub {
-  font-size: 16px;
+  font-size: var(--fs-17);
   color: var(--color-text-muted);
-  margin-top: 8px;
+  margin-top: 12px;
+  max-width: 52ch;
+  line-height: 1.65;
 }
 
 /* ── Content grid ── */
@@ -451,12 +545,20 @@
   grid-template-columns: 1fr;
 }
 
-/* ── Panel ── */
+/* ============================================================
+   Panel — 편집 카드 (warm paper, left-border option)
+   ============================================================ */
 .manage-shell .panel {
-  background: var(--color-bg);
+  background: var(--color-paper);
   border: 1px solid var(--color-border);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   padding: var(--density-pad);
+  position: relative;
+  transition: border-color var(--dur-base) var(--ease-out),
+              box-shadow var(--dur-base) var(--ease-out);
+}
+.manage-shell .panel:hover {
+  border-color: var(--color-border-strong);
 }
 .manage-shell .panel--surface {
   background: var(--color-surface);
@@ -470,46 +572,66 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  margin-bottom: 16px;
+  margin-bottom: 18px;
   gap: 12px;
+  padding-left: 14px;
+  position: relative;
+}
+.manage-shell .panel__head::before {
+  /* ▍chapter 룰 */
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 2px;
+  bottom: 2px;
+  width: 4px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+.manage-shell .panel--dark .panel__head::before {
+  background: var(--color-gold);
 }
 .manage-shell .panel__head h3 {
   font-family: var(--font-heading-ko);
   font-weight: 800;
-  font-size: 20px;
+  font-size: var(--fs-20);
   color: var(--color-dark);
-  letter-spacing: -0.02em;
+  letter-spacing: var(--track-tight);
 }
-.manage-shell .panel--dark .panel__head h3 {
-  color: #fff;
-}
-.manage-shell .eyebrow,
+.manage-shell .panel--dark .panel__head h3 { color: #fff; }
 .manage-shell .panel__head .eyebrow {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  font-size: var(--fs-11);
+  font-weight: 600;
+  letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
   margin-bottom: 4px;
 }
 .manage-shell .panel--dark .panel__head .eyebrow {
-  color: #9a9184;
+  color: var(--color-text-whisper);
 }
 
-/* ── Tiles ── */
+/* ============================================================
+   Tiles — editorial metric cards
+   ============================================================ */
 .manage-shell .tile-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: var(--density-gap);
 }
 .manage-shell .tile {
-  background: var(--color-bg);
+  background: var(--color-paper);
   border: 1px solid var(--color-border);
-  border-radius: 14px;
-  padding: 20px;
+  border-radius: var(--radius-md);
+  padding: 22px;
   display: flex;
   flex-direction: column;
-  gap: 8px;
+  gap: 10px;
+  transition: border-color var(--dur-base), box-shadow var(--dur-base);
+}
+.manage-shell .tile:hover {
+  border-color: var(--accent);
 }
 .manage-shell .tile--accent {
   background: var(--accent);
@@ -518,7 +640,7 @@
 }
 .manage-shell .tile--accent .tile__label,
 .manage-shell .tile--accent .tile__hint {
-  color: rgba(255, 255, 255, 0.8);
+  color: rgba(255, 255, 255, 0.82);
 }
 .manage-shell .tile--dark {
   background: var(--color-dark);
@@ -527,20 +649,23 @@
 }
 .manage-shell .tile--dark .tile__label,
 .manage-shell .tile--dark .tile__hint {
-  color: #9a9184;
+  color: var(--color-text-whisper);
 }
 .manage-shell .tile__label {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.1em;
+  font-size: var(--fs-11);
+  font-weight: 600;
+  letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
 }
 .manage-shell .tile__value {
-  font-family: var(--font-heading-ko);
-  font-size: 36px;
+  font-family: var(--font-display-soft);
+  font-weight: 400;
+  font-size: 44px;
   line-height: 1;
   color: var(--color-dark);
+  letter-spacing: -0.02em;
 }
 .manage-shell .tile--accent .tile__value,
 .manage-shell .tile--dark .tile__value {
@@ -548,11 +673,14 @@
 }
 .manage-shell .tile__hint {
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-text-muted);
+  font-size: var(--fs-11);
+  color: var(--color-text-subtle);
+  letter-spacing: 0.04em;
 }
 
-/* ── Timeline ── */
+/* ============================================================
+   Timeline
+   ============================================================ */
 .manage-shell .timeline {
   display: flex;
   flex-direction: column;
@@ -560,79 +688,89 @@
 }
 .manage-shell .timeline__item {
   display: grid;
-  grid-template-columns: 100px 1fr auto;
-  gap: 18px;
-  padding: 16px 0;
+  grid-template-columns: 110px 1fr auto;
+  gap: 20px;
+  padding: 18px 0;
   border-bottom: 1px solid var(--color-border);
   align-items: center;
 }
-.manage-shell .timeline__item:last-child {
-  border-bottom: none;
-}
+.manage-shell .timeline__item:last-child { border-bottom: none; }
 .manage-shell .timeline__date {
   font-family: var(--font-mono);
-  font-size: 12px;
-  color: var(--color-text-muted);
+  font-size: var(--fs-12);
+  color: var(--color-text-subtle);
   display: flex;
   flex-direction: column;
+  letter-spacing: 0.04em;
 }
 .manage-shell .timeline__date strong {
-  font-family: var(--font-heading-ko);
-  font-size: 22px;
+  font-family: var(--font-display-soft);
+  font-size: 26px;
   color: var(--color-dark);
   font-weight: 400;
+  letter-spacing: -0.02em;
 }
 .manage-shell .timeline__body strong {
   font-family: var(--font-heading-ko);
-  font-size: 17px;
+  font-size: var(--fs-17);
   color: var(--color-dark);
   display: block;
   margin-bottom: 4px;
+  font-weight: 800;
+  letter-spacing: var(--track-tight);
 }
 .manage-shell .timeline__body span {
-  font-size: 13px;
-  color: var(--color-text-muted);
+  font-size: var(--fs-13);
+  color: var(--color-text-subtle);
 }
 
-/* ── Pills ── */
+/* ============================================================
+   Pills
+   ============================================================ */
 .manage-shell .pill {
   display: inline-flex;
   align-items: center;
   gap: 6px;
-  font-weight: 700;
-  font-size: 11px;
-  letter-spacing: 0.04em;
-  padding: 4px 9px;
-  border-radius: 999px;
+  font-family: var(--font-mono);
+  font-weight: 600;
+  font-size: var(--fs-11);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 5px 11px;
+  border-radius: var(--radius-pill);
+  border: 1px solid transparent;
 }
 .manage-shell .pill--accent {
   background: var(--accent-soft);
-  color: var(--accent-hover);
+  color: var(--color-primary-deep);
+  border-color: rgba(217, 119, 6, 0.22);
 }
 .manage-shell .pill--dark {
   background: var(--color-dark);
   color: #fff;
 }
 .manage-shell .pill--neutral {
-  background: var(--color-surface-2);
-  color: var(--color-text-muted);
+  background: var(--color-surface);
+  color: var(--color-text-subtle);
+  border-color: var(--color-border);
 }
 .manage-shell .pill--success {
-  background: #e3edd9;
-  color: #4a7c3a;
+  background: var(--color-success-soft);
+  color: var(--color-success);
 }
 .manage-shell .pill--warn {
-  background: #fbebcf;
+  background: var(--color-warning-soft);
   color: #9a6b1a;
 }
 .manage-shell .pill--danger {
-  background: #f6e1de;
-  color: #b33a2e;
+  background: var(--color-error-soft);
+  color: var(--color-error);
 }
 .manage-shell .pill--mono {
   font-family: var(--font-mono);
-  background: var(--color-surface-2);
+  background: var(--color-surface);
   color: var(--color-dark);
+  border-color: var(--color-border);
 }
 .manage-shell .pill .dot {
   width: 6px;
@@ -641,23 +779,32 @@
   background: currentColor;
 }
 
-/* ── Buttons ── */
+/* ============================================================
+   Buttons — stamped 고급 프리미엄 느낌
+   매트 + 신뢰감 + 종이에 찍힌 스탬프 쉐도우
+   ============================================================ */
 .manage-shell .btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 8px;
+  font-family: inherit;
   font-weight: 700;
-  font-size: 14px;
-  padding: 10px 18px;
-  border-radius: 10px;
+  font-size: var(--fs-14);
+  padding: 11px 20px;
+  border-radius: var(--radius-sm);
   border: 1.5px solid transparent;
   cursor: pointer;
-  transition: all 180ms;
+  transition:
+    background var(--dur-base) var(--ease-out),
+    color var(--dur-base) var(--ease-out),
+    transform 120ms var(--ease-out),
+    box-shadow 120ms var(--ease-out),
+    border-color var(--dur-base) var(--ease-out);
   text-decoration: none;
   white-space: nowrap;
   line-height: 1;
-  font-family: inherit;
+  letter-spacing: 0.01em;
 }
 .manage-shell .btn[disabled] {
   opacity: 0.45;
@@ -666,13 +813,17 @@
 .manage-shell .btn--primary {
   background: var(--accent);
   color: #fff;
+  box-shadow: var(--shadow-ink);
 }
 .manage-shell .btn--primary:hover {
   background: var(--accent-hover);
-  transform: translateY(-1px);
+}
+.manage-shell .btn--primary:active {
+  transform: translateY(2px);
+  box-shadow: none;
 }
 .manage-shell .btn--secondary {
-  background: var(--color-bg);
+  background: var(--color-paper);
   color: var(--color-dark);
   border-color: var(--color-border-strong);
 }
@@ -690,39 +841,44 @@
 .manage-shell .btn--dark {
   background: var(--color-dark);
   color: #fff;
+  box-shadow: 0 2px 0 #000;
 }
-.manage-shell .btn--dark:hover {
-  background: #000;
+.manage-shell .btn--dark:hover { background: #000; }
+.manage-shell .btn--dark:active {
+  transform: translateY(2px);
+  box-shadow: none;
 }
 .manage-shell .btn--sm {
-  padding: 7px 12px;
-  font-size: 12px;
+  padding: 8px 13px;
+  font-size: var(--fs-12);
   border-radius: 8px;
 }
 .manage-shell .btn--lg {
-  padding: 14px 22px;
-  font-size: 15px;
+  padding: 15px 24px;
+  font-size: var(--fs-15);
 }
 
-/* ── Toast ── */
+/* ============================================================
+   Toast
+   ============================================================ */
 .manage-shell .toast {
   position: fixed;
-  bottom: 28px;
+  bottom: 32px;
   left: 50%;
   transform: translateX(-50%) translateY(20px);
   background: var(--color-dark);
   color: #fff;
-  padding: 14px 22px;
-  border-radius: 999px;
+  padding: 14px 24px;
+  border-radius: var(--radius-pill);
   font-weight: 600;
-  font-size: 14px;
+  font-size: var(--fs-14);
   display: flex;
   align-items: center;
   gap: 10px;
   box-shadow: var(--shadow-lg);
   opacity: 0;
   pointer-events: none;
-  transition: all 240ms var(--ease-out);
+  transition: all var(--dur-slow) var(--ease-out);
   z-index: 100;
 }
 .manage-shell .toast.is-show {
@@ -730,8 +886,8 @@
   transform: translateX(-50%) translateY(0);
 }
 .manage-shell .toast .icon {
-  width: 20px;
-  height: 20px;
+  width: 22px;
+  height: 22px;
   border-radius: 50%;
   background: var(--accent);
   display: grid;
@@ -739,13 +895,15 @@
   font-size: 12px;
 }
 
-/* ── Tweaks panel ── */
+/* ============================================================
+   Tweaks panel (FAB + 옵션 카드)
+   ============================================================ */
 .manage-shell .tweaks-fab {
   position: fixed;
-  right: 28px;
-  bottom: 28px;
-  width: 52px;
-  height: 52px;
+  right: 32px;
+  bottom: 32px;
+  width: 54px;
+  height: 54px;
   border-radius: 50%;
   background: var(--color-dark);
   color: #fff;
@@ -755,27 +913,27 @@
   cursor: pointer;
   z-index: 50;
   box-shadow: var(--shadow-lg);
-  transition: transform 200ms;
+  transition: transform var(--dur-base);
 }
 .manage-shell .tweaks-fab:hover {
   transform: translateY(-2px);
 }
 .manage-shell .tweaks-panel {
   position: fixed;
-  right: 28px;
-  bottom: 92px;
+  right: 32px;
+  bottom: 96px;
   width: 320px;
-  background: var(--color-bg);
+  background: var(--color-paper);
   border: 1px solid var(--color-border);
-  border-radius: 18px;
+  border-radius: var(--radius-lg);
   box-shadow: var(--shadow-lg);
-  padding: 20px;
+  padding: 22px;
   z-index: 50;
   transform-origin: bottom right;
-  transform: scale(0.9);
+  transform: scale(0.92);
   opacity: 0;
   pointer-events: none;
-  transition: all 200ms var(--ease-out);
+  transition: all var(--dur-base) var(--ease-out);
 }
 .manage-shell .tweaks-panel.is-open {
   transform: scale(1);
@@ -784,24 +942,22 @@
 }
 .manage-shell .tweaks-panel h4 {
   font-family: var(--font-heading-ko);
-  font-size: 18px;
+  font-size: var(--fs-18);
   margin-bottom: 4px;
 }
 .manage-shell .tweaks-panel .sub {
   font-family: var(--font-mono);
   font-size: 10px;
-  color: var(--color-text-muted);
-  letter-spacing: 0.1em;
+  color: var(--color-text-subtle);
+  letter-spacing: var(--track-eyebrow);
   text-transform: uppercase;
-  margin-bottom: 14px;
-}
-.manage-shell .tweaks-group {
   margin-bottom: 16px;
 }
+.manage-shell .tweaks-group { margin-bottom: 18px; }
 .manage-shell .tweaks-group__label {
-  font-size: 12px;
+  font-size: var(--fs-12);
   font-weight: 700;
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
   margin-bottom: 8px;
 }
 .manage-shell .tweaks-options {
@@ -813,14 +969,17 @@
   flex: 1;
   min-width: 70px;
   border: 1.5px solid var(--color-border-strong);
-  background: var(--color-bg);
-  font-size: 12px;
+  background: var(--color-paper);
+  font-size: var(--fs-12);
   font-weight: 600;
   color: var(--color-text);
-  padding: 8px 10px;
+  padding: 9px 10px;
   border-radius: 8px;
   cursor: pointer;
-  transition: all 150ms;
+  transition: all var(--dur-fast);
+}
+.manage-shell .tweaks-options button:hover {
+  border-color: var(--color-dark);
 }
 .manage-shell .tweaks-options button.is-active {
   background: var(--color-dark);
@@ -833,7 +992,7 @@
 }
 .manage-shell .tweaks-swatches button {
   flex: 1;
-  height: 40px;
+  height: 42px;
   border-radius: 8px;
   border: 2px solid transparent;
   cursor: pointer;
@@ -842,26 +1001,22 @@
   font-size: 10px;
   color: #fff;
   font-weight: 700;
+  box-shadow: var(--shadow-xs);
 }
 .manage-shell .tweaks-swatches button.is-active {
   border-color: var(--color-dark);
 }
-.manage-shell .tweaks-swatches button.orange {
-  background: #d4542b;
-}
-.manage-shell .tweaks-swatches button.amber {
-  background: #d97706;
-}
-.manage-shell .tweaks-swatches button.walnut {
-  background: #1a1a1a;
-}
+.manage-shell .tweaks-swatches button.orange { background: #d97706; }
+.manage-shell .tweaks-swatches button.amber  { background: #b45309; }
+.manage-shell .tweaks-swatches button.walnut { background: #1e1b16; }
 
-/* ── Modal ── */
+/* ============================================================
+   Modal
+   ============================================================ */
 .manage-shell .modal-overlay {
   position: fixed;
   inset: 0;
-  background: rgba(26, 26, 26, 0.55);
-  backdrop-filter: blur(4px);
+  background: rgba(30, 27, 22, 0.4);
   display: grid;
   place-items: center;
   z-index: 80;
@@ -870,28 +1025,28 @@
 .manage-shell .modal {
   width: 100%;
   max-width: 560px;
-  background: var(--color-bg);
-  border-radius: 18px;
-  padding: 28px;
+  background: var(--color-paper);
+  border-radius: var(--radius-lg);
+  padding: 32px;
   max-height: 88vh;
   overflow-y: auto;
   border: 1px solid var(--color-border);
+  box-shadow: var(--shadow-lg);
 }
 .manage-shell .modal h3 {
   font-family: var(--font-heading-ko);
-  font-size: 22px;
-  margin-bottom: 16px;
+  font-size: var(--fs-22);
+  margin-bottom: 18px;
+  letter-spacing: var(--track-tight);
 }
-.manage-shell .modal .form-grid {
-  display: grid;
-  gap: 14px;
-}
+.manage-shell .modal .form-grid { display: grid; gap: 16px; }
 .manage-shell .modal .form-grid label {
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: 700;
   color: var(--color-dark);
   margin-bottom: 6px;
   display: block;
+  letter-spacing: 0.01em;
 }
 .manage-shell .modal input[type="text"],
 .manage-shell .modal input[type="password"],
@@ -899,30 +1054,32 @@
 .manage-shell .modal textarea,
 .manage-shell .modal select {
   width: 100%;
-  padding: 11px 13px;
+  padding: 12px 14px;
   border: 1.5px solid var(--color-border-strong);
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   background: var(--color-bg);
   font-family: inherit;
-  font-size: 14px;
+  font-size: var(--fs-14);
   color: var(--color-dark);
+  transition: border-color var(--dur-base), box-shadow var(--dur-base);
 }
 .manage-shell .modal textarea {
-  min-height: 80px;
+  min-height: 88px;
   resize: vertical;
+  line-height: 1.6;
 }
 .manage-shell .modal input:focus,
 .manage-shell .modal textarea:focus,
 .manage-shell .modal select:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
+  box-shadow: var(--shadow-focus);
 }
 .manage-shell .modal__foot {
   display: flex;
   justify-content: flex-end;
   gap: 10px;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 .manage-shell .seg-group {
   display: flex;
@@ -932,13 +1089,18 @@
   flex: 1;
   border: 1.5px solid var(--color-border-strong);
   background: var(--color-bg);
-  padding: 9px 12px;
+  padding: 10px 12px;
   border-radius: 8px;
   font-family: inherit;
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: 600;
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
   cursor: pointer;
+  transition: all var(--dur-fast);
+}
+.manage-shell .seg-group button:hover {
+  border-color: var(--color-dark);
+  color: var(--color-dark);
 }
 .manage-shell .seg-group button.is-active {
   background: var(--color-dark);
@@ -946,58 +1108,81 @@
   border-color: var(--color-dark);
 }
 
-/* ── Splash (최초 진입 역할 선택) ── */
+/* ============================================================
+   Splash — editorial 대문
+   ============================================================ */
 .manage-shell .splash {
   min-height: 100vh;
   display: grid;
   place-items: center;
-  padding: 40px 20px;
+  padding: 48px 20px;
   background:
     radial-gradient(
-      circle at 20% 0%,
-      var(--accent-soft) 0%,
-      transparent 45%
-    ),
-    radial-gradient(
-      circle at 85% 100%,
-      var(--color-surface-2) 0%,
+      1100px circle at 18% -10%,
+      rgba(253, 186, 116, 0.3) 0%,
       transparent 50%
     ),
+    radial-gradient(
+      900px circle at 92% 100%,
+      rgba(231, 183, 108, 0.2) 0%,
+      transparent 55%
+    ),
     var(--color-bg);
+  position: relative;
+  overflow: hidden;
+}
+.manage-shell .splash::before {
+  /* NMM 대형 배경 글자 — 편집 매거진 커버 느낌 */
+  content: "NMM";
+  position: absolute;
+  right: -40px;
+  bottom: -80px;
+  font-family: var(--font-heading-ko);
+  font-weight: 800;
+  font-size: 360px;
+  line-height: 1;
+  letter-spacing: -0.04em;
+  color: var(--color-dark);
+  opacity: 0.035;
+  pointer-events: none;
 }
 .manage-shell .splash__inner {
   width: 100%;
-  max-width: 720px;
+  max-width: 760px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 40px;
+  gap: 48px;
+  position: relative;
+  z-index: 1;
 }
 .manage-shell .splash__brand {
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 20px;
   text-align: center;
 }
 .manage-shell .splash__mark {
-  width: 56px;
-  height: 56px;
+  width: 64px;
+  height: 64px;
   background: var(--color-dark);
-  color: #fafaf7;
+  color: #faf7f2;
   display: grid;
   place-items: center;
-  border-radius: 14px;
+  border-radius: var(--radius-md);
   font-family: var(--font-heading-ko);
-  font-size: 24px;
+  font-weight: 800;
+  font-size: 26px;
   position: relative;
+  box-shadow: var(--shadow-ink);
 }
 .manage-shell .splash__mark::after {
   content: "";
   position: absolute;
   inset: -4px -4px auto auto;
-  width: 12px;
-  height: 12px;
+  width: 14px;
+  height: 14px;
   background: var(--accent);
   border-radius: 50%;
   border: 3px solid var(--color-bg);
@@ -1005,16 +1190,16 @@
 .manage-shell .splash__title {
   font-family: var(--font-heading-ko);
   font-weight: 800;
-  font-size: 34px;
+  font-size: 40px;
   color: var(--color-dark);
-  line-height: 1.2;
+  line-height: 1.12;
   letter-spacing: -0.03em;
 }
 .manage-shell .splash__sub {
-  font-size: 15px;
-  color: var(--color-text-muted);
-  max-width: 32ch;
-  line-height: 1.6;
+  font-size: var(--fs-16);
+  color: var(--color-text-subtle);
+  max-width: 34ch;
+  line-height: 1.65;
 }
 .manage-shell .splash__choices {
   width: 100%;
@@ -1023,21 +1208,22 @@
   gap: 20px;
 }
 .manage-shell .splash__choice {
-  background: var(--color-bg);
+  background: var(--color-paper);
   border: 1.5px solid var(--color-border);
-  border-radius: 20px;
-  padding: 40px 24px;
+  border-radius: var(--radius-lg);
+  padding: 44px 28px;
   display: flex;
   flex-direction: column;
   align-items: center;
-  gap: 14px;
+  gap: 16px;
   cursor: pointer;
-  transition: all 220ms var(--ease-out);
+  transition: all var(--dur-slow) var(--ease-out);
   font-family: inherit;
   color: var(--color-dark);
   position: relative;
   overflow: hidden;
-  min-height: 240px;
+  min-height: 256px;
+  box-shadow: var(--shadow-xs);
 }
 .manage-shell .splash__choice::before {
   content: "";
@@ -1045,12 +1231,13 @@
   inset: auto 0 0 0;
   height: 4px;
   background: var(--color-border-strong);
-  transition: height 220ms var(--ease-out);
+  transition: height var(--dur-slow) var(--ease-out),
+              background var(--dur-slow) var(--ease-out);
 }
 .manage-shell .splash__choice:hover {
   transform: translateY(-4px);
   border-color: var(--color-border-strong);
-  box-shadow: var(--shadow-md);
+  box-shadow: var(--shadow-lg);
 }
 .manage-shell .splash__choice--student:hover {
   border-color: var(--color-dark);
@@ -1067,14 +1254,14 @@
   height: 6px;
 }
 .manage-shell .splash__choice-icon {
-  width: 72px;
-  height: 72px;
-  border-radius: 20px;
+  width: 76px;
+  height: 76px;
+  border-radius: var(--radius-lg);
   display: grid;
   place-items: center;
   background: var(--color-surface);
-  color: var(--color-text-muted);
-  transition: all 220ms var(--ease-out);
+  color: var(--color-text-subtle);
+  transition: all var(--dur-slow) var(--ease-out);
 }
 .manage-shell .splash__choice--student:hover .splash__choice-icon {
   background: var(--color-dark);
@@ -1089,18 +1276,19 @@
   font-weight: 800;
   font-size: 24px;
   color: var(--color-dark);
-  letter-spacing: -0.02em;
+  letter-spacing: var(--track-tight);
 }
 .manage-shell .splash__choice-desc {
-  font-size: 13px;
-  color: var(--color-text-muted);
+  font-size: var(--fs-13);
+  color: var(--color-text-subtle);
   text-align: center;
+  line-height: 1.6;
 }
 .manage-shell .splash__footer {
   font-family: var(--font-mono);
-  font-size: 11px;
-  letter-spacing: 0.14em;
-  color: var(--color-text-subtle);
+  font-size: var(--fs-11);
+  letter-spacing: var(--track-eyebrow);
+  color: var(--color-text-whisper);
   text-transform: uppercase;
 }
 
@@ -1110,7 +1298,7 @@
     gap: 14px;
   }
   .manage-shell .splash__choice {
-    padding: 28px 20px;
+    padding: 28px 22px;
     min-height: 180px;
     flex-direction: row;
     text-align: left;
@@ -1119,41 +1307,39 @@
     width: 56px;
     height: 56px;
   }
-  .manage-shell .splash__choice-label {
-    font-size: 20px;
-  }
-  .manage-shell .splash__title {
-    font-size: 26px;
-  }
+  .manage-shell .splash__choice-label { font-size: 20px; }
+  .manage-shell .splash__title { font-size: 30px; }
+  .manage-shell .splash::before { font-size: 220px; }
 }
 
-/* ── Status Toggle (강사 전용: past/live/upcoming) ── */
+/* ============================================================
+   Status Toggle (과거/진행/예정)
+   ============================================================ */
 .manage-shell .status-toggle {
   display: inline-flex;
   gap: 4px;
   padding: 4px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
 }
 .manage-shell .status-toggle__btn {
   border: none;
   background: transparent;
-  padding: 6px 14px;
+  padding: 7px 15px;
   font-family: inherit;
   font-weight: 700;
-  font-size: 12px;
-  color: var(--color-text-muted);
-  border-radius: 999px;
+  font-size: var(--fs-12);
+  color: var(--color-text-subtle);
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  transition: all 180ms var(--ease-out);
+  transition: all var(--dur-base) var(--ease-out);
   display: inline-flex;
   align-items: center;
   gap: 6px;
+  letter-spacing: 0.02em;
 }
-.manage-shell .status-toggle__btn:hover {
-  color: var(--color-dark);
-}
+.manage-shell .status-toggle__btn:hover { color: var(--color-dark); }
 .manage-shell .status-toggle__dot {
   display: inline-block;
   width: 6px;
@@ -1162,8 +1348,8 @@
   background: currentColor;
 }
 .manage-shell .status-toggle__btn.is-active.status-toggle__btn--past {
-  background: #e3edd9;
-  color: #4a7c3a;
+  background: var(--color-success-soft);
+  color: var(--color-success);
 }
 .manage-shell .status-toggle__btn.is-active.status-toggle__btn--live {
   background: var(--accent);
@@ -1174,42 +1360,49 @@
   color: #fff;
 }
 
-/* ── Quote Rotator (학생 대시보드 한마디 패널) ── */
+/* ============================================================
+   Quote rotator (학생 한마디)
+   ============================================================ */
 .manage-shell .quote-box {
   cursor: pointer;
   padding: 8px 2px;
-  border-radius: 10px;
-  transition: background 200ms;
+  border-radius: var(--radius-sm);
+  transition: background var(--dur-base);
 }
 .manage-shell .quote-box:hover {
   background: var(--color-bg);
 }
 .manage-shell .quote-box__text {
-  font-family: var(--font-heading-ko);
-  font-size: 18px;
-  line-height: 1.65;
+  font-family: var(--font-display-soft);
+  font-size: var(--fs-20);
+  font-weight: 400;
+  line-height: 1.6;
   color: var(--color-dark);
   word-break: keep-all;
-  margin-bottom: 12px;
+  margin-bottom: 14px;
   min-height: 3em;
+  letter-spacing: -0.01em;
 }
 .manage-shell .quote-box__hint {
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-text-subtle);
-  letter-spacing: 0.04em;
+  font-size: var(--fs-11);
+  color: var(--color-text-whisper);
+  letter-spacing: var(--track-eyebrow);
+  text-transform: uppercase;
   text-align: right;
 }
 
-/* ── Lesson Editor (수업 구성 모달 내) ── */
+/* ============================================================
+   Lesson editor
+   ============================================================ */
 .manage-shell .lesson-editor {
   display: flex;
   flex-direction: column;
   gap: 8px;
-  padding: 10px;
+  padding: 12px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 12px;
+  border-radius: var(--radius-md);
 }
 .manage-shell .lesson-editor__row {
   display: grid;
@@ -1218,8 +1411,8 @@
   align-items: center;
   background: var(--color-bg);
   border: 1px solid var(--color-border);
-  border-radius: 10px;
-  padding: 8px 10px;
+  border-radius: var(--radius-sm);
+  padding: 10px 12px;
 }
 .manage-shell .lesson-editor__order {
   display: flex;
@@ -1235,7 +1428,7 @@
   background: var(--color-bg);
   border-radius: 5px;
   font-size: 12px;
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
   cursor: pointer;
   font-family: var(--font-mono);
 }
@@ -1249,35 +1442,36 @@
 }
 .manage-shell .lesson-editor__n {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--accent);
   font-weight: 700;
+  letter-spacing: 0.06em;
 }
 .manage-shell .lesson-editor__title {
   width: 100% !important;
   padding: 8px 10px !important;
-  font-size: 14px !important;
+  font-size: var(--fs-14) !important;
 }
 .manage-shell .lesson-editor__mins {
   display: flex;
   align-items: center;
   gap: 4px;
-  font-size: 12px;
-  color: var(--color-text-muted);
+  font-size: var(--fs-12);
+  color: var(--color-text-subtle);
 }
 .manage-shell .lesson-editor__mins input {
   width: 60px !important;
   padding: 8px 6px !important;
   text-align: right;
   font-family: var(--font-mono) !important;
-  font-size: 13px !important;
+  font-size: var(--fs-13) !important;
 }
 .manage-shell .lesson-editor__remove {
   width: 28px;
   height: 28px;
   border: none;
   background: transparent;
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
   cursor: pointer;
   border-radius: 6px;
   font-size: 18px;
@@ -1302,14 +1496,21 @@
   }
 }
 
-/* ── Post (게시판 카드) ── */
+/* ============================================================
+   Post — 편집 카드. 좌측 semantic border가 스탬프처럼 박힘.
+   ============================================================ */
 .manage-shell .post {
-  background: var(--color-bg);
+  background: var(--color-paper);
   border: 1px solid var(--color-border);
-  border-radius: 16px;
+  border-radius: var(--radius-md);
   padding: var(--density-pad);
   position: relative;
   overflow: hidden;
+  transition: border-color var(--dur-base), box-shadow var(--dur-base);
+}
+.manage-shell .post:hover {
+  border-color: var(--color-border-strong);
+  box-shadow: var(--shadow-sm);
 }
 .manage-shell .post::before {
   content: "";
@@ -1320,22 +1521,16 @@
   width: 4px;
   background: var(--color-border-strong);
 }
-.manage-shell .post--notice::before {
-  background: var(--accent);
-}
-.manage-shell .post--assignment::before {
-  background: var(--color-warning);
-}
-.manage-shell .post--recap::before {
-  background: var(--color-dark);
-}
+.manage-shell .post--notice::before { background: var(--accent); }
+.manage-shell .post--assignment::before { background: var(--color-mission); }
+.manage-shell .post--recap::before { background: var(--color-dark); }
 
 .manage-shell .post__head {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 12px;
-  margin-bottom: 10px;
+  gap: 14px;
+  margin-bottom: 12px;
 }
 .manage-shell .post__kind {
   display: flex;
@@ -1345,25 +1540,27 @@
 }
 .manage-shell .post__kind-icon {
   font-size: 18px;
+  line-height: 1;
 }
 .manage-shell .post__time {
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-text-subtle);
-  letter-spacing: 0.04em;
+  font-size: var(--fs-11);
+  color: var(--color-text-whisper);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
 }
 .manage-shell .post__title {
   font-family: var(--font-heading-ko);
   font-weight: 800;
-  font-size: 22px;
-  line-height: 1.3;
-  letter-spacing: -0.02em;
+  font-size: 24px;
+  line-height: 1.28;
+  letter-spacing: -0.025em;
   color: var(--color-dark);
-  margin-bottom: 10px;
+  margin-bottom: 12px;
 }
 .manage-shell .post__body {
-  font-size: 15px;
-  line-height: 1.75;
+  font-size: var(--fs-15);
+  line-height: 1.78;
   color: var(--color-text);
   white-space: pre-wrap;
   word-break: keep-all;
@@ -1372,25 +1569,25 @@
 .manage-shell .post__link {
   color: var(--accent);
   text-decoration: underline;
-  text-decoration-color: var(--accent-soft);
+  text-decoration-color: var(--accent-mid);
   text-underline-offset: 3px;
   text-decoration-thickness: 2px;
   font-weight: 600;
   word-break: break-all;
-  transition: all 150ms;
+  transition: all var(--dur-fast);
 }
 .manage-shell .post__link:hover {
   color: var(--accent-hover);
   text-decoration-color: var(--accent);
 }
 .manage-shell .post__link:visited {
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
   text-decoration-color: var(--color-border);
 }
 
 .manage-shell .post__ack {
-  margin-top: 16px;
-  padding-top: 18px;
+  margin-top: 18px;
+  padding-top: 20px;
   border-top: 1px dashed var(--color-border);
 }
 .manage-shell .post__ack-head {
@@ -1402,13 +1599,16 @@
 }
 .manage-shell .post__ack-label {
   font-family: var(--font-heading-ko);
-  font-size: 15px;
+  font-size: var(--fs-15);
   color: var(--color-dark);
+  font-weight: 800;
+  letter-spacing: -0.01em;
 }
 .manage-shell .post__ack-sub {
-  font-size: 12px;
-  color: var(--color-text-muted);
-  margin-top: 2px;
+  font-size: var(--fs-12);
+  color: var(--color-text-subtle);
+  margin-top: 3px;
+  font-weight: 400;
 }
 .manage-shell .post__ack-pct {
   display: flex;
@@ -1418,22 +1618,23 @@
 }
 .manage-shell .post__ack-pct span {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--accent);
   font-weight: 700;
+  letter-spacing: 0.06em;
 }
 .manage-shell .post__ack-bar {
   width: 80px;
   height: 6px;
-  background: var(--color-surface-2);
-  border-radius: 999px;
+  background: var(--color-surface);
+  border-radius: var(--radius-pill);
   overflow: hidden;
 }
 .manage-shell .post__ack-bar > div {
   height: 100%;
   background: var(--accent);
-  border-radius: 999px;
-  transition: width 400ms var(--ease-out);
+  border-radius: var(--radius-pill);
+  transition: width var(--dur-slow) var(--ease-out);
 }
 .manage-shell .post__ack-row {
   display: flex;
@@ -1452,20 +1653,18 @@
 .manage-shell .ack-avatar {
   display: inline-grid;
   place-items: center;
-  width: 30px;
-  height: 30px;
+  width: 32px;
+  height: 32px;
   border-radius: 50%;
-  background: var(--color-surface-2);
-  color: var(--color-text-muted);
+  background: var(--color-surface);
+  color: var(--color-text-subtle);
   font-weight: 700;
-  font-size: 12px;
-  border: 2px solid var(--color-bg);
+  font-size: var(--fs-12);
+  border: 2px solid var(--color-paper);
   margin-left: -8px;
-  transition: transform 150ms;
+  transition: transform var(--dur-fast);
 }
-.manage-shell .ack-avatar:first-child {
-  margin-left: 0;
-}
+.manage-shell .ack-avatar:first-child { margin-left: 0; }
 .manage-shell .ack-avatar:hover {
   transform: translateY(-2px);
   z-index: 2;
@@ -1476,8 +1675,8 @@
   box-shadow: 0 0 0 2px var(--accent-soft);
 }
 .manage-shell .ack-avatar--more {
-  background: var(--color-bg);
-  color: var(--color-text-muted);
+  background: var(--color-paper);
+  color: var(--color-text-subtle);
   font-family: var(--font-mono);
   font-size: 10px;
   border: 2px dashed var(--color-border-strong);
@@ -1486,17 +1685,15 @@
 .manage-shell .ack-btn {
   margin-left: auto;
   padding: 12px 22px !important;
-  font-size: 15px !important;
-  border-radius: 999px !important;
-  transition: all 220ms var(--ease-out) !important;
-}
-.manage-shell .ack-btn:hover {
-  transform: translateY(-2px);
+  font-size: var(--fs-15) !important;
+  border-radius: var(--radius-pill) !important;
+  transition: all var(--dur-slow) var(--ease-out) !important;
 }
 .manage-shell .ack-btn--done {
-  background: var(--color-surface) !important;
+  background: var(--color-success-soft) !important;
   color: var(--color-success) !important;
   border-color: var(--color-success) !important;
+  box-shadow: none !important;
 }
 .manage-shell .ack-btn__check {
   display: inline-grid;
@@ -1513,39 +1710,46 @@
 .manage-shell .ack-admin-hint {
   margin-left: auto;
   font-family: var(--font-mono);
-  font-size: 11px;
-  color: var(--color-text-subtle);
-  padding: 8px 12px;
+  font-size: var(--fs-11);
+  color: var(--color-text-whisper);
+  padding: 9px 13px;
   border: 1px dashed var(--color-border);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
+  letter-spacing: 0.04em;
 }
 
-/* ── Empty state ── */
+/* ============================================================
+   Empty state
+   ============================================================ */
 .manage-shell .empty-state {
   background: var(--color-surface);
   border: 2px dashed var(--color-border);
-  border-radius: 18px;
-  padding: 60px 24px;
+  border-radius: var(--radius-lg);
+  padding: 64px 24px;
   text-align: center;
 }
 .manage-shell .empty-state__icon {
   font-size: 48px;
   color: var(--accent);
-  margin-bottom: 14px;
+  margin-bottom: 16px;
 }
 .manage-shell .empty-state h3 {
   font-family: var(--font-heading-ko);
-  font-size: 22px;
+  font-size: var(--fs-22);
   color: var(--color-dark);
-  margin-bottom: 8px;
+  margin-bottom: 10px;
+  letter-spacing: var(--track-tight);
 }
 .manage-shell .empty-state p {
-  color: var(--color-text-muted);
-  font-size: 14px;
-  margin-bottom: 18px;
+  color: var(--color-text-subtle);
+  font-size: var(--fs-14);
+  margin-bottom: 20px;
+  line-height: 1.6;
 }
 
-/* ── Student chip & picker ── */
+/* ============================================================
+   Student chip & picker
+   ============================================================ */
 .manage-shell .student-chip {
   display: inline-flex;
   align-items: center;
@@ -1553,44 +1757,44 @@
   padding: 6px 14px 6px 6px;
   background: var(--color-surface);
   border: 1px solid var(--color-border);
-  border-radius: 999px;
+  border-radius: var(--radius-pill);
   cursor: pointer;
-  font-size: 13px;
+  font-size: var(--fs-13);
   font-weight: 600;
   color: var(--color-dark);
-  transition: all 150ms;
+  transition: all var(--dur-fast);
   font-family: inherit;
 }
 .manage-shell .student-chip:hover {
   border-color: var(--accent);
 }
 .manage-shell .student-chip__avatar {
-  width: 26px;
-  height: 26px;
+  width: 28px;
+  height: 28px;
   border-radius: 50%;
   background: var(--accent);
   color: #fff;
   display: grid;
   place-items: center;
   font-weight: 700;
-  font-size: 11px;
+  font-size: var(--fs-11);
 }
 .manage-shell .student-pick {
-  padding: 12px 10px;
+  padding: 13px 12px;
   border: 1.5px solid var(--color-border);
-  border-radius: 10px;
-  background: var(--color-bg);
-  font-size: 14px;
+  border-radius: var(--radius-sm);
+  background: var(--color-paper);
+  font-size: var(--fs-14);
   font-weight: 600;
   color: var(--color-dark);
   cursor: pointer;
-  transition: all 150ms;
+  transition: all var(--dur-fast);
   font-family: inherit;
 }
 .manage-shell .student-pick:hover {
   background: var(--accent-soft);
   border-color: var(--accent);
-  color: var(--accent-hover);
+  color: var(--color-primary-deep);
 }
 .manage-shell .student-pick.is-current {
   background: var(--accent);
@@ -1598,25 +1802,32 @@
   border-color: var(--accent);
 }
 
-/* ── Chip btn (템플릿 불러오기) ── */
+/* ============================================================
+   Chip btn (템플릿 불러오기 등)
+   ============================================================ */
 .manage-shell .chip-btn {
   font-family: var(--font-mono);
-  font-size: 11px;
-  padding: 6px 10px;
-  border-radius: 999px;
+  font-size: var(--fs-11);
+  padding: 6px 11px;
+  border-radius: var(--radius-pill);
   background: var(--color-bg);
   border: 1px solid var(--color-border);
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
   cursor: pointer;
-  letter-spacing: 0.04em;
-  transition: all 150ms;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  transition: all var(--dur-fast);
+  font-weight: 600;
 }
 .manage-shell .chip-btn:hover {
   border-color: var(--color-dark);
   color: var(--color-dark);
+  background: var(--color-surface);
 }
 
-/* ── Ack matrix table ── */
+/* ============================================================
+   Ack matrix table
+   ============================================================ */
 .manage-shell .ack-table {
   width: 100%;
   border-collapse: separate;
@@ -1624,10 +1835,10 @@
   min-width: 720px;
 }
 .manage-shell .ack-table th {
-  padding: 10px 8px;
-  font-size: 12px;
+  padding: 12px 8px;
+  font-size: var(--fs-12);
   font-weight: 700;
-  color: var(--color-text-muted);
+  color: var(--color-text-subtle);
   text-align: center;
   border-bottom: 1px solid var(--color-border);
   vertical-align: bottom;
@@ -1641,28 +1852,29 @@
   font-family: var(--font-mono);
   font-size: 10px;
   color: var(--accent);
-  letter-spacing: 0.06em;
+  letter-spacing: 0.08em;
+  font-weight: 600;
 }
 .manage-shell .ack-table__col-kind {
-  font-size: 11px;
-  color: var(--color-text-muted);
+  font-size: var(--fs-11);
+  color: var(--color-text-subtle);
   margin-top: 2px;
 }
 .manage-shell .ack-table__col-title {
-  font-size: 11px;
+  font-size: var(--fs-11);
   color: var(--color-dark);
   margin-top: 4px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   max-width: 130px;
-  font-weight: 600;
+  font-weight: 700;
 }
 .manage-shell .ack-table td {
-  padding: 8px;
+  padding: 10px 8px;
   border-bottom: 1px solid var(--color-border);
   text-align: center;
-  font-size: 13px;
+  font-size: var(--fs-13);
 }
 .manage-shell .ack-table__sticky {
   position: sticky;
@@ -1672,57 +1884,62 @@
   font-weight: 700;
   color: var(--color-dark);
   min-width: 80px;
+  background: var(--color-bg);
 }
 .manage-shell .ack-table__cell {
   font-family: var(--font-mono);
-  color: var(--color-text-subtle);
+  color: var(--color-text-whisper);
 }
 .manage-shell .ack-table__cell.is-acked {
   background: var(--accent-soft) !important;
-  color: var(--accent);
+  color: var(--color-primary-deep);
   font-weight: 700;
 }
 
+/* ============================================================
+   Input util
+   ============================================================ */
 .manage-shell .nmm-input {
-  font-size: 14px;
-  padding: 10px 14px;
+  font-size: var(--fs-14);
+  padding: 11px 14px;
   border: 1.5px solid var(--color-border-strong);
-  border-radius: 10px;
+  border-radius: var(--radius-sm);
   background: var(--color-bg);
   font-family: inherit;
   color: var(--color-dark);
+  transition: border-color var(--dur-base), box-shadow var(--dur-base);
 }
 .manage-shell .nmm-input:focus {
   outline: none;
   border-color: var(--accent);
-  box-shadow: 0 0 0 3px var(--accent-soft);
+  box-shadow: var(--shadow-focus);
 }
 
-/* ── Responsive ── */
+/* ============================================================
+   Responsive
+   ============================================================ */
 @media (max-width: 900px) {
   .manage-shell .topbar__inner {
-    padding: 12px 16px;
+    padding: 14px 18px;
     flex-wrap: wrap;
   }
   .manage-shell .layout {
-    padding: 20px 16px 80px;
+    padding: 28px 18px 96px;
   }
   .manage-shell[data-layout="side"] .layout {
     grid-template-columns: 1fr;
   }
-  .manage-shell .side-nav {
-    display: none !important;
-  }
+  .manage-shell .side-nav { display: none !important; }
   .manage-shell .tabs {
     display: flex !important;
-    padding: 0 16px;
+    padding: 0 18px;
   }
   .manage-shell .session-head {
     grid-template-columns: 1fr;
-    gap: 14px;
+    gap: 16px;
   }
   .manage-shell .session-head__title {
-    font-size: 30px;
+    font-size: 36px;
   }
   .manage-shell .content-grid {
     grid-template-columns: 1fr;
@@ -1730,8 +1947,9 @@
   .manage-shell .tile-grid {
     grid-template-columns: repeat(2, 1fr);
   }
+  .manage-shell .tile__value { font-size: 36px; }
   .manage-shell .timeline__item {
-    grid-template-columns: 70px 1fr;
+    grid-template-columns: 72px 1fr;
   }
   .manage-shell .timeline__item .pill {
     grid-column: 1 / -1;
@@ -1739,65 +1957,55 @@
   }
   .manage-shell .tweaks-panel {
     right: 12px;
-    bottom: 80px;
+    bottom: 84px;
     width: calc(100% - 24px);
     max-width: 360px;
   }
   .manage-shell .tweaks-fab {
-    right: 16px;
-    bottom: 16px;
+    right: 18px;
+    bottom: 18px;
   }
 }
+
 @media (max-width: 640px) {
   .manage-shell .post {
     padding: 20px;
   }
-  .manage-shell .post__title {
-    font-size: 18px;
-  }
-  .manage-shell .post__body {
-    font-size: 14px;
-  }
+  .manage-shell .post__title { font-size: 20px; }
+  .manage-shell .post__body { font-size: var(--fs-14); }
   .manage-shell .post__ack-head {
     flex-direction: column;
-    gap: 6px;
+    gap: 8px;
   }
   .manage-shell .ack-btn {
     margin-left: 0;
     width: 100%;
   }
-  .manage-shell .ack-admin-hint {
-    margin-left: 0;
-  }
+  .manage-shell .ack-admin-hint { margin-left: 0; }
   .manage-shell .student-chip {
     padding: 4px 10px 4px 4px;
-    font-size: 12px;
+    font-size: var(--fs-12);
   }
   .manage-shell .student-chip__avatar {
-    width: 22px;
-    height: 22px;
+    width: 24px;
+    height: 24px;
     font-size: 10px;
   }
 }
+
 @media (max-width: 520px) {
   .manage-shell .tile-grid {
     grid-template-columns: 1fr 1fr;
   }
-  .manage-shell .session-head__title {
-    font-size: 26px;
-  }
-  .manage-shell .brand__title {
-    font-size: 16px;
-  }
-  .manage-shell .brand__sub {
-    display: none;
-  }
+  .manage-shell .session-head__title { font-size: 30px; }
+  .manage-shell .brand__title { font-size: var(--fs-16); }
+  .manage-shell .brand__sub { display: none; }
   .manage-shell .mode-switch button {
     padding: 6px 10px;
-    font-size: 12px;
+    font-size: var(--fs-12);
   }
   .manage-shell .tab {
     padding: 12px 12px 10px;
-    font-size: 13px;
+    font-size: var(--fs-13);
   }
 }
