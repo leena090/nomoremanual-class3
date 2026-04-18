@@ -1148,6 +1148,33 @@
   color: #fff;
 }
 
+/* ── Quote Rotator (학생 대시보드 한마디 패널) ── */
+.manage-shell .quote-box {
+  cursor: pointer;
+  padding: 8px 2px;
+  border-radius: 10px;
+  transition: background 200ms;
+}
+.manage-shell .quote-box:hover {
+  background: var(--color-bg);
+}
+.manage-shell .quote-box__text {
+  font-family: var(--font-heading-ko);
+  font-size: 18px;
+  line-height: 1.65;
+  color: var(--color-dark);
+  word-break: keep-all;
+  margin-bottom: 12px;
+  min-height: 3em;
+}
+.manage-shell .quote-box__hint {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--color-text-subtle);
+  letter-spacing: 0.04em;
+  text-align: right;
+}
+
 /* ── Lesson Editor (수업 구성 모달 내) ── */
 .manage-shell .lesson-editor {
   display: flex;

@@ -14,6 +14,7 @@ interface TopbarProps {
   setActive: (v: ActiveView) => void;
   sessions: SessionMeta[];
   studentName: string;
+  hasAdminKey: boolean;
   onPickStudent: () => void;
   onRequestAdmin: () => void;
 }
@@ -25,9 +26,13 @@ export function Topbar({
   setActive,
   sessions,
   studentName,
+  hasAdminKey,
   onPickStudent,
   onRequestAdmin,
 }: TopbarProps) {
+  /* 관리자 권한이 있을 때만 mode-switch 노출.
+     순수 학생(adminKey 없음)에게는 관리자 탭 자체가 숨겨짐. */
+  const showModeSwitch = hasAdminKey || mode === "admin";
   return (
     <header className="topbar">
       <div className="topbar__inner">
@@ -58,33 +63,34 @@ export function Topbar({
               <span>{studentName}</span>
             </button>
           )}
-          <div className="mode-switch">
-            <button
-              className={
-                mode === "admin" ? "is-active mode-admin" : ""
-              }
-              onClick={() => {
-                /* 강사 모드 진입 시 비밀번호 요구 */
-                if (mode !== "admin") onRequestAdmin();
-                else setMode("admin");
-              }}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M12 1l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z"/>
-              </svg>
-              관리자
-            </button>
-            <button
-              className={mode === "student" ? "is-active" : ""}
-              onClick={() => setMode("student")}
-            >
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-                <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/>
-                <circle cx="12" cy="7" r="4"/>
-              </svg>
-              수강생
-            </button>
-          </div>
+          {showModeSwitch && (
+            <div className="mode-switch">
+              <button
+                className={mode === "admin" ? "is-active mode-admin" : ""}
+                onClick={() => {
+                  /* adminKey 있으면 바로 전환, 없으면 비번 요구 */
+                  if (mode === "admin") return;
+                  if (hasAdminKey) setMode("admin");
+                  else onRequestAdmin();
+                }}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M12 1l3 6 7 1-5 5 1 7-6-3-6 3 1-7-5-5 7-1z" />
+                </svg>
+                관리자
+              </button>
+              <button
+                className={mode === "student" ? "is-active" : ""}
+                onClick={() => setMode("student")}
+              >
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
+                  <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+                  <circle cx="12" cy="7" r="4" />
+                </svg>
+                수강생
+              </button>
+            </div>
+          )}
         </div>
       </div>
       <Tabs active={active} setActive={setActive} sessions={sessions} />

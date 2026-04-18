@@ -365,7 +365,14 @@ export default function ClientShell({
 
   let page: React.ReactNode = null;
   if (active === "dashboard") {
-    page = <Dashboard state={state} setActive={setActive} />;
+    page = (
+      <Dashboard
+        state={state}
+        setActive={setActive}
+        mode={mode}
+        studentName={studentName}
+      />
+    );
   } else if (active === "students") {
     page = <StudentsPage state={state} />;
   } else if (active.startsWith("s")) {
@@ -397,14 +404,11 @@ export default function ClientShell({
         setActive={setActive}
         sessions={sessions}
         studentName={studentName}
+        hasAdminKey={!!adminKey}
         onPickStudent={() => setPickerOpen(true)}
         onRequestAdmin={() => {
-          if (adminKey) {
-            /* 이미 인증됨 */
-            setMode("admin");
-          } else {
-            setAdminModalOpen(true);
-          }
+          if (adminKey) setMode("admin");
+          else setAdminModalOpen(true);
         }}
       />
       <main className="layout">

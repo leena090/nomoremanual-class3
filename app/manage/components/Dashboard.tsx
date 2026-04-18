@@ -1,17 +1,35 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { STUDENTS, kindEmoji, kindLabel } from "../data";
-import type { ActiveView, ManageState } from "../types";
+
+/* ── 학생용 동기부여 문구 (순환) ── */
+const MOTIVATION_QUOTES: string[] = [
+  "오늘도 클로드랑 한 걸음. 꾸준함이 제일 큰 재능이에요 🌿",
+  "모르는 건 부끄러운 게 아니라, 새로 배울 기회예요. AI한테는 더더욱 🙂",
+  "30분이어도, 3분이어도 괜찮아요. 본인 속도가 맞는 속도예요 ☕",
+  "클로드는 기다려줘요. 급할 거 하나도 없어요.",
+  "오늘 배운 것 중 딱 하나만 내일 써보세요. 그게 진짜 실력이에요 ✨",
+  "AI 시대 주인공은 빨리 배운 사람이 아니라, 자꾸 해본 사람이에요.",
+  "50대에 코딩, 60대에 앱 만들기 — 지금 이 자리가 그 증명이에요 💪",
+  "실수해도 괜찮아요. AI는 혼내지 않아요 🤖",
+  "완벽하게 이해 못해도 손이 먼저 기억해요. 따라 해보세요.",
+  "어제보다 한 줄 더 아셨으면, 오늘은 성공한 하루예요 💛",
+];
+import type { ActiveView, ManageState, Mode } from "../types";
 import { Pill } from "./Pill";
 
 /* ── 대시보드 ── */
 export function Dashboard({
   state,
   setActive,
+  mode,
+  studentName,
 }: {
   state: ManageState;
   setActive: (v: ActiveView) => void;
+  mode: Mode;
+  studentName: string;
 }) {
   const totalStudents = STUDENTS.length;
   const allPosts = Object.entries(state.posts).flatMap(([sid, arr]) =>
@@ -30,6 +48,13 @@ export function Dashboard({
     (s) => state.statuses[s.id] === "upcoming"
   );
   const live = state.sessions.find((s) => state.statuses[s.id] === "live");
+
+  /* ── 학생 본인의 확인 현황 (student 모드일 때만 의미 있음) ── */
+  const myAckCount = studentName
+    ? allPosts.filter((p) => (state.acks[p.id] || []).includes(studentName))
+        .length
+    : 0;
+  const myUnreadCount = allPosts.length - myAckCount;
 
   return (
     <div>
@@ -144,163 +169,380 @@ export function Dashboard({
         </div>
 
         <div>
-          <div className="panel panel--dark">
-            <div className="panel__head">
-              <div>
-                <div className="eyebrow" style={{ color: "#9A9184" }}>
-                  NEXT UP · 바로 할 일
-                </div>
-                <h3 style={{ color: "#fff" }}>오늘·이번 주</h3>
-              </div>
-            </div>
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-                display: "flex",
-                flexDirection: "column",
-                gap: 10,
-              }}
-            >
-              {live && (
-                <li
-                  style={{
-                    display: "flex",
-                    gap: 12,
-                    padding: 14,
-                    background: "rgba(255,255,255,0.06)",
-                    borderRadius: 10,
-                  }}
-                >
-                  <span
-                    className="pill pill--accent"
-                    style={{ height: "fit-content" }}
-                  >
-                    LIVE
-                  </span>
-                  <div>
-                    <div
-                      style={{
-                        fontFamily: "var(--font-heading-ko)",
-                        fontSize: 16,
-                        color: "#fff",
-                        marginBottom: 4,
-                      }}
-                    >
-                      {live.num}강 &quot;{live.title}&quot;
-                    </div>
-                    <div style={{ fontSize: 12, color: "#9A9184" }}>
-                      오늘 {live.dateLabel} 21:30 · Zoom
-                    </div>
-                  </div>
-                </li>
-              )}
-              <li
-                style={{
-                  display: "flex",
-                  gap: 12,
-                  padding: 14,
-                  background: "rgba(255,255,255,0.06)",
-                  borderRadius: 10,
-                }}
-              >
-                <span
-                  className="pill pill--warn"
-                  style={{ height: "fit-content" }}
-                >
-                  할 일
-                </span>
-                <div>
-                  <div
-                    style={{
-                      fontFamily: "var(--font-heading-ko)",
-                      fontSize: 16,
-                      color: "#fff",
-                      marginBottom: 4,
-                    }}
-                  >
-                    오늘 수업 요약 올리기
-                  </div>
-                  <div style={{ fontSize: 12, color: "#9A9184" }}>
-                    + 수업내용 · + 과제 · + 공지 버튼으로 간단히
-                  </div>
-                </div>
-              </li>
-            </ul>
-            {live && (
-              <button
-                className="btn btn--primary"
-                style={{ marginTop: 14, width: "100%" }}
-                onClick={() => setActive(`s${live.id}` as ActiveView)}
-              >
-                진행중 수업으로 이동 →
-              </button>
-            )}
-          </div>
+          {mode === "admin" ? (
+            <AdminRightColumn
+              live={live}
+              setActive={setActive}
+            />
+          ) : (
+            <StudentRightColumn
+              live={live}
+              upcoming={upcoming}
+              studentName={studentName}
+              myAckCount={myAckCount}
+              myUnreadCount={myUnreadCount}
+              totalPosts={allPosts.length}
+              setActive={setActive}
+            />
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
 
-          <div
-            className="panel"
-            style={{ marginTop: "var(--density-gap)" }}
-          >
-            <div className="panel__head">
-              <div>
-                <div className="eyebrow">TIP · 진행 원칙</div>
-                <h3>강요 없이, 편하게</h3>
-              </div>
+/* ── 관리자용 오른쪽 컬럼: 바로 할 일 + 진행 원칙 ── */
+function AdminRightColumn({
+  live,
+  setActive,
+}: {
+  live?: ManageState["sessions"][number];
+  setActive: (v: ActiveView) => void;
+}) {
+  return (
+    <>
+      <div className="panel panel--dark">
+        <div className="panel__head">
+          <div>
+            <div className="eyebrow" style={{ color: "#9A9184" }}>
+              NEXT UP · 바로 할 일
             </div>
-            <ul
-              style={{
-                listStyle: "none",
-                padding: 0,
-                margin: 0,
-                fontSize: 14,
-                color: "var(--color-text)",
-                lineHeight: 1.7,
-              }}
-            >
-              <li style={{ paddingLeft: 18, position: "relative" }}>
-                <span
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    color: "var(--accent)",
-                    fontWeight: 700,
-                  }}
-                >
-                  ·
-                </span>
-                성인 학습자를 존중 — 확인은 자율
-              </li>
-              <li style={{ paddingLeft: 18, position: "relative" }}>
-                <span
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    color: "var(--accent)",
-                    fontWeight: 700,
-                  }}
-                >
-                  ·
-                </span>
-                제출·점수 추적 없음 — &quot;확인했어요&quot;면 충분
-              </li>
-              <li style={{ paddingLeft: 18, position: "relative" }}>
-                <span
-                  style={{
-                    position: "absolute",
-                    left: 0,
-                    color: "var(--accent)",
-                    fontWeight: 700,
-                  }}
-                >
-                  ·
-                </span>
-                녹화본 + 카톡 질문으로 결석자도 캐치업
-              </li>
-            </ul>
+            <h3 style={{ color: "#fff" }}>오늘·이번 주</h3>
           </div>
         </div>
+        <ul
+          style={{
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
+            display: "flex",
+            flexDirection: "column",
+            gap: 10,
+          }}
+        >
+          {live && (
+            <li
+              style={{
+                display: "flex",
+                gap: 12,
+                padding: 14,
+                background: "rgba(255,255,255,0.06)",
+                borderRadius: 10,
+              }}
+            >
+              <span
+                className="pill pill--accent"
+                style={{ height: "fit-content" }}
+              >
+                LIVE
+              </span>
+              <div>
+                <div
+                  style={{
+                    fontFamily: "var(--font-heading-ko)",
+                    fontSize: 16,
+                    color: "#fff",
+                    marginBottom: 4,
+                  }}
+                >
+                  {live.num}강 &quot;{live.title}&quot;
+                </div>
+                <div style={{ fontSize: 12, color: "#9A9184" }}>
+                  오늘 {live.dateLabel} 21:30 · Zoom
+                </div>
+              </div>
+            </li>
+          )}
+          <li
+            style={{
+              display: "flex",
+              gap: 12,
+              padding: 14,
+              background: "rgba(255,255,255,0.06)",
+              borderRadius: 10,
+            }}
+          >
+            <span className="pill pill--warn" style={{ height: "fit-content" }}>
+              할 일
+            </span>
+            <div>
+              <div
+                style={{
+                  fontFamily: "var(--font-heading-ko)",
+                  fontSize: 16,
+                  color: "#fff",
+                  marginBottom: 4,
+                }}
+              >
+                오늘 수업 요약 올리기
+              </div>
+              <div style={{ fontSize: 12, color: "#9A9184" }}>
+                + 수업내용 · + 과제 · + 공지 버튼으로 간단히
+              </div>
+            </div>
+          </li>
+        </ul>
+        {live && (
+          <button
+            className="btn btn--primary"
+            style={{ marginTop: 14, width: "100%" }}
+            onClick={() => setActive(`s${live.id}` as ActiveView)}
+          >
+            진행중 수업으로 이동 →
+          </button>
+        )}
+      </div>
+
+      <div className="panel" style={{ marginTop: "var(--density-gap)" }}>
+        <div className="panel__head">
+          <div>
+            <div className="eyebrow">TIP · 진행 원칙</div>
+            <h3>강요 없이, 편하게</h3>
+          </div>
+        </div>
+        <ul
+          style={{
+            listStyle: "none",
+            padding: 0,
+            margin: 0,
+            fontSize: 14,
+            color: "var(--color-text)",
+            lineHeight: 1.7,
+          }}
+        >
+          <li style={{ paddingLeft: 18, position: "relative" }}>
+            <span
+              style={{
+                position: "absolute",
+                left: 0,
+                color: "var(--accent)",
+                fontWeight: 700,
+              }}
+            >
+              ·
+            </span>
+            성인 학습자를 존중 — 확인은 자율
+          </li>
+          <li style={{ paddingLeft: 18, position: "relative" }}>
+            <span
+              style={{
+                position: "absolute",
+                left: 0,
+                color: "var(--accent)",
+                fontWeight: 700,
+              }}
+            >
+              ·
+            </span>
+            제출·점수 추적 없음 — &quot;확인했어요&quot;면 충분
+          </li>
+          <li style={{ paddingLeft: 18, position: "relative" }}>
+            <span
+              style={{
+                position: "absolute",
+                left: 0,
+                color: "var(--accent)",
+                fontWeight: 700,
+              }}
+            >
+              ·
+            </span>
+            녹화본 + 카톡 질문으로 결석자도 캐치업
+          </li>
+        </ul>
+      </div>
+    </>
+  );
+}
+
+/* ── 학생용 오른쪽 컬럼: 오늘 수업 안내 + 내 확인 현황 ── */
+function StudentRightColumn({
+  live,
+  upcoming,
+  studentName,
+  myAckCount,
+  myUnreadCount,
+  totalPosts,
+  setActive,
+}: {
+  live?: ManageState["sessions"][number];
+  upcoming?: ManageState["sessions"][number];
+  studentName: string;
+  myAckCount: number;
+  myUnreadCount: number;
+  totalPosts: number;
+  setActive: (v: ActiveView) => void;
+}) {
+  const nextClass = live || upcoming;
+  return (
+    <>
+      <div className="panel panel--dark">
+        <div className="panel__head">
+          <div>
+            <div className="eyebrow" style={{ color: "#9A9184" }}>
+              {live ? "TODAY · 오늘의 수업" : "NEXT · 다음 수업"}
+            </div>
+            <h3 style={{ color: "#fff" }}>
+              {studentName ? `${studentName}님, 반가워요` : "환영합니다"}
+            </h3>
+          </div>
+        </div>
+        {nextClass ? (
+          <div
+            style={{
+              display: "flex",
+              gap: 12,
+              padding: 14,
+              background: "rgba(255,255,255,0.06)",
+              borderRadius: 10,
+            }}
+          >
+            <span
+              className={`pill pill--${live ? "accent" : "neutral"}`}
+              style={{ height: "fit-content" }}
+            >
+              {live ? "LIVE" : nextClass.dateLabel.split(" ")[0]}
+            </span>
+            <div>
+              <div
+                style={{
+                  fontFamily: "var(--font-heading-ko)",
+                  fontSize: 16,
+                  color: "#fff",
+                  marginBottom: 4,
+                }}
+              >
+                {nextClass.num}강 &quot;{nextClass.title}&quot;
+              </div>
+              <div style={{ fontSize: 12, color: "#9A9184" }}>
+                {live
+                  ? `오늘 ${nextClass.dateLabel} 21:30 · Zoom`
+                  : `${nextClass.dateLabel} 21:30 · Zoom`}
+              </div>
+            </div>
+          </div>
+        ) : (
+          <div
+            style={{
+              padding: 14,
+              color: "#9A9184",
+              fontSize: 14,
+              textAlign: "center",
+            }}
+          >
+            모든 수업이 마무리되었어요 🎉
+          </div>
+        )}
+        {nextClass && (
+          <button
+            className="btn btn--primary"
+            style={{ marginTop: 14, width: "100%" }}
+            onClick={() => setActive(`s${nextClass.id}` as ActiveView)}
+          >
+            {live ? "오늘 수업으로 이동" : "안내글 보러가기"} →
+          </button>
+        )}
+      </div>
+
+      <div className="panel" style={{ marginTop: "var(--density-gap)" }}>
+        <div className="panel__head">
+          <div>
+            <div className="eyebrow">MY PROGRESS · 내 확인 현황</div>
+            <h3>읽을 거리 {myUnreadCount}개</h3>
+          </div>
+        </div>
+        <div
+          style={{
+            display: "flex",
+            alignItems: "center",
+            gap: 14,
+          }}
+        >
+          <div
+            style={{
+              flex: 1,
+              background: "var(--color-surface-2)",
+              height: 10,
+              borderRadius: 999,
+              overflow: "hidden",
+            }}
+          >
+            <div
+              style={{
+                width: totalPosts
+                  ? `${Math.round((myAckCount / totalPosts) * 100)}%`
+                  : "0%",
+                height: "100%",
+                background: "var(--accent)",
+                transition: "width 400ms var(--ease-out)",
+              }}
+            />
+          </div>
+          <div
+            style={{
+              fontFamily: "var(--font-mono)",
+              fontSize: 13,
+              color: "var(--color-dark)",
+              fontWeight: 700,
+            }}
+          >
+            {myAckCount}/{totalPosts}
+          </div>
+        </div>
+      </div>
+
+      <div className="panel panel--surface" style={{ marginTop: "var(--density-gap)" }}>
+        <div className="panel__head">
+          <div>
+            <div className="eyebrow">TODAY&apos;S WORD · 오늘의 응원</div>
+            <h3>💛 한마디</h3>
+          </div>
+        </div>
+        <QuoteRotator />
+      </div>
+    </>
+  );
+}
+
+/* ── 동기부여 문구 순환 (8초마다 전환, fade) ── */
+function QuoteRotator() {
+  const [idx, setIdx] = useState(() =>
+    Math.floor(Math.random() * MOTIVATION_QUOTES.length)
+  );
+  const [fade, setFade] = useState(true);
+
+  useEffect(() => {
+    const iv = setInterval(() => {
+      setFade(false);
+      /* fade-out 후 문구 교체 → fade-in */
+      setTimeout(() => {
+        setIdx((i) => (i + 1) % MOTIVATION_QUOTES.length);
+        setFade(true);
+      }, 300);
+    }, 8000);
+    return () => clearInterval(iv);
+  }, []);
+
+  return (
+    <div
+      className="quote-box"
+      onClick={() => {
+        /* 클릭하면 다음 문구로 수동 전환 */
+        setFade(false);
+        setTimeout(() => {
+          setIdx((i) => (i + 1) % MOTIVATION_QUOTES.length);
+          setFade(true);
+        }, 200);
+      }}
+      title="클릭하면 다음 한마디"
+      style={{
+        opacity: fade ? 1 : 0,
+        transition: "opacity 300ms var(--ease-out)",
+      }}
+    >
+      <div className="quote-box__text">{MOTIVATION_QUOTES[idx]}</div>
+      <div className="quote-box__hint">
+        {idx + 1} / {MOTIVATION_QUOTES.length} · 클릭하면 다음
       </div>
     </div>
   );
