@@ -4,6 +4,7 @@ import { kindEmoji, kindLabel, kindVariant, STUDENTS } from "../data";
 import type { Mode, Post } from "../types";
 import { avatarChar } from "./Topbar";
 import { Pill } from "./Pill";
+import { LinkifiedText } from "./LinkifiedText";
 
 interface PostCardProps {
   post: Post;
@@ -64,7 +65,9 @@ export function PostCard({
         )}
       </div>
       <h3 className="post__title">{p.title}</h3>
-      <div className="post__body">{p.body}</div>
+      <div className="post__body">
+        <LinkifiedText text={p.body} />
+      </div>
 
       <div className="post__ack">
         <div className="post__ack-head">

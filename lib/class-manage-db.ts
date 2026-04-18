@@ -27,6 +27,20 @@ export type AcksByPost = Record<string, string[]>;
 export type SessionStatus = "past" | "live" | "upcoming";
 export type StatusesBySession = Record<number, SessionStatus>;
 
+export interface Lesson {
+  n: number;
+  title: string;
+  mins: number;
+}
+
+/* ── 기본값을 덮어쓰는 부분 필드만 저장 (null이면 기본값 사용) ── */
+export interface SessionMetaOverride {
+  title?: string | null;
+  subtitle?: string | null;
+  lessons?: Lesson[] | null;
+}
+export type OverridesBySession = Record<number, SessionMetaOverride>;
+
 /* ── 데모용 인메모리 저장소 (Mock 모드에서만 사용) ── */
 const mockPosts: Post[] = [];
 const mockAcks: Array<{ post_id: string; student_name: string }> = [];
@@ -221,6 +235,58 @@ export async function setSessionStatus(
     VALUES (${session_id}, ${status})
     ON CONFLICT (session_id)
     DO UPDATE SET status = EXCLUDED.status, updated_at = now()
+  `;
+  return { success: true };
+}
+
+/* ── 회차 메타(제목/부제/레슨) 오버라이드 전체 조회 ── */
+export async function getAllSessionMetaOverrides(): Promise<OverridesBySession> {
+  const fallback: OverridesBySession = { 1: {}, 2: {}, 3: {}, 4: {} };
+  if (isMockMode || !sql) return fallback;
+
+  const rows = (await sql`
+    SELECT session_id, title, subtitle, lessons
+    FROM class_session_meta
+  `) as Array<{
+    session_id: number;
+    title: string | null;
+    subtitle: string | null;
+    lessons: Lesson[] | null;
+  }>;
+
+  const out: OverridesBySession = { ...fallback };
+  for (const r of rows) {
+    out[r.session_id] = {
+      title: r.title,
+      subtitle: r.subtitle,
+      lessons: r.lessons,
+    };
+  }
+  return out;
+}
+
+/* ── 회차 메타 업데이트 (강사 전용) ──
+   null/undefined를 명시적으로 전달하면 해당 필드가 기본값으로 돌아감.
+*/
+export async function updateSessionMeta(
+  session_id: number,
+  data: SessionMetaOverride
+): Promise<{ success: boolean }> {
+  if (isMockMode || !sql) return { success: true };
+
+  const title = data.title ?? null;
+  const subtitle = data.subtitle ?? null;
+  const lessons = data.lessons ?? null;
+
+  await sql`
+    INSERT INTO class_session_meta (session_id, title, subtitle, lessons)
+    VALUES (${session_id}, ${title}, ${subtitle}, ${JSON.stringify(lessons)}::jsonb)
+    ON CONFLICT (session_id)
+    DO UPDATE SET
+      title = EXCLUDED.title,
+      subtitle = EXCLUDED.subtitle,
+      lessons = EXCLUDED.lessons,
+      updated_at = now()
   `;
   return { success: true };
 }

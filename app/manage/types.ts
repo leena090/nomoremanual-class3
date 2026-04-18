@@ -4,8 +4,11 @@ import type {
   AcksByPost,
   SessionStatus,
   StatusesBySession,
+  Lesson,
+  SessionMetaOverride,
+  OverridesBySession,
 } from "@/lib/class-manage-db";
-import type { PostKind } from "./data";
+import type { PostKind, SessionMeta } from "./data";
 
 export type {
   Post,
@@ -14,6 +17,10 @@ export type {
   PostKind,
   SessionStatus,
   StatusesBySession,
+  Lesson,
+  SessionMetaOverride,
+  OverridesBySession,
+  SessionMeta,
 };
 
 export type Mode = "admin" | "student";
@@ -27,4 +34,5 @@ export interface ManageState {
   posts: PostsBySession;
   acks: AcksByPost;
   statuses: StatusesBySession;
+  sessions: SessionMeta[];
 }

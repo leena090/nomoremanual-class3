@@ -1,7 +1,6 @@
 "use client";
 
-import { SESSIONS } from "../data";
-import type { ActiveView, Mode } from "../types";
+import type { ActiveView, Mode, SessionMeta } from "../types";
 
 /* ── 아바타 글자 추출: 2글자 이름이면 첫 글자, 3글자면 두번째 ── */
 function avatarChar(name: string): string {
@@ -13,6 +12,7 @@ interface TopbarProps {
   setMode: (m: Mode) => void;
   active: ActiveView;
   setActive: (v: ActiveView) => void;
+  sessions: SessionMeta[];
   studentName: string;
   onPickStudent: () => void;
   onRequestAdmin: () => void;
@@ -23,6 +23,7 @@ export function Topbar({
   setMode,
   active,
   setActive,
+  sessions,
   studentName,
   onPickStudent,
   onRequestAdmin,
@@ -86,7 +87,7 @@ export function Topbar({
           </div>
         </div>
       </div>
-      <Tabs active={active} setActive={setActive} />
+      <Tabs active={active} setActive={setActive} sessions={sessions} />
     </header>
   );
 }
@@ -94,13 +95,15 @@ export function Topbar({
 function Tabs({
   active,
   setActive,
+  sessions,
 }: {
   active: ActiveView;
   setActive: (v: ActiveView) => void;
+  sessions: SessionMeta[];
 }) {
   const items: Array<{ id: ActiveView; label: string; num: string }> = [
     { id: "dashboard", label: "대시보드", num: "00" },
-    ...SESSIONS.map((s) => ({
+    ...sessions.map((s) => ({
       id: `s${s.id}` as ActiveView,
       label: s.title,
       num: s.num,
@@ -126,13 +129,15 @@ function Tabs({
 export function SideNav({
   active,
   setActive,
+  sessions,
 }: {
   active: ActiveView;
   setActive: (v: ActiveView) => void;
+  sessions: SessionMeta[];
 }) {
   const items: Array<{ id: ActiveView; label: string; num: string }> = [
     { id: "dashboard", label: "대시보드", num: "00" },
-    ...SESSIONS.map((s) => ({
+    ...sessions.map((s) => ({
       id: `s${s.id}` as ActiveView,
       label: s.title,
       num: s.num,

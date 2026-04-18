@@ -126,6 +126,27 @@ export const SESSIONS: SessionMeta[] = [
   },
 ];
 
+/* ── SESSIONS에 오버라이드 병합 ──
+   DB에 저장된 title/subtitle/lessons가 있으면 덮어씌움.
+*/
+export function mergeSessions(
+  overrides: Record<
+    number,
+    { title?: string | null; subtitle?: string | null; lessons?: Lesson[] | null }
+  >
+): SessionMeta[] {
+  return SESSIONS.map((s) => {
+    const o = overrides[s.id];
+    if (!o) return s;
+    return {
+      ...s,
+      title: o.title ?? s.title,
+      subtitle: o.subtitle ?? s.subtitle,
+      lessons: o.lessons ?? s.lessons,
+    };
+  });
+}
+
 /* ── kind 유틸 ── */
 export type PostKind = "recap" | "assignment" | "notice";
 

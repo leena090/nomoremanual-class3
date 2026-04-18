@@ -1,11 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import { SESSIONS, kindLabel } from "../data";
-import type { ManageState, Mode, SessionStatus } from "../types";
+import { kindLabel } from "../data";
+import type { Lesson, ManageState, Mode, SessionStatus } from "../types";
 import { PostCard } from "./PostCard";
 import { PostEditor, type EditingPost } from "./PostEditor";
 import { Pill } from "./Pill";
+import { SessionMetaEditor } from "./SessionMetaEditor";
 
 interface Actions {
   addPost: (
@@ -22,6 +23,10 @@ interface Actions {
   setSessionStatus: (
     sessionId: number,
     status: SessionStatus
+  ) => Promise<void> | void;
+  updateSessionMeta: (
+    sessionId: number,
+    data: { title: string; subtitle: string; lessons: Lesson[] }
   ) => Promise<void> | void;
 }
 
@@ -44,8 +49,9 @@ export function SessionPage({
   studentName,
   onPickStudent,
 }: Props) {
-  const session = SESSIONS.find((s) => s.id === sessionId);
+  const session = state.sessions.find((s) => s.id === sessionId);
   const [editingPost, setEditingPost] = useState<EditingPost | null>(null);
+  const [editingMeta, setEditingMeta] = useState(false);
 
   if (!session) return null;
 
@@ -133,6 +139,14 @@ export function SessionPage({
             <div className="eyebrow">CURRICULUM · 수업 구성</div>
             <h3>이 회차에서 다루는 내용</h3>
           </div>
+          {mode === "admin" && (
+            <button
+              className="btn btn--secondary btn--sm"
+              onClick={() => setEditingMeta(true)}
+            >
+              ✎ 수업 구성 수정
+            </button>
+          )}
         </div>
         <div
           style={{
@@ -235,6 +249,17 @@ export function SessionPage({
             />
           ))}
         </div>
+      )}
+
+      {editingMeta && (
+        <SessionMetaEditor
+          session={session}
+          onClose={() => setEditingMeta(false)}
+          onSave={async (data) => {
+            await actions.updateSessionMeta(sessionId, data);
+            setEditingMeta(false);
+          }}
+        />
       )}
 
       {editingPost && (

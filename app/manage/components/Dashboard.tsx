@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { SESSIONS, STUDENTS, kindEmoji, kindLabel } from "../data";
+import { STUDENTS, kindEmoji, kindLabel } from "../data";
 import type { ActiveView, ManageState } from "../types";
 import { Pill } from "./Pill";
 
@@ -26,8 +26,10 @@ export function Dashboard({
     ? Math.round((totalAcks / totalAckSlots) * 100)
     : 0;
 
-  const upcoming = SESSIONS.find((s) => state.statuses[s.id] === "upcoming");
-  const live = SESSIONS.find((s) => state.statuses[s.id] === "live");
+  const upcoming = state.sessions.find(
+    (s) => state.statuses[s.id] === "upcoming"
+  );
+  const live = state.sessions.find((s) => state.statuses[s.id] === "live");
 
   return (
     <div>
@@ -87,7 +89,7 @@ export function Dashboard({
             </div>
           </div>
           <div className="timeline">
-            {SESSIONS.map((session) => {
+            {state.sessions.map((session) => {
               const sStatus = state.statuses[session.id] || "upcoming";
               const sessionPosts = state.posts[session.id] || [];
               const sessionAcks = sessionPosts.reduce(

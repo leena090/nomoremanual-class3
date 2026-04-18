@@ -7,11 +7,13 @@ import type {
   Accent,
   Density,
   Layout,
+  Lesson,
   ManageState,
   Mode,
   Post,
   PostKind,
   PostsBySession,
+  SessionMeta,
   SessionStatus,
   StatusesBySession,
 } from "./types";
@@ -26,6 +28,7 @@ interface Props {
   initialPosts: PostsBySession;
   initialAcks: AcksByPost;
   initialStatuses: StatusesBySession;
+  initialSessions: SessionMeta[];
 }
 
 /* ── localStorage 키 네임스페이스 ── */
@@ -48,12 +51,14 @@ export default function ClientShell({
   initialPosts,
   initialAcks,
   initialStatuses,
+  initialSessions,
 }: Props) {
   /* ── 서버 데이터 로컬 상태 ── */
   const [posts, setPosts] = useState<PostsBySession>(initialPosts);
   const [acks, setAcks] = useState<AcksByPost>(initialAcks);
   const [statuses, setStatuses] =
     useState<StatusesBySession>(initialStatuses);
+  const [sessions, setSessions] = useState<SessionMeta[]>(initialSessions);
 
   /* ── UI 상태 ── */
   const [mode, setMode] = useState<Mode>("admin");
@@ -231,6 +236,35 @@ export default function ClientShell({
           return n;
         });
       },
+      async updateSessionMeta(
+        session_id: number,
+        data: { title: string; subtitle: string; lessons: Lesson[] }
+      ) {
+        const prev = sessions;
+        /* 낙관적 업데이트 */
+        setSessions((arr) =>
+          arr.map((s) =>
+            s.id === session_id
+              ? { ...s, title: data.title, subtitle: data.subtitle, lessons: data.lessons }
+              : s
+          )
+        );
+        const res = await fetch(`/api/manage/sessions/${session_id}/meta`, {
+          method: "PATCH",
+          headers: {
+            "Content-Type": "application/json",
+            "x-admin-key": adminKey,
+          },
+          body: JSON.stringify(data),
+        });
+        const result = await res.json();
+        if (!result.success) {
+          setSessions(prev);
+          showToast(result.message || "수정 실패");
+        } else {
+          showToast("수업 구성 수정 완료");
+        }
+      },
       async setSessionStatus(session_id: number, status: SessionStatus) {
         /* 낙관적 업데이트 */
         const prev = statuses[session_id];
@@ -274,7 +308,7 @@ export default function ClientShell({
         }
       },
     }),
-    [adminKey, acks, statuses, showToast]
+    [adminKey, acks, statuses, sessions, showToast]
   );
 
   /* ── 주기적 ack 동기화 (30초) — 다른 학생 확인 현황 반영 ── */
@@ -286,7 +320,7 @@ export default function ClientShell({
     return () => clearInterval(iv);
   }, [refetchAcks, refetchPosts]);
 
-  const state: ManageState = { posts, acks, statuses };
+  const state: ManageState = { posts, acks, statuses, sessions };
 
   /* ── SSR 초기 프레임: 아무것도 렌더하지 않아 깜빡임 방지 ── */
   if (splashOpen === null) {
@@ -373,6 +407,7 @@ export default function ClientShell({
         setMode={setMode}
         active={active}
         setActive={setActive}
+        sessions={sessions}
         studentName={studentName}
         onPickStudent={() => setPickerOpen(true)}
         onRequestAdmin={() => {
@@ -385,7 +420,9 @@ export default function ClientShell({
         }}
       />
       <main className="layout">
-        {layout === "side" && <SideNav active={active} setActive={setActive} />}
+        {layout === "side" && (
+          <SideNav active={active} setActive={setActive} sessions={sessions} />
+        )}
         <div>{page}</div>
       </main>
       <Toast msg={toast.msg} show={toast.show} />

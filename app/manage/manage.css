@@ -1148,6 +1148,107 @@
   color: #fff;
 }
 
+/* ── Lesson Editor (수업 구성 모달 내) ── */
+.manage-shell .lesson-editor {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px;
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-radius: 12px;
+}
+.manage-shell .lesson-editor__row {
+  display: grid;
+  grid-template-columns: 74px 1fr 90px 32px;
+  gap: 8px;
+  align-items: center;
+  background: var(--color-bg);
+  border: 1px solid var(--color-border);
+  border-radius: 10px;
+  padding: 8px 10px;
+}
+.manage-shell .lesson-editor__order {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.manage-shell .lesson-editor__order button {
+  width: 22px;
+  height: 20px;
+  padding: 0;
+  border: 1px solid var(--color-border);
+  background: var(--color-bg);
+  border-radius: 5px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  font-family: var(--font-mono);
+}
+.manage-shell .lesson-editor__order button:hover:not(:disabled) {
+  background: var(--color-surface);
+  color: var(--color-dark);
+}
+.manage-shell .lesson-editor__order button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+.manage-shell .lesson-editor__n {
+  font-family: var(--font-mono);
+  font-size: 11px;
+  color: var(--accent);
+  font-weight: 700;
+}
+.manage-shell .lesson-editor__title {
+  width: 100% !important;
+  padding: 8px 10px !important;
+  font-size: 14px !important;
+}
+.manage-shell .lesson-editor__mins {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  font-size: 12px;
+  color: var(--color-text-muted);
+}
+.manage-shell .lesson-editor__mins input {
+  width: 60px !important;
+  padding: 8px 6px !important;
+  text-align: right;
+  font-family: var(--font-mono) !important;
+  font-size: 13px !important;
+}
+.manage-shell .lesson-editor__remove {
+  width: 28px;
+  height: 28px;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  cursor: pointer;
+  border-radius: 6px;
+  font-size: 18px;
+  line-height: 1;
+}
+.manage-shell .lesson-editor__remove:hover:not(:disabled) {
+  background: var(--color-surface);
+  color: var(--color-error);
+}
+.manage-shell .lesson-editor__remove:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+@media (max-width: 560px) {
+  .manage-shell .lesson-editor__row {
+    grid-template-columns: 60px 1fr 32px;
+  }
+  .manage-shell .lesson-editor__mins {
+    grid-column: 1 / -1;
+    justify-self: end;
+  }
+}
+
 /* ── Post (게시판 카드) ── */
 .manage-shell .post {
   background: var(--color-bg);
@@ -1213,6 +1314,25 @@
   word-break: keep-all;
   margin-bottom: 20px;
 }
+.manage-shell .post__link {
+  color: var(--accent);
+  text-decoration: underline;
+  text-decoration-color: var(--accent-soft);
+  text-underline-offset: 3px;
+  text-decoration-thickness: 2px;
+  font-weight: 600;
+  word-break: break-all;
+  transition: all 150ms;
+}
+.manage-shell .post__link:hover {
+  color: var(--accent-hover);
+  text-decoration-color: var(--accent);
+}
+.manage-shell .post__link:visited {
+  color: var(--color-text-muted);
+  text-decoration-color: var(--color-border);
+}
+
 .manage-shell .post__ack {
   margin-top: 16px;
   padding-top: 18px;
