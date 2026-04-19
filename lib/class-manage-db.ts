@@ -312,9 +312,16 @@ export const DEFAULT_NOTICE: Notice = {
 
 매 수업 시작 전, 이곳에 그날 배울 내용과 준비물이 올라갑니다. 접속하시면 이 공지부터 먼저 확인해 주세요.
 
-궁금한 점은 단톡방에 편하게 남겨주세요. 어렵지 않아요. 여러분도 할 수 있어요.`,
+궁금한 점은 단톡방에 편하게 남겨주세요. 어렵지 않아요. 오늘도 랄랄라 클로드~`,
   foot_note: "",
 };
+
+/* 구버전 기본 본문 — 마이그레이션 대상. 커스터마이징된 내용은 건드리지 않음 */
+const LEGACY_DEFAULT_BODY = `이 페이지는 솔바드 3기 수업 진행과 자료 확인을 위한 공간이에요. 상단 탭에서 각 회차로 이동하실 수 있어요.
+
+매 수업 시작 전, 이곳에 그날 배울 내용과 준비물이 올라갑니다. 접속하시면 이 공지부터 먼저 확인해 주세요.
+
+궁금한 점은 단톡방에 편하게 남겨주세요. 어렵지 않아요. 여러분도 할 수 있어요.`;
 
 /* mock용 인메모리 — DB 미연결 시 런타임 편집 반영 */
 let mockNotice: Notice = { ...DEFAULT_NOTICE };
@@ -355,6 +362,13 @@ async function ensureNoticeTable(): Promise<void> {
           ${DEFAULT_NOTICE.foot_note}
         )
         ON CONFLICT (id) DO NOTHING
+      `;
+      /* 구버전 기본 본문을 쓰고 있으면(=관리자가 아직 편집 안 했으면) 새 기본값으로 자동 교체.
+         관리자가 수정한 내용은 절대 건드리지 않는다 — body 완전일치 비교로만 트리거. */
+      await sql`
+        UPDATE class_notice
+        SET body = ${DEFAULT_NOTICE.body}, updated_at = now()
+        WHERE id = 1 AND body = ${LEGACY_DEFAULT_BODY}
       `;
     } catch (e) {
       /* 실패해도 앱 전체가 죽지 않도록 — 다음 호출 때 재시도 */
