@@ -291,6 +291,135 @@ export async function updateSessionMeta(
   return { success: true };
 }
 
+/* ============================================================
+   전체공지 팝업 (class_notice) — 단일 행 운영
+   ============================================================ */
+export interface Notice {
+  enabled: boolean;
+  eyebrow: string;
+  title: string;
+  body: string; // 빈 줄(\n\n)로 단락 구분
+  foot_note: string;
+  updated_at?: string;
+}
+
+/* 앱 레벨 기본값 — DB 미연결 환경 및 빈 행 대비 */
+export const DEFAULT_NOTICE: Notice = {
+  enabled: true,
+  eyebrow: "NMM · CLASS 3 · 공지",
+  title: "수강생 여러분, 환영합니다",
+  body: `이 페이지는 솔바드 3기 수업 진행과 자료 확인을 위한 공간이에요. 상단 탭에서 각 회차로 이동하실 수 있어요.
+
+매 수업 시작 전, 이곳에 그날 배울 내용과 준비물이 올라갑니다. 접속하시면 이 공지부터 먼저 확인해 주세요.
+
+궁금한 점은 단톡방에 편하게 남겨주세요. 어렵지 않아요. 여러분도 할 수 있어요.`,
+  foot_note: "",
+};
+
+/* mock용 인메모리 — DB 미연결 시 런타임 편집 반영 */
+let mockNotice: Notice = { ...DEFAULT_NOTICE };
+
+/* ── 자동 마이그레이션 ──
+   운영자가 수동 SQL을 돌릴 수 없는 상황 대비:
+   첫 조회 시 class_notice 테이블이 없으면 생성하고 기본 행을 심는다.
+   프로세스당 1회만 실행 (ensurePromise 캐싱) → 부하 無.
+*/
+let ensurePromise: Promise<void> | null = null;
+
+async function ensureNoticeTable(): Promise<void> {
+  if (isMockMode || !sql) return;
+  if (ensurePromise) return ensurePromise;
+
+  ensurePromise = (async () => {
+    try {
+      await sql`
+        CREATE TABLE IF NOT EXISTS class_notice (
+          id INT PRIMARY KEY DEFAULT 1 CHECK (id = 1),
+          enabled BOOLEAN NOT NULL DEFAULT TRUE,
+          eyebrow TEXT NOT NULL DEFAULT 'NMM · CLASS 3 · 공지',
+          title TEXT NOT NULL DEFAULT '수강생 여러분, 환영합니다',
+          body TEXT NOT NULL DEFAULT '',
+          foot_note TEXT NOT NULL DEFAULT '',
+          updated_at TIMESTAMPTZ DEFAULT now()
+        )
+      `;
+      /* 기본 행이 없으면 한 번만 심기 — 이미 있으면 유지(덮어쓰기 금지) */
+      await sql`
+        INSERT INTO class_notice (id, enabled, eyebrow, title, body, foot_note)
+        VALUES (
+          1,
+          ${DEFAULT_NOTICE.enabled},
+          ${DEFAULT_NOTICE.eyebrow},
+          ${DEFAULT_NOTICE.title},
+          ${DEFAULT_NOTICE.body},
+          ${DEFAULT_NOTICE.foot_note}
+        )
+        ON CONFLICT (id) DO NOTHING
+      `;
+    } catch (e) {
+      /* 실패해도 앱 전체가 죽지 않도록 — 다음 호출 때 재시도 */
+      ensurePromise = null;
+      console.error("[ensureNoticeTable]", e);
+      throw e;
+    }
+  })();
+
+  return ensurePromise;
+}
+
+export async function getNotice(): Promise<Notice> {
+  if (isMockMode || !sql) return { ...mockNotice };
+
+  try {
+    await ensureNoticeTable();
+    const rows = (await sql`
+      SELECT enabled, eyebrow, title, body, foot_note, updated_at::text
+      FROM class_notice
+      WHERE id = 1
+      LIMIT 1
+    `) as Array<Notice>;
+
+    if (rows.length === 0) return { ...DEFAULT_NOTICE };
+    return rows[0];
+  } catch (e) {
+    /* 테이블 생성/조회 완전 실패 시 기본값으로 폴백 — 페이지는 계속 뜨게 */
+    console.error("[getNotice fallback]", e);
+    return { ...DEFAULT_NOTICE };
+  }
+}
+
+export async function updateNotice(
+  data: Partial<Omit<Notice, "updated_at">>
+): Promise<Notice> {
+  if (isMockMode || !sql) {
+    mockNotice = { ...mockNotice, ...data };
+    return { ...mockNotice };
+  }
+
+  await ensureNoticeTable();
+
+  /* 부분 업데이트 — 전달된 필드만 덮어씀 */
+  await sql`
+    INSERT INTO class_notice (id, enabled, eyebrow, title, body, foot_note)
+    VALUES (
+      1,
+      ${data.enabled ?? true},
+      ${data.eyebrow ?? DEFAULT_NOTICE.eyebrow},
+      ${data.title ?? DEFAULT_NOTICE.title},
+      ${data.body ?? DEFAULT_NOTICE.body},
+      ${data.foot_note ?? ""}
+    )
+    ON CONFLICT (id) DO UPDATE SET
+      enabled   = COALESCE(${data.enabled ?? null}, class_notice.enabled),
+      eyebrow   = COALESCE(${data.eyebrow ?? null}, class_notice.eyebrow),
+      title     = COALESCE(${data.title ?? null}, class_notice.title),
+      body      = COALESCE(${data.body ?? null}, class_notice.body),
+      foot_note = COALESCE(${data.foot_note ?? null}, class_notice.foot_note),
+      updated_at = now()
+  `;
+  return getNotice();
+}
+
 /* ── 날짜 포맷: "04.18 10:00" ── */
 function formatPostedAt(d: Date): string {
   const mm = String(d.getMonth() + 1).padStart(2, "0");

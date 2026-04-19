@@ -7,6 +7,7 @@ import type {
   Lesson,
   SessionMetaOverride,
   OverridesBySession,
+  Notice,
 } from "@/lib/class-manage-db";
 import type { PostKind, SessionMeta } from "./data";
 
@@ -21,6 +22,7 @@ export type {
   SessionMetaOverride,
   OverridesBySession,
   SessionMeta,
+  Notice,
 };
 
 export type Mode = "admin" | "student";

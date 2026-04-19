@@ -10,6 +10,7 @@ import type {
   Lesson,
   ManageState,
   Mode,
+  Notice,
   Post,
   PostKind,
   PostsBySession,
@@ -23,12 +24,19 @@ import { Dashboard, StudentsPage } from "./components/Dashboard";
 import { TweaksPanel, Toast } from "./components/TweaksPanel";
 import { StudentPicker, AdminPasswordModal } from "./components/StudentPicker";
 import { SplashScreen } from "./components/SplashScreen";
+import {
+  NoticePopup,
+  shouldShowNotice,
+  clearNoticeHide,
+} from "./components/NoticePopup";
+import { NoticeEditor } from "./components/NoticeEditor";
 
 interface Props {
   initialPosts: PostsBySession;
   initialAcks: AcksByPost;
   initialStatuses: StatusesBySession;
   initialSessions: SessionMeta[];
+  initialNotice: Notice;
 }
 
 /* ── localStorage 키 네임스페이스 ── */
@@ -52,6 +60,7 @@ export default function ClientShell({
   initialAcks,
   initialStatuses,
   initialSessions,
+  initialNotice,
 }: Props) {
   /* ── 서버 데이터 로컬 상태 ── */
   const [posts, setPosts] = useState<PostsBySession>(initialPosts);
@@ -81,6 +90,11 @@ export default function ClientShell({
 
   /* ── 스플래시 노출 여부 (null = SSR 단계, 마운트 후 결정) ── */
   const [splashOpen, setSplashOpen] = useState<boolean | null>(null);
+
+  /* ── 전체공지 팝업 — 스플래시 통과 후 노출, "오늘 하루 보지 않기" 선택 시 숨김 ── */
+  const [noticeOpen, setNoticeOpen] = useState(false);
+  const [noticeEditorOpen, setNoticeEditorOpen] = useState(false);
+  const [notice, setNotice] = useState<Notice>(initialNotice);
 
   /* ── 초기 마운트: localStorage 복원. 대문은 매번 노출. ── */
   useEffect(() => {
@@ -340,11 +354,14 @@ export default function ClientShell({
             /* 저장된 이름 있거나 관리자 권한 있으면 picker 건너뜀.
                관리자는 이름 없이도 학생 뷰 미리보기 가능. */
             if (!studentName && !adminKey) setPickerOpen(true);
+            /* 스플래시 통과 직후 — 오늘자 공지 숨김 플래그 없으면 팝업 노출 */
+            if (notice.enabled && shouldShowNotice()) setNoticeOpen(true);
           }}
           onPickAdmin={() => {
             if (adminKey) {
               setMode("admin");
               setSplashOpen(false);
+              if (notice.enabled && shouldShowNotice()) setNoticeOpen(true);
             } else {
               setAdminModalOpen(true);
             }
@@ -358,6 +375,7 @@ export default function ClientShell({
               setMode("admin");
               setAdminModalOpen(false);
               setSplashOpen(false);
+              if (notice.enabled && shouldShowNotice()) setNoticeOpen(true);
               showToast("관리자 모드로 전환되었습니다");
             }}
           />
@@ -455,6 +473,39 @@ export default function ClientShell({
             setAdminModalOpen(false);
             showToast("관리자 모드로 전환되었습니다");
           }}
+        />
+      )}
+      {/* 전체공지 팝업 — 스플래시 통과 직후 1회 노출 (오늘 하루 보지 않기 가능) */}
+      {noticeOpen && (
+        <NoticePopup notice={notice} onClose={() => setNoticeOpen(false)} />
+      )}
+      {/* 관리자 전용: 공지 편집 플로팅 버튼 (좌하단) */}
+      {mode === "admin" && (
+        <button
+          type="button"
+          className="notice-edit-fab"
+          onClick={() => setNoticeEditorOpen(true)}
+          aria-label="전체공지 편집"
+          title="전체공지 편집"
+        >
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+            <path d="M3 11l18-8-8 18-2-8-8-2z" />
+          </svg>
+          <span>공지 편집</span>
+          {!notice.enabled && <span className="notice-edit-fab__off">OFF</span>}
+        </button>
+      )}
+      {noticeEditorOpen && (
+        <NoticeEditor
+          notice={notice}
+          adminKey={adminKey}
+          onClose={() => setNoticeEditorOpen(false)}
+          onSaved={(n) => setNotice(n)}
+          onPreview={() => {
+            clearNoticeHide();
+            setNoticeOpen(true);
+          }}
+          showToast={showToast}
         />
       )}
     </div>

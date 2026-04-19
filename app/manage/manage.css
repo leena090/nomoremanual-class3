@@ -2009,3 +2009,210 @@
     font-size: var(--fs-13);
   }
 }
+
+/* ============================================================
+   전체공지 팝업 (NoticePopup)
+   NMM Design System v2 — Warm Paper + Walnut + Burnt Amber
+   ============================================================ */
+.notice-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(30, 27, 22, 0.42);
+  display: grid;
+  place-items: center;
+  z-index: 120;
+  padding: 20px;
+  animation: notice-overlay-fade 220ms cubic-bezier(.2,.7,.2,1);
+}
+.notice-card {
+  position: relative;
+  width: 100%;
+  max-width: 560px;
+  background: #FAF7F2;
+  color: #1E1B16;
+  border: 1px solid #E7E0D2;
+  border-radius: 18px;
+  padding: 40px 40px 32px;
+  box-shadow: 0 18px 48px rgba(60, 40, 10, 0.12);
+  font-family: "Nanum Gothic", "Noto Sans KR", system-ui, sans-serif;
+  max-height: 88vh;
+  overflow-y: auto;
+  animation: notice-card-in 260ms cubic-bezier(.2,.7,.2,1);
+}
+.notice-close {
+  position: absolute;
+  top: 14px;
+  right: 16px;
+  width: 36px;
+  height: 36px;
+  border: none;
+  background: transparent;
+  color: #6F6858;
+  font-size: 26px;
+  line-height: 1;
+  cursor: pointer;
+  border-radius: 999px;
+  transition: background 150ms ease, color 150ms ease;
+}
+.notice-close:hover {
+  background: #F3ECDD;
+  color: #1E1B16;
+}
+.notice-eyebrow {
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  color: #D97706;
+  font-weight: 600;
+  margin-bottom: 14px;
+}
+.notice-title {
+  font-family: "Gowun Dodum", "Noto Sans KR", system-ui, sans-serif;
+  font-size: 28px;
+  font-weight: 800;
+  line-height: 1.3;
+  letter-spacing: -0.02em;
+  color: #1E1B16;
+  margin: 0 0 18px;
+}
+.notice-title mark,
+.notice-title .marker {
+  background: linear-gradient(180deg, transparent 60%, #FDBA74 60%);
+  color: inherit;
+  padding: 0 2px;
+  font-weight: 800;
+}
+.notice-divider {
+  height: 1px;
+  background: #E7E0D2;
+  margin: 4px 0 22px;
+}
+.notice-body p {
+  margin: 0 0 14px;
+  font-size: 16px;
+  line-height: 1.75;
+  color: #3B362D;
+}
+.notice-body p:last-child { margin-bottom: 0; }
+.notice-foot-note {
+  margin: 18px 0 0;
+  font-size: 13px;
+  color: #6F6858;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+}
+.notice-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 28px;
+  flex-wrap: wrap;
+}
+.notice-btn {
+  font-family: "Nanum Gothic", "Noto Sans KR", system-ui, sans-serif;
+  font-size: 14px;
+  font-weight: 700;
+  padding: 12px 20px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 150ms ease, color 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+  letter-spacing: 0.01em;
+}
+.notice-btn--ghost {
+  background: transparent;
+  color: #6F6858;
+  border: 1.5px solid #E7E0D2;
+}
+.notice-btn--ghost:hover {
+  color: #1E1B16;
+  border-color: #1E1B16;
+  background: #F3ECDD;
+}
+.notice-btn--primary {
+  background: #D97706;
+  color: #FFF8E7;
+  border: 1.5px solid #D97706;
+  box-shadow: 0 2px 0 #1E1B16;
+}
+.notice-btn--primary:hover {
+  background: #B45309;
+  border-color: #B45309;
+}
+.notice-btn--primary:active {
+  transform: translateY(2px);
+  box-shadow: none;
+}
+
+@keyframes notice-overlay-fade {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+@keyframes notice-card-in {
+  from { opacity: 0; transform: translateY(8px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+@media (max-width: 540px) {
+  .notice-card {
+    padding: 32px 24px 24px;
+    border-radius: 14px;
+  }
+  .notice-title { font-size: 24px; }
+  .notice-body p { font-size: 15px; }
+  .notice-actions { justify-content: stretch; }
+  .notice-actions .notice-btn { flex: 1; }
+}
+
+/* 관리자 전용: 전체공지 편집 플로팅 버튼 (좌하단) — Tweaks(우하단)와 충돌 피함 */
+.notice-edit-fab {
+  position: fixed;
+  left: 24px;
+  bottom: 24px;
+  z-index: 70;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 12px 16px;
+  background: #1E1B16;
+  color: #FFF8E7;
+  border: 1px solid #1E1B16;
+  border-radius: 999px;
+  font-family: "Nanum Gothic", "Noto Sans KR", system-ui, sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  cursor: pointer;
+  box-shadow: 0 4px 16px rgba(60, 40, 10, 0.18);
+  transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+.notice-edit-fab:hover {
+  background: #2E2A22;
+  box-shadow: 0 8px 22px rgba(60, 40, 10, 0.24);
+}
+.notice-edit-fab:active {
+  transform: translateY(1px);
+}
+.notice-edit-fab svg {
+  color: #D97706; /* amber 하이라이트 아이콘 */
+}
+.notice-edit-fab__off {
+  margin-left: 4px;
+  padding: 2px 8px;
+  border-radius: 999px;
+  background: #B91C1C;
+  color: #FFF8E7;
+  font-family: "JetBrains Mono", ui-monospace, monospace;
+  font-size: 10px;
+  letter-spacing: 0.1em;
+}
+
+@media (max-width: 540px) {
+  .notice-edit-fab {
+    left: 16px;
+    bottom: 16px;
+    padding: 10px 14px;
+    font-size: 12px;
+  }
+}
+
+
