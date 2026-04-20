@@ -77,9 +77,9 @@ export function PostCard({
                 ? "아직 아무도 확인 전이에요"
                 : `${ackCount}명이 확인했어요`}
             </div>
-            <div className="post__ack-sub">
-              편하실 때 한 번 눌러주시면 제가 안심이 됩니다 🙂
-            </div>
+            {p.kind === "recap" && (
+              <div className="post__ack-sub">확인완료 🙂</div>
+            )}
           </div>
           <div className="post__ack-pct">
             <div className="post__ack-bar">

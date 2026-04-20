@@ -434,11 +434,19 @@ export async function updateNotice(
   return getNotice();
 }
 
-/* ── 날짜 포맷: "04.18 10:00" ── */
+/* ── 날짜 포맷: "04.18 10:00" (KST 고정) ──
+   Vercel 서버리스 런타임은 UTC이므로 Date의 getHours() 등을 그대로 쓰면
+   한국 시간에서 9시간 밀림. Intl API로 Asia/Seoul 강제 지정.
+*/
 function formatPostedAt(d: Date): string {
-  const mm = String(d.getMonth() + 1).padStart(2, "0");
-  const dd = String(d.getDate()).padStart(2, "0");
-  const hh = String(d.getHours()).padStart(2, "0");
-  const mi = String(d.getMinutes()).padStart(2, "0");
-  return `${mm}.${dd} ${hh}:${mi}`;
+  const parts = new Intl.DateTimeFormat("en-GB", {
+    timeZone: "Asia/Seoul",
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+    hourCycle: "h23",
+  }).formatToParts(d);
+  const get = (t: string) => parts.find((p) => p.type === t)?.value ?? "00";
+  return `${get("month")}.${get("day")} ${get("hour")}:${get("minute")}`;
 }

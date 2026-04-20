@@ -61,7 +61,10 @@ export function Dashboard({
       <div className="session-head">
         <div>
           <div className="session-head__eyebrow">
-            DASHBOARD · 오늘 {new Date().toLocaleDateString("ko-KR")}
+            DASHBOARD · 오늘{" "}
+            {new Date().toLocaleDateString("ko-KR", {
+              timeZone: "Asia/Seoul",
+            })}
           </div>
           <h1 className="session-head__title">솔바드 3기 수업관리</h1>
           <div className="session-head__sub">
